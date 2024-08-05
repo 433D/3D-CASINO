@@ -14,7 +14,7 @@
             background-image: url('path/to/your/image.png');
             background-size: cover;
             background-position: center;
-            padding: 40px 20px;
+            padding: 20px;
             text-align: center;
             color: #fff;
         }
@@ -23,7 +23,7 @@
             font-size: 2.5em;
         }
         header p {
-            font-size: 1.2em;
+            font-size: 1.5em;
             margin-top: 10px;
         }
         .container {
@@ -31,17 +31,17 @@
             text-align: center;
         }
         .introduction h2 {
-            font-size: 1.8em;
+            font-size: 2em;
             margin-bottom: 10px;
         }
         .introduction p {
-            font-size: 1.2em;
+            font-size: 1.5em;
         }
         .game-section {
             margin: 20px 0;
         }
         .game-section h2 {
-            font-size: 1.8em;
+            font-size: 2em;
             margin-bottom: 20px;
         }
         .game-grid {
@@ -62,20 +62,22 @@
             max-width: calc(33.333% - 20px);
             min-width: 200px;
             color: #fff;
+            cursor: pointer;
+            font-size: 1.5em; /* Increase text size */
         }
         .game-card h3 {
             margin-top: 0;
-            font-size: 1.5em;
+            font-size: 1.8em;
         }
         .game-card p {
-            font-size: 1.2em;
+            font-size: 1.5em;
         }
         .link-section {
             margin: 20px 0;
         }
         .link-section button {
-            padding: 10px 20px;
-            font-size: 1.2em;
+            padding: 15px 30px;
+            font-size: 1.5em; /* Increase button size */
             background-color: #007BFF;
             color: #fff;
             border: none;
@@ -85,22 +87,7 @@
         .link-section button:hover {
             background-color: #0056b3;
         }
-        .long-text {
-            display: none;
-            text-align: left;
-            margin: 20px;
-        }
     </style>
-    <script>
-        function toggleLongText() {
-            var x = document.getElementById("longText");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-    </script>
 </head>
 <body>
 
@@ -112,25 +99,20 @@
 <div class="container">
     <section class="introduction">
         <h2>ようこそ、3Dカジノへ！</h2>
-        <p>クリックして詳細を表示</p>
-        <button onclick="toggleLongText()">ルールを表示</button>
-        <div id="longText" class="long-text">
-            <p>3Dカジノは、最高のカジノ体験を提供する場所です。ルーレット、トランプゲーム（ポーカー、ブラックジャック）、そしてダイスゲーム（チンチロ）など、さまざまなゲームを楽しむことができます。友達と一緒に楽しむも良し、一人で腕を磨くも良し。ここでは皆が楽しめる空間を提供しています。</p>
-        </div>
     </section>
 
     <section class="game-section">
         <h2>遊べるゲーム</h2>
         <div class="game-grid">
-            <div class="game-card">
+            <div class="game-card" onclick="location.href='roulette_rules.html'">
                 <h3>ルーレット</h3>
                 <p>スリリングなルーレットゲームをお楽しみください。</p>
             </div>
-            <div class="game-card">
+            <div class="game-card" onclick="location.href='card_games_rules.html'">
                 <h3>トランプゲーム</h3>
                 <p>ポーカーやブラックジャックなど、戦略と運を試すトランプゲームで勝利を目指しましょう。</p>
             </div>
-            <div class="game-card">
+            <div class="game-card" onclick="location.href='dice_games_rules.html'">
                 <h3>ダイスゲーム</h3>
                 <p>シンプルで楽しいダイスゲーム（チンチロ）に挑戦しましょう。</p>
             </div>
@@ -138,7 +120,7 @@
     </section>
 
     <section class="link-section">
-        <button onclick="location.href='index.html'">ランキングを見る</button>
+        <button onclick="location.href='ranking.html'">ランキングを見る</button>
     </section>
 </div>
 
