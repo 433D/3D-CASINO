@@ -137,39 +137,33 @@
 </div>
 
 <script>
-    const sheetId = '1DZUPIEUatizt7aDhyGEUUUBWQn3BisOkz5ewITvhqIQ'; // スプレッドシートID
-    const baseUrl = `https://spreadsheets.google.com/feeds/cells/${sheetId}/1/public/full?alt=json`;
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbyR5gh4WqZuPo8GUqqwRgn6Djw_vXz4esuj7E7ht4lhjbdfbrIRAmLaFwUgc2Y6IYahow/exec';
 
     let players = [];
 
-    fetch(baseUrl)
+    console.log('Fetching data from Google Sheets...');
+    fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
-        const entries = data.feed.entry;
-        
-        for (let i = 2; i < entries.length; i += 2) {
-            let player = {
-                code: entries[i - 1].gs$cell.$t,
-                score: parseFloat(entries[i].gs$cell.$t)
-            };
-            players.push(player);
-        }
+        console.log('Data fetched successfully:', data);
+        players = data;
 
         players.sort((a, b) => b.score - a.score);
-        
+
         players.forEach((player, index) => {
             player.rank = index + 1;
             player.zScore = ((player.score - average(players, 'score')) / standardDeviation(players, 'score')) * 10 + 50;
         });
 
-        // グラフを初期化
+        console.log('Players:', players);
         initializeChart(players);
     })
     .catch(error => console.log('Error fetching data:', error));
 
     function fetchPlayerData() {
         const playerCode = document.getElementById('playerCodeInput').value;
-        const player = players.find(p => p.code === playerCode);
+        console.log('Fetching data for player code:', playerCode);
+        const player = players.find(p => p.code == playerCode);
 
         if (player) {
             const table = document.getElementById('playerTable');
@@ -187,11 +181,11 @@
                     <td>${player.zScore.toFixed(2)}</td>
                 </tr>
             `;
-
-            // グラフの色を変更
+            console.log('Player data found:', player);
             updateChartColor(player);
         } else {
             alert("Player not found!");
+            console.log('Player not found');
         }
     }
 
@@ -233,10 +227,11 @@
                 }
             }
         });
+        console.log('Chart initialized');
     }
 
     function updateChartColor(player) {
-        const playerIndex = players.findIndex(p => p.code === player.code);
+        const playerIndex = players.findIndex(p => p.code == player.code);
         const backgroundColors = players.map((_, index) => index === playerIndex ? 'rgba(255, 99, 132, 0.2)' : 'rgba(54, 162, 235, 0.2)');
         const borderColors = players.map((_, index) => index === playerIndex ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)');
 
