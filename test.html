@@ -73,6 +73,22 @@
         .bronze {
             background-color: #cd7f32;
         }
+        .button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -84,6 +100,11 @@
 </header>
 
 <div class="container">
+    <button class="button" onclick="location.href='index.html'">ホームに戻る</button>
+    <div class="score-section">
+        <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
+        <button onclick="fetchPlayerData()">ID検索</button>
+    </div>
     <table id="rankingTable">
         <thead>
             <tr>
@@ -113,11 +134,33 @@
                 const rows = jsonData.table.rows;
                 let players = rows.map(row => ({
                     name: row.c[0].v,
-                    score: row.c[1].v
+                    score: parseInt(row.c[1].v)
                 }));
                 players.sort((a, b) => b.score - a.score);
                 displayPlayers(players);
                 displayChart(players);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    function fetchPlayerData() {
+        const playerId = document.getElementById('playerId').value;
+        fetch(URL)
+            .then(response => response.text())
+            .then(data => {
+                const jsonData = JSON.parse(data.substr(47).slice(0, -2));
+                const rows = jsonData.table.rows;
+                let players = rows.map(row => ({
+                    name: row.c[0].v,
+                    score: parseInt(row.c[1].v)
+                }));
+                players.sort((a, b) => b.score - a.score);
+                const player = players.find(p => p.name === playerId);
+                if (player) {
+                    alert(`プレイヤー: ${player.name}\nスコア: ${player.score}\n偏差値: ${calculateStandardScore(player.score, players)}`);
+                } else {
+                    alert('プレイヤーが見つかりません');
+                }
             })
             .catch(error => console.error('Error fetching data:', error));
     }
@@ -143,31 +186,48 @@
     }
 
     function calculateStandardScore(score, players) {
-        let mean = players.reduce((acc, player) => acc + parseInt(player.score), 0) / players.length;
-        let stdDev = Math.sqrt(players.map(player => (parseInt(player.score) - mean) ** 2).reduce((acc, value) => acc + value, 0) / players.length);
-        let standardScore = (score - mean) / stdDev;
+        let mean = players.reduce((acc, player) => acc + player.score, 0) / players.length;
+        let stdDev = Math.sqrt(players.map(player => (player.score - mean) ** 2).reduce((acc, value) => acc + value, 0) / players.length);
+        let standardScore = (score - mean) / stdDev * 10 + 50;
         return standardScore.toFixed(2);
     }
 
     function displayChart(players) {
         const ctx = document.getElementById('scoreChart').getContext('2d');
         const scores = players.map(player => player.score);
-        const labels = players.map(player => player.name);
+        const scoreCounts = {};
+        scores.forEach(score => {
+            scoreCounts[score] = (scoreCounts[score] || 0) + 1;
+        });
+        const scoreLabels = Object.keys(scoreCounts).sort((a, b) => a - b);
+        const scoreData = scoreLabels.map(score => scoreCounts[score]);
         new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
-                labels: labels,
+                labels: scoreLabels,
                 datasets: [{
-                    label: 'スコア',
-                    data: scores,
+                    label: 'スコアの度数分布',
+                    data: scoreData,
                     backgroundColor: 'rgba(0, 123, 255, 0.5)',
                     borderColor: 'rgba(0, 123, 255, 1)',
-                    borderWidth: 1
+                    borderWidth: 1,
+                    fill: false,
+                    tension: 0.1
                 }]
             },
             options: {
                 scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'スコア'
+                        }
+                    },
                     y: {
+                        title: {
+                            display: true,
+                            text: '人数'
+                        },
                         beginAtZero: true
                     }
                 }
