@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>3Dカジノ</title>
+    <title>3Dカジノ - ランキング</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Roboto:wght@900&display=swap" rel="stylesheet">
     <style>
@@ -16,128 +16,115 @@
             background-image: url('path/to/your/image.png');
             background-size: cover;
             background-position: center;
-            padding: 40px 20px;
+            padding: 20px;
             text-align: center;
             color: #fff;
         }
         header h1 {
             margin: 0;
-            font-size: 3.5em;
+            font-size: 3em;
             font-family: 'Roboto', sans-serif;
             text-shadow: 3px 3px 5px rgba(0,0,0,0.3);
-        }
-        header p {
-            font-size: 1.5em;
-            margin-top: 10px;
         }
         .container {
             padding: 20px;
             text-align: center;
         }
-        .introduction h2 {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-        .introduction p {
-            font-size: 1.5em;
-        }
-        .game-section {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin: 20px 0;
         }
-        .game {
-            background-color: #222;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        table, th, td {
+            border: 1px solid #fff;
+        }
+        th, td {
+            padding: 10px;
             text-align: center;
-            width: 300px;
-            height: 350px;
-            color: #fff;
-            cursor: pointer;
-            transition: transform 0.3s;
         }
-        .game img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
+        th {
+            background-color: #333;
         }
-        .game h3 {
-            margin-top: 10px;
-            font-size: 1.8em;
-        }
-        .game p {
-            font-size: 1.2em;
-        }
-        .game:hover {
-            transform: scale(1.05);
-        }
-        .ranking-button {
+        .button {
             background-color: #fff;
             color: #000;
             border: none;
             border-radius: 10px;
-            padding: 20px;
-            font-size: 1.5em;
+            padding: 10px 20px;
+            font-size: 1em;
             cursor: pointer;
-            width: 300px;
-            height: 350px;
-            transition: transform 0.3s;
+            margin: 10px;
         }
-        .ranking-button:hover {
-            transform: scale(1.05);
-        }
-        @media (max-width: 768px) {
-            .game, .ranking-button {
-                width: calc(100% - 40px);
-                margin: 0 auto;
-            }
+        .button:hover {
+            background-color: #ddd;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>3Dカジノ</h1>
-    <p>最高のカジノ体験を提供します</p>
+    <h1>3Dカジノ - ランキング</h1>
 </header>
 
 <div class="container">
-    <section class="introduction">
-        <h2>ようこそ、3Dカジノへ！</h2>
-        <h3>クリックしてルールを確認</h3>
-    </section>
-
-    <section class="game-section">
-        <div class="game" onclick="location.href='roulette_rules.html'">
-            <img src="https://via.placeholder.com/300x200.png?text=Roulette" alt="Roulette">
-            <h3>ルーレット</h3>
-            <p>スリリングなルーレットゲームをお楽しみください。</p>
-        </div>
-        <div class="game" onclick="location.href='card_games_rules.html'">
-            <img src="https://via.placeholder.com/300x200.png?text=Card+Games" alt="Card Games">
-            <h3>トランプゲーム</h3>
-            <p>ポーカーやブラックジャックなど、戦略と運を試すトランプゲームで勝利を目指しましょう。</p>
-        </div>
-        <div class="game" onclick="location.href='dice_games_rules.html'">
-            <img src="https://via.placeholder.com/300x200.png?text=Dice+Games" alt="Dice Games">
-            <h3>ダイスゲーム</h3>
-            <p>シンプルで楽しいダイスゲームに挑戦しましょう。</p>
-        </div>
-        <div class="game" onclick="location.href='ranking.html'">
-            <img src="https://via.placeholder.com/300x200.png?text=Ranking" alt="Dice Games">
-            <h3>ランキング</h3>
-            <p>ランキングを確認しましょう。</p>
-    </section>
-
-    <section= class="introduction video">
-        <h2>プロモーションビデオ</h2> 
-        <h3>Coming Soon!</h3>   
-    </section>
+    <table id="rankingTable">
+        <thead>
+            <tr>
+                <th>ランク</th>
+                <th>プレイヤー</th>
+                <th>スコア</th>
+                <th>偏差値</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- プレイヤーデータがここに挿入されます -->
+        </tbody>
+    </table>
+    <button class="button" onclick="fetchData()">データを更新</button>
 </div>
+
+<script>
+    const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
+    const SHEET_NAME = 'Sheet1';
+    const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+
+    function fetchData() {
+        fetch(URL)
+            .then(response => response.text())
+            .then(data => {
+                const jsonData = JSON.parse(data.substr(47).slice(0, -2));
+                const rows = jsonData.table.rows;
+                let players = rows.map(row => ({
+                    name: row.c[0].v,
+                    score: row.c[1].v
+                }));
+                players.sort((a, b) => b.score - a.score);
+                displayPlayers(players);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    function displayPlayers(players) {
+        let tbody = document.getElementById('rankingTable').getElementsByTagName('tbody')[0];
+        tbody.innerHTML = '';
+        players.forEach((player, index) => {
+            let row = tbody.insertRow();
+            row.insertCell(0).textContent = index + 1;
+            row.insertCell(1).textContent = player.name;
+            row.insertCell(2).textContent = player.score;
+            row.insertCell(3).textContent = calculateStandardScore(player.score, players);
+        });
+    }
+
+    function calculateStandardScore(score, players) {
+        let mean = players.reduce((acc, player) => acc + parseInt(player.score), 0) / players.length;
+        let stdDev = Math.sqrt(players.map(player => (parseInt(player.score) - mean) ** 2).reduce((acc, value) => acc + value, 0) / players.length);
+        let standardScore = (score - mean) / stdDev;
+        return standardScore.toFixed(2);
+    }
+
+    fetchData();
+</script>
 
 </body>
 </html>
