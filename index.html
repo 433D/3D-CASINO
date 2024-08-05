@@ -48,6 +48,25 @@
         .score-section button:hover, .admin-section button:hover {
             background-color: #0056b3;
         }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .keypad button {
+            padding: 20px;
+            font-size: 1.5em;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .keypad button:hover {
+            background-color: #0056b3;
+        }
         table {
             width: 50%;
             margin: 20px auto;
@@ -103,7 +122,21 @@
     <div id="adminSection" class="admin-section">
         <h2>Manage Player Data</h2>
         <input type="text" id="adminPlayerCode" placeholder="Enter player code">
-        <input type="number" id="adminScore" placeholder="Enter score">
+        <div class="keypad">
+            <button onclick="appendToScore('1')">1</button>
+            <button onclick="appendToScore('2')">2</button>
+            <button onclick="appendToScore('3')">3</button>
+            <button onclick="appendToScore('4')">4</button>
+            <button onclick="appendToScore('5')">5</button>
+            <button onclick="appendToScore('6')">6</button>
+            <button onclick="appendToScore('7')">7</button>
+            <button onclick="appendToScore('8')">8</button>
+            <button onclick="appendToScore('9')">9</button>
+            <button onclick="appendToScore('0')">0</button>
+            <button onclick="appendToScore('-')">-</button>
+            <button onclick="clearScore()">Clear</button>
+        </div>
+        <input type="text" id="adminScore" placeholder="Enter score" readonly>
         <button onclick="savePlayerData()">Save Player Data</button>
         <button onclick="deletePlayerData()">Delete Player Data</button>
         <button onclick="resetAllData()">Reset All Data</button>
@@ -125,9 +158,22 @@
         }
     }
 
+    function appendToScore(value) {
+        const scoreInput = document.getElementById('adminScore');
+        scoreInput.value += value;
+    }
+
+    function clearScore() {
+        document.getElementById('adminScore').value = '';
+    }
+
     function savePlayerData() {
         const playerCode = document.getElementById('adminPlayerCode').value;
-        const score = parseInt(document.getElementById('adminScore').value);
+        let score = parseInt(document.getElementById('adminScore').value);
+
+        if (!isNaN(score)) {
+            score = score * 1000; // 自動的に末尾に000を追加
+        }
 
         let player = players.find(p => p.code == playerCode);
 
@@ -145,6 +191,7 @@
 
         localStorage.setItem('players', JSON.stringify(players));
         alert('Player data saved!');
+        clearScore();
     }
 
     function deletePlayerData() {
@@ -158,12 +205,14 @@
 
         localStorage.setItem('players', JSON.stringify(players));
         alert('Player data deleted!');
+        clearScore();
     }
 
     function resetAllData() {
         players = [];
         localStorage.removeItem('players');
         alert('All player data reset!');
+        clearScore();
     }
 
     function fetchPlayerData() {
