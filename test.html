@@ -91,8 +91,6 @@
 
 <div class="container">
     <div class="score-section">
-        <input type="text" id="playerCodeInput" placeholder="プレイヤーコードを入力">
-        <button onclick="getPlayerData()">IDから検索</button>
         <button onclick="loadRanking()">ランキング</button>
         <button onclick="location.href='index.html'">ホームに戻る</button>
     </div>
@@ -121,14 +119,6 @@
         displayScoreDistribution(data.scores);
     }
 
-    async function getPlayerData() {
-        const playerCode = document.getElementById('playerCodeInput').value;
-        const response = await fetch(`${apiUrl}?action=getPlayerData&code=${playerCode}`);
-        const data = await response.json();
-        displayRanking([data]);
-        displayScoreDistribution(data.scores, playerCode);
-    }
-
     function displayRanking(ranking) {
         rankingTableBody.innerHTML = '';
         ranking.forEach((player, index) => {
@@ -146,7 +136,7 @@
         });
     }
 
-    function displayScoreDistribution(scores, playerCode = null) {
+    function displayScoreDistribution(scores) {
         const ctx = document.getElementById('scoreDistributionChart').getContext('2d');
         const labels = Object.keys(scores);
         const data = Object.values(scores);
@@ -184,45 +174,9 @@
                 }
             }
         });
-
-        if (playerCode) {
-            const playerScore = scores[playerCode] || 0;
-            const playerData = {
-                labels: ['プレイヤー位置'],
-                datasets: [{
-                    label: 'スコア',
-                    data: [playerScore],
-                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                    borderColor: 'rgba(0, 123, 255, 1)',
-                    borderWidth: 1
-                }]
-            };
-
-            new Chart(document.getElementById('playerScoreChart').getContext('2d'), {
-                type: 'bar',
-                data: playerData,
-                options: {
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'スコア'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: '人数'
-                            },
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
     }
 
-    loadRanking();
+    window.onload = loadRanking;
 </script>
 </body>
 </html>
