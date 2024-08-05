@@ -168,7 +168,7 @@
     function displayPlayers(players) {
         let tbody = document.getElementById('rankingTable').getElementsByTagName('tbody')[0];
         tbody.innerHTML = '';
-        players.slice(0, 10).forEach((player, index) => {
+        players.forEach((player, index) => {
             let row = tbody.insertRow();
             let rankCell = row.insertCell(0);
             rankCell.textContent = index + 1;
@@ -195,12 +195,20 @@
     function displayChart(players) {
         const ctx = document.getElementById('scoreChart').getContext('2d');
         const scores = players.map(player => player.score);
+
         const scoreCounts = {};
         scores.forEach(score => {
-            scoreCounts[score] = (scoreCounts[score] || 0) + 1;
+            const bin = Math.floor(score / 1000) * 1000;  // Bin width of 1000
+            scoreCounts[bin] = (scoreCounts[bin] || 0) + 1;
         });
-        const scoreLabels = Object.keys(scoreCounts).sort((a, b) => a - b);
-        const scoreData = scoreLabels.map(score => scoreCounts[score]);
+
+        const scoreLabels = [];
+        const scoreData = [];
+        for (let i = Math.min(...scores); i <= Math.max(...scores); i += 1000) {
+            scoreLabels.push(i);
+            scoreData.push(scoreCounts[i] || 0);
+        }
+
         new Chart(ctx, {
             type: 'line',
             data: {
@@ -210,7 +218,7 @@
                     data: scoreData,
                     backgroundColor: 'rgba(0, 123, 255, 0.5)',
                     borderColor: 'rgba(0, 123, 255, 1)',
-                    borderWidth: 1,
+                    borderWidth: 2,
                     fill: false,
                     tension: 0.1
                 }]
