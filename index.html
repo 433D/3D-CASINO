@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3Dカジノ</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            color: #fff;
+        }
+        header {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .container {
+            padding: 20px;
+        }
+        .game-section {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        .game {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 30%;
+        }
+        .game img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .game h3 {
+            margin-top: 10px;
+        }
+        .score-section {
+            text-align: center;
+        }
+        .score-section input {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1em;
+        }
+        .score-section button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .score-section button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #222;
+            color: #fff;
+        }
+        table, th, td {
+            border: 1px solid #444;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+        }
+        #scoreChart {
+            max-width: 90%;
+            margin: 20px auto;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>3Dカジノ</h1>
+    <p>ここにキャッチコピーを入力</p>
+</header>
+
+<div class="container">
+    <div class="game-section">
+        <div class="game">
+            <img src="https://via.placeholder.com/300x200.png?text=Roulette" alt="Roulette">
+            <h3>ルーレット</h3>
+            <p>スリリングなルーレットゲームをお楽しみください。</p>
+        </div>
+        <div class="game">
+            <img src="https://via.placeholder.com/300x200.png?text=Card+Games" alt="Card Games">
+            <h3>トランプゲーム</h3>
+            <p>戦略と運を試すトランプゲームで勝利を目指しましょう。</p>
+        </div>
+        <div class="game">
+            <img src="https://via.placeholder.com/300x200.png?text=Dice+Games" alt="Dice Games">
+            <h3>ダイスゲーム</h3>
+            <p>シンプルで楽しいダイスゲームに挑戦しましょう。</p>
+        </div>
+    </div>
+
+    <div class="score-section">
+        <h2>Enter Player Code</h2>
+        <input type="text" id="playerCodeInput" placeholder="Enter player code">
+        <button onclick="fetchPlayerData()">Get Player Data</button>
+    </div>
+
+    <h2 style="text-align: center;">Player Score</h2>
+    <table id="playerTable">
+        <tr>
+            <th>Player</th>
+            <th>Score</th>
+            <th>Rank</th>
+            <th>Standard Score</th>
+        </tr>
+    </table>
+
+    <h2 style="text-align: center;">Scores Distribution</h2>
+    <canvas id="scoreChart" width="400" height="200"></canvas>
+</div>
+
+<script>
+    const sheetId = 'YOUR_SPREADSHEET_ID'; // ここにスプレッドシートIDを入力
+    const baseUrl = `https://spreadsheets.google.com/feeds/cells/${sheetId}/1/public/full?alt=json`;
+
+    let players = [];
+
+    fetch(baseUrl)
+    .then(response => response.json())
+    .then(data => {
+        const entries = data.feed.entry;
+        
+        for (let i = 5; i < entries.length; i+=5) {
+            let player = {
+                code: entries[i].gs$cell.$t,
+                name: entries[i+1].gs$cell.$t,
+                score: parseFloat(entries[i+2].gs$cell.$t)
+            };
+            players.push(player);
+        }
+
+        players.sort((a, b) => b.score - a.score);
+        
+        players.forEach((player, index) => {
+            player.rank = index + 1;
+            player.zScore = ((player.score - average(players, 'score')) / standardDeviation(players, 'score')) * 10 + 50;
+        });
+
+        // グラフを初期化
+        initializeChart(players);
+    })
+    .catch(error => console.log('Error fetching data:', error));
+
+    function fetchPlayerData() {
+        const playerCode = document.getElementById('playerCodeInput').value;
+        const player = players.find(p => p.code === playerCode);
+
+        if (player) {
+            const table = document.getElementById('playerTable');
+            table.innerHTML = `
+                <tr>
+                    <th>Player</th>
+                    <th>Score</th>
+                    <th>Rank</th>
+                    <th>Standard Score</th>
+                </tr>
+                <tr>
+                    <td>${player.name}</td>
+                    <td>${player.score}</td>
+                    <td>${player.rank}</td>
+                    <td>${player.zScore.toFixed(2)}</td>
+                </tr>
+            `;
+
+            // グラフの色を変更
+            updateChartColor(player);
+        } else {
+            alert("Player not found!");
+        }
+    }
+
+    function average(data, key) {
+        return data.reduce((sum, item) => sum + item[key], 0) / data.length;
+    }
+
+    function standardDeviation(data, key) {
+        let avg = average(data, key);
+        let squareDiffs = data.map(item => Math.pow(item[key] - avg, 2));
+        let avgSquareDiff = average(squareDiffs, '');
+        return Math.sqrt(avgSquareDiff);
+    }
+
+    let scoreChart;
+
+    function initializeChart(players) {
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+        const scores = players.map(player => player.score);
+        const labels = players.map(player => player.name);
+
+        scoreChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Scores',
+                    data: scores,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    function updateChartColor(player) {
+        const playerIndex = players.findIndex(p => p.code === player.code);
+        const backgroundColors = players.map((_, index) => index === playerIndex ? 'rgba(255, 99, 132, 0.2)' : 'rgba(54, 162, 235, 0.2)');
+        const borderColors = players.map((_, index) => index === playerIndex ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)');
+
+        scoreChart.data.datasets[0].backgroundColor = backgroundColors;
+        scoreChart.data.datasets[0].borderColor = borderColors;
+        scoreChart.update();
+    }
+</script>
+
+</body>
+</html>
