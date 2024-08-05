@@ -42,60 +42,50 @@
             font-size: 1.5em;
         }
         .game-section {
-            margin: 20px 0;
-        }
-        .game-section h2 {
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        .game-grid {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 20px;
+            margin: 20px 0;
         }
-        .game-card {
+        .game {
             background-color: #222;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             text-align: center;
-            flex: 1 1 calc(45% - 20px);
-            max-width: calc(45% - 20px);
-            min-width: 200px;
+            width: 300px;
             color: #fff;
             cursor: pointer;
-            font-size: 1.5em;
             transition: transform 0.3s;
         }
-        .game-card:hover {
-            transform: scale(1.05);
+        .game img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
         }
-        .game-card h3 {
-            margin-top: 0;
+        .game h3 {
+            margin-top: 10px;
             font-size: 1.8em;
         }
-        .game-card p {
+        .game p {
             font-size: 1.2em;
         }
-        .link-section {
-            margin: 20px 0;
+        .game:hover {
+            transform: scale(1.05);
         }
-        .link-section button {
-            background-color: #007BFF;
-            color: #fff;
+        .ranking-button {
+            background-color: #fff;
+            color: #000;
             border: none;
             border-radius: 10px;
             padding: 20px;
             font-size: 1.5em;
             cursor: pointer;
-            flex: 1 1 calc(45% - 20px);
-            max-width: calc(45% - 20px);
-            min-width: 200px;
+            width: 300px;
             transition: transform 0.3s;
         }
-        .link-section button:hover {
-            background-color: #0056b3;
+        .ranking-button:hover {
             transform: scale(1.05);
         }
     </style>
@@ -113,22 +103,22 @@
     </section>
 
     <section class="game-section">
-        <h2>遊べるゲーム</h2>
-        <div class="game-grid">
-            <div class="game-card" onclick="location.href='roulette_rules.html'">
-                <h3>ルーレット</h3>
-                <p>スリリングなルーレットゲームをお楽しみください。</p>
-            </div>
-            <div class="game-card" onclick="location.href='card_games_rules.html'">
-                <h3>トランプゲーム</h3>
-                <p>ポーカーやブラックジャックなど、戦略と運を試すトランプゲームで勝利を目指しましょう。</p>
-            </div>
-            <div class="game-card" onclick="location.href='dice_games_rules.html'">
-                <h3>ダイスゲーム</h3>
-                <p>シンプルで楽しいダイスゲーム（チンチロ）に挑戦しましょう。</p>
-            </div>
-            <button onclick="location.href='ranking.html'">ランキングを見る</button>
+        <div class="game" onclick="location.href='roulette_rules.html'">
+            <img src="https://via.placeholder.com/300x200.png?text=Roulette" alt="Roulette">
+            <h3>ルーレット</h3>
+            <p>スリリングなルーレットゲームをお楽しみください。</p>
         </div>
+        <div class="game" onclick="location.href='card_games_rules.html'">
+            <img src="https://via.placeholder.com/300x200.png?text=Card+Games" alt="Card Games">
+            <h3>トランプゲーム</h3>
+            <p>ポーカーやブラックジャックなど、戦略と運を試すトランプゲームで勝利を目指しましょう。</p>
+        </div>
+        <div class="game" onclick="location.href='dice_games_rules.html'">
+            <img src="https://via.placeholder.com/300x200.png?text=Dice+Games" alt="Dice Games">
+            <h3>ダイスゲーム</h3>
+            <p>シンプルで楽しいダイスゲームに挑戦しましょう。</p>
+        </div>
+        <button class="ranking-button" onclick="location.href='ranking.html'">ランキングを見る</button>
     </section>
 </div>
 
