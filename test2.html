@@ -246,7 +246,7 @@
 
         const scoreCounts = {};
         scores.forEach(score => {
-            const bin = Math.floor(score / 1000) * 1000;  // Bin width of 1000
+            const bin = Math.floor(score / 1000) * 1000; // グループ化
             scoreCounts[bin] = (scoreCounts[bin] || 0) + 1;
         });
 
