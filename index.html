@@ -26,15 +26,16 @@
         .container {
             padding: 20px;
         }
-        .score-section {
+        .score-section, .admin-section {
             text-align: center;
+            margin: 20px 0;
         }
-        .score-section input {
+        .score-section input, .admin-section input {
             padding: 10px;
             margin: 10px 0;
             font-size: 1em;
         }
-        .score-section button {
+        .score-section button, .admin-section button {
             padding: 10px 20px;
             font-size: 1em;
             background-color: #007BFF;
@@ -42,8 +43,9 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin: 5px;
         }
-        .score-section button:hover {
+        .score-section button:hover, .admin-section button:hover {
             background-color: #0056b3;
         }
         table {
@@ -63,6 +65,9 @@
         th {
             background-color: #333;
         }
+        #adminSection {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -76,9 +81,8 @@
     <div class="score-section">
         <h2>Enter Player Code</h2>
         <input type="text" id="playerCodeInput" placeholder="Enter player code">
-        <input type="number" id="scoreInput" placeholder="Enter score">
-        <button onclick="savePlayerData()">Save Player Data</button>
         <button onclick="fetchPlayerData()">Get Player Data</button>
+        <button onclick="fetchAllPlayers()">Get All Players</button>
     </div>
 
     <h2 style="text-align: center;">Player Score</h2>
@@ -89,21 +93,49 @@
             <th>Rank</th>
         </tr>
     </table>
+
+    <div class="admin-section">
+        <h2>Admin Login</h2>
+        <input type="password" id="adminPassword" placeholder="Enter admin password">
+        <button onclick="loginAdmin()">Login</button>
+    </div>
+
+    <div id="adminSection" class="admin-section">
+        <h2>Manage Player Data</h2>
+        <input type="text" id="adminPlayerCode" placeholder="Enter player code">
+        <input type="number" id="adminScore" placeholder="Enter score">
+        <button onclick="savePlayerData()">Save Player Data</button>
+        <button onclick="deletePlayerData()">Delete Player Data</button>
+        <button onclick="resetAllData()">Reset All Data</button>
+    </div>
 </div>
 
 <script>
+    const adminPassword = 'admin123'; // 管理者パスワードを設定
+
     let players = JSON.parse(localStorage.getItem('players')) || [];
 
-    function savePlayerData() {
-        const playerCode = document.getElementById('playerCodeInput').value;
-        const score = parseInt(document.getElementById('scoreInput').value);
+    function loginAdmin() {
+        const enteredPassword = document.getElementById('adminPassword').value;
+        if (enteredPassword === adminPassword) {
+            document.getElementById('adminSection').style.display = 'block';
+            alert('Admin logged in successfully');
+        } else {
+            alert('Incorrect password');
+        }
+    }
 
-        const player = players.find(p => p.code == playerCode);
+    function savePlayerData() {
+        const playerCode = document.getElementById('adminPlayerCode').value;
+        const score = parseInt(document.getElementById('adminScore').value);
+
+        let player = players.find(p => p.code == playerCode);
 
         if (player) {
             player.score = score;
         } else {
-            players.push({ code: playerCode, score: score });
+            player = { code: playerCode, score: score };
+            players.push(player);
         }
 
         players.sort((a, b) => b.score - a.score);
@@ -113,6 +145,25 @@
 
         localStorage.setItem('players', JSON.stringify(players));
         alert('Player data saved!');
+    }
+
+    function deletePlayerData() {
+        const playerCode = document.getElementById('adminPlayerCode').value;
+        players = players.filter(p => p.code != playerCode);
+
+        players.sort((a, b) => b.score - a.score);
+        players.forEach((player, index) => {
+            player.rank = index + 1;
+        });
+
+        localStorage.setItem('players', JSON.stringify(players));
+        alert('Player data deleted!');
+    }
+
+    function resetAllData() {
+        players = [];
+        localStorage.removeItem('players');
+        alert('All player data reset!');
     }
 
     function fetchPlayerData() {
@@ -139,6 +190,27 @@
         } else {
             alert('Player not found!');
         }
+    }
+
+    function fetchAllPlayers() {
+        const table = document.getElementById('playerTable');
+        table.innerHTML = `
+            <tr>
+                <th>Player</th>
+                <th>Score</th>
+                <th>Rank</th>
+            </tr>
+        `;
+
+        players.forEach(player => {
+            table.innerHTML += `
+                <tr>
+                    <td>${player.code}</td>
+                    <td>${player.score}</td>
+                    <td>${player.rank}</td>
+                </tr>
+            `;
+        });
     }
 </script>
 
