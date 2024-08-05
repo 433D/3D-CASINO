@@ -48,7 +48,7 @@
             background-color: #0056b3;
         }
         table {
-            width: 50%;
+            width: 70%;
             margin: 20px auto;
             border-collapse: collapse;
             background-color: #222;
@@ -89,6 +89,23 @@
         .button:hover {
             background-color: #0056b3;
         }
+        .player-score {
+            background-color: #007BFF;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            width: 70%;
+            margin: 20px auto;
+        }
+        .player-score h3 {
+            margin-top: 0;
+            color: #fff;
+        }
+        .player-score table {
+            width: 100%;
+            background-color: #222;
+            color: #fff;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -104,6 +121,27 @@
     <div class="score-section">
         <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
         <button onclick="fetchPlayerData()">ID検索</button>
+    </div>
+    <div id="playerScore" class="player-score" style="display:none;">
+        <h3>あなたのスコア</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ランク</th>
+                    <th>プレイヤー</th>
+                    <th>スコア</th>
+                    <th>偏差値</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="playerRank"></td>
+                    <td id="playerName"></td>
+                    <td id="playerScoreValue"></td>
+                    <td id="playerStandardScore"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <table id="rankingTable">
         <thead>
@@ -157,7 +195,12 @@
                 players.sort((a, b) => b.score - a.score);
                 const player = players.find(p => p.name === playerId);
                 if (player) {
-                    alert(`プレイヤー: ${player.name}\nスコア: ${player.score}\n偏差値: ${calculateStandardScore(player.score, players)}`);
+                    const playerRank = players.findIndex(p => p.name === playerId) + 1;
+                    document.getElementById('playerRank').textContent = playerRank;
+                    document.getElementById('playerName').textContent = player.name;
+                    document.getElementById('playerScoreValue').textContent = player.score;
+                    document.getElementById('playerStandardScore').textContent = calculateStandardScore(player.score, players);
+                    document.getElementById('playerScore').style.display = 'block';
                 } else {
                     alert('プレイヤーが見つかりません');
                 }
