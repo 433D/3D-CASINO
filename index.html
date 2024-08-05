@@ -26,26 +26,6 @@
         .container {
             padding: 20px;
         }
-        .game-section {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-        }
-        .game {
-            background-color: #222;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            width: 30%;
-        }
-        .game img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        .game h3 {
-            margin-top: 10px;
-        }
         .score-section {
             text-align: center;
         }
@@ -83,12 +63,7 @@
         th {
             background-color: #333;
         }
-        #scoreChart {
-            max-width: 90%;
-            margin: 20px auto;
-        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -98,27 +73,11 @@
 </header>
 
 <div class="container">
-    <div class="game-section">
-        <div class="game">
-            <img src="https://via.placeholder.com/300x200.png?text=Roulette" alt="Roulette">
-            <h3>ルーレット</h3>
-            <p>スリリングなルーレットゲームをお楽しみください。</p>
-        </div>
-        <div class="game">
-            <img src="https://via.placeholder.com/300x200.png?text=Card+Games" alt="Card Games">
-            <h3>トランプゲーム</h3>
-            <p>戦略と運を試すトランプゲームで勝利を目指しましょう。</p>
-        </div>
-        <div class="game">
-            <img src="https://via.placeholder.com/300x200.png?text=Dice+Games" alt="Dice Games">
-            <h3>ダイスゲーム</h3>
-            <p>シンプルで楽しいダイスゲームに挑戦しましょう。</p>
-        </div>
-    </div>
-
     <div class="score-section">
         <h2>Enter Player Code</h2>
         <input type="text" id="playerCodeInput" placeholder="Enter player code">
+        <input type="number" id="scoreInput" placeholder="Enter score">
+        <button onclick="savePlayerData()">Save Player Data</button>
         <button onclick="fetchPlayerData()">Get Player Data</button>
     </div>
 
@@ -128,116 +87,58 @@
             <th>Player</th>
             <th>Score</th>
             <th>Rank</th>
-            <th>Standard Score</th>
         </tr>
     </table>
-
-    <h2 style="text-align: center;">Scores Distribution</h2>
-    <canvas id="scoreChart" width="400" height="200"></canvas>
 </div>
 
 <script>
-    const apiUrl = 'https://script.google.com/macros/s/AKfycbyR5gh4WqZuPo8GUqqwRgn6Djw_vXz4esuj7E7ht4lhjbdfbrIRAmLaFwUgc2Y6IYahow/exec';
+    let players = JSON.parse(localStorage.getItem('players')) || [];
 
-    let players = [];
-
-    console.log('Fetching data from Google Sheets...');
-    fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-        console.log('Data fetched successfully:', data);
-        players = data;
-
-        players.sort((a, b) => b.score - a.score);
-
-        players.forEach((player, index) => {
-            player.rank = index + 1;
-            player.zScore = ((player.score - average(players, 'score')) / standardDeviation(players, 'score')) * 10 + 50;
-        });
-
-        console.log('Players:', players);
-        initializeChart(players);
-    })
-    .catch(error => console.log('Error fetching data:', error));
-
-    function fetchPlayerData() {
+    function savePlayerData() {
         const playerCode = document.getElementById('playerCodeInput').value;
-        console.log('Fetching data for player code:', playerCode);
+        const score = parseInt(document.getElementById('scoreInput').value);
+
         const player = players.find(p => p.code == playerCode);
 
         if (player) {
-            const table = document.getElementById('playerTable');
-            table.innerHTML = `
-                <tr>
-                    <th>Player</th>
-                    <th>Score</th>
-                    <th>Rank</th>
-                    <th>Standard Score</th>
-                </tr>
+            player.score = score;
+        } else {
+            players.push({ code: playerCode, score: score });
+        }
+
+        players.sort((a, b) => b.score - a.score);
+        players.forEach((player, index) => {
+            player.rank = index + 1;
+        });
+
+        localStorage.setItem('players', JSON.stringify(players));
+        alert('Player data saved!');
+    }
+
+    function fetchPlayerData() {
+        const playerCode = document.getElementById('playerCodeInput').value;
+        const player = players.find(p => p.code == playerCode);
+
+        const table = document.getElementById('playerTable');
+        table.innerHTML = `
+            <tr>
+                <th>Player</th>
+                <th>Score</th>
+                <th>Rank</th>
+            </tr>
+        `;
+
+        if (player) {
+            table.innerHTML += `
                 <tr>
                     <td>${player.code}</td>
                     <td>${player.score}</td>
                     <td>${player.rank}</td>
-                    <td>${player.zScore.toFixed(2)}</td>
                 </tr>
             `;
-            console.log('Player data found:', player);
-            updateChartColor(player);
         } else {
-            alert("Player not found!");
-            console.log('Player not found');
+            alert('Player not found!');
         }
-    }
-
-    function average(data, key) {
-        return data.reduce((sum, item) => sum + item[key], 0) / data.length;
-    }
-
-    function standardDeviation(data, key) {
-        let avg = average(data, key);
-        let squareDiffs = data.map(item => Math.pow(item[key] - avg, 2));
-        let avgSquareDiff = average(squareDiffs, '');
-        return Math.sqrt(avgSquareDiff);
-    }
-
-    let scoreChart;
-
-    function initializeChart(players) {
-        const ctx = document.getElementById('scoreChart').getContext('2d');
-        const scores = players.map(player => player.score);
-        const labels = players.map(player => player.code);
-
-        scoreChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Scores',
-                    data: scores,
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-        console.log('Chart initialized');
-    }
-
-    function updateChartColor(player) {
-        const playerIndex = players.findIndex(p => p.code == player.code);
-        const backgroundColors = players.map((_, index) => index === playerIndex ? 'rgba(255, 99, 132, 0.2)' : 'rgba(54, 162, 235, 0.2)');
-        const borderColors = players.map((_, index) => index === playerIndex ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)');
-
-        scoreChart.data.datasets[0].backgroundColor = backgroundColors;
-        scoreChart.data.datasets[0].borderColor = borderColors;
-        scoreChart.update();
     }
 </script>
 
