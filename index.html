@@ -137,7 +137,7 @@
 </div>
 
 <script>
-    const sheetId = 'YOUR_SPREADSHEET_ID'; // ここにスプレッドシートIDを入力
+    const sheetId = '1DZUPIEUatizt7aDhyGEUUUBWQn3BisOkz5ewITvhqIQ'; // スプレッドシートID
     const baseUrl = `https://spreadsheets.google.com/feeds/cells/${sheetId}/1/public/full?alt=json`;
 
     let players = [];
@@ -147,11 +147,10 @@
     .then(data => {
         const entries = data.feed.entry;
         
-        for (let i = 5; i < entries.length; i+=5) {
+        for (let i = 2; i < entries.length; i += 2) {
             let player = {
-                code: entries[i].gs$cell.$t,
-                name: entries[i+1].gs$cell.$t,
-                score: parseFloat(entries[i+2].gs$cell.$t)
+                code: entries[i - 1].gs$cell.$t,
+                score: parseFloat(entries[i].gs$cell.$t)
             };
             players.push(player);
         }
@@ -182,7 +181,7 @@
                     <th>Standard Score</th>
                 </tr>
                 <tr>
-                    <td>${player.name}</td>
+                    <td>${player.code}</td>
                     <td>${player.score}</td>
                     <td>${player.rank}</td>
                     <td>${player.zScore.toFixed(2)}</td>
@@ -212,7 +211,7 @@
     function initializeChart(players) {
         const ctx = document.getElementById('scoreChart').getContext('2d');
         const scores = players.map(player => player.score);
-        const labels = players.map(player => player.name);
+        const labels = players.map(player => player.code);
 
         scoreChart = new Chart(ctx, {
             type: 'bar',
