@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3Dカジノ - 管理者</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            color: #fff;
+        }
+        header {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+        .admin-section input {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1em;
+        }
+        .admin-section button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .admin-section button:hover {
+            background-color: #0056b3;
+        }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .keypad button {
+            padding: 20px;
+            font-size: 1.5em;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .keypad button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>3Dカジノ - 管理者</h1>
+    <p>ここにキャッチコピーを入力</p>
+</header>
+
+<div class="container">
+    <div class="admin-section">
+        <h2>Manage Player Data</h2>
+        <input type="text" id="adminPlayerCode" placeholder="Enter player code">
+        <div class="keypad">
+            <button onclick="appendToScore('1')">1</button>
+            <button onclick="appendToScore('2')">2</button>
+            <button onclick="appendToScore('3')">3</button>
+            <button onclick="appendToScore('4')">4</button>
+            <button onclick="appendToScore('5')">5</button>
+            <button onclick="appendToScore('6')">6</button>
+            <button onclick="appendToScore('7')">7</button>
+            <button onclick="appendToScore('8')">8</button>
+            <button onclick="appendToScore('9')">9</button>
+            <button onclick="appendToScore('0')">0</button>
+            <button onclick="appendToScore('-')">-</button>
+            <button onclick="clearScore()" style="grid-column: span 2;">Clear</button>
+        </div>
+        <input type="text" id="adminScore" placeholder="Enter score" readonly>
+        <button onclick="savePlayerData()">Save Player Data</button>
+        <button onclick="deletePlayerData()">Delete Player Data</button>
+        <button onclick="resetAllData()">Reset All Data</button>
+    </div>
+</div>
+
+<script>
+    let players = JSON.parse(localStorage.getItem('players')) || [];
+
+    function appendToScore(value) {
+        const scoreInput = document.getElementById('adminScore');
+        scoreInput.value += value;
+    }
+
+    function clearScore() {
+        document.getElementById('adminScore').value = '';
+    }
+
+    function savePlayerData() {
+        const playerCode = document.getElementById('adminPlayerCode').value;
+        let score = parseInt(document.getElementById('adminScore').value);
+
+        if (!isNaN(score)) {
+            score = score * 1000; // 自動的に末尾に000を追加
+        }
+
+        let player = players.find(p => p.code == playerCode);
+
+        if (player) {
+            player.score = score;
+        } else {
+            player = { code: playerCode, score: score };
+            players.push(player);
+        }
+
+        players.sort((a, b) => b.score - a.score);
+        players.forEach((player, index) => {
+            player.rank = index + 1;
+        });
+
+        localStorage.setItem('players', JSON.stringify(players));
+        alert('Player data saved!');
+        clearScore();
+    }
+
+    function deletePlayerData() {
+        const playerCode = document.getElementById('adminPlayerCode').value;
+        players = players.filter(p => p.code != playerCode);
+
+        players.sort((a, b) => b.score - a.score);
+        players.forEach((player, index) => {
+            player.rank = index + 1;
+        });
+
+        localStorage.setItem('players', JSON.stringify(players));
+        alert('Player data deleted!');
+        clearScore();
+    }
+
+    function resetAllData() {
+        players = [];
+        localStorage.removeItem('players');
+        alert('All player data reset!');
+        clearScore();
+    }
+</script>
+
+</body>
+</html>

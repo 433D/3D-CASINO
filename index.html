@@ -25,17 +25,14 @@
         }
         .container {
             padding: 20px;
-        }
-        .score-section, .admin-section {
             text-align: center;
-            margin: 20px 0;
         }
-        .score-section input, .admin-section input {
+        .score-section input {
             padding: 10px;
             margin: 10px 0;
             font-size: 1em;
         }
-        .score-section button, .admin-section button {
+        .score-section button {
             padding: 10px 20px;
             font-size: 1em;
             background-color: #007BFF;
@@ -45,26 +42,7 @@
             cursor: pointer;
             margin: 5px;
         }
-        .score-section button:hover, .admin-section button:hover {
-            background-color: #0056b3;
-        }
-        .keypad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            justify-content: center;
-            margin: 10px 0;
-        }
-        .keypad button {
-            padding: 20px;
-            font-size: 1.5em;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .keypad button:hover {
+        .score-section button:hover {
             background-color: #0056b3;
         }
         table {
@@ -84,8 +62,14 @@
         th {
             background-color: #333;
         }
-        #adminSection {
-            display: none;
+        .gold {
+            background-color: gold;
+        }
+        .silver {
+            background-color: silver;
+        }
+        .bronze {
+            background-color: #cd7f32;
         }
     </style>
 </head>
@@ -100,120 +84,23 @@
     <div class="score-section">
         <h2>Enter Player Code</h2>
         <input type="text" id="playerCodeInput" placeholder="Enter player code">
-        <button onclick="fetchPlayerData()">Get Player Data</button>
-        <button onclick="fetchAllPlayers()">Get All Players</button>
+        <button onclick="fetchPlayerData()">IDから検索</button>
+        <button onclick="fetchAllPlayers()">ランキング</button>
     </div>
 
-    <h2 style="text-align: center;">Player Score</h2>
+    <h2>Player Score</h2>
     <table id="playerTable">
         <tr>
+            <th>Rank</th>
             <th>Player</th>
             <th>Score</th>
-            <th>Rank</th>
+            <th>Standard Score</th>
         </tr>
     </table>
-
-    <div class="admin-section">
-        <h2>Admin Login</h2>
-        <input type="password" id="adminPassword" placeholder="Enter admin password">
-        <button onclick="loginAdmin()">Login</button>
-    </div>
-
-    <div id="adminSection" class="admin-section">
-        <h2>Manage Player Data</h2>
-        <input type="text" id="adminPlayerCode" placeholder="Enter player code">
-        <div class="keypad">
-            <button onclick="appendToScore('1')">1</button>
-            <button onclick="appendToScore('2')">2</button>
-            <button onclick="appendToScore('3')">3</button>
-            <button onclick="appendToScore('4')">4</button>
-            <button onclick="appendToScore('5')">5</button>
-            <button onclick="appendToScore('6')">6</button>
-            <button onclick="appendToScore('7')">7</button>
-            <button onclick="appendToScore('8')">8</button>
-            <button onclick="appendToScore('9')">9</button>
-            <button onclick="appendToScore('0')">0</button>
-            <button onclick="appendToScore('-')">-</button>
-            <button onclick="clearScore()">Clear</button>
-        </div>
-        <input type="text" id="adminScore" placeholder="Enter score" readonly>
-        <button onclick="savePlayerData()">Save Player Data</button>
-        <button onclick="deletePlayerData()">Delete Player Data</button>
-        <button onclick="resetAllData()">Reset All Data</button>
-    </div>
 </div>
 
 <script>
-    const adminPassword = 'admin123'; // 管理者パスワードを設定
-
     let players = JSON.parse(localStorage.getItem('players')) || [];
-
-    function loginAdmin() {
-        const enteredPassword = document.getElementById('adminPassword').value;
-        if (enteredPassword === adminPassword) {
-            document.getElementById('adminSection').style.display = 'block';
-            alert('Admin logged in successfully');
-        } else {
-            alert('Incorrect password');
-        }
-    }
-
-    function appendToScore(value) {
-        const scoreInput = document.getElementById('adminScore');
-        scoreInput.value += value;
-    }
-
-    function clearScore() {
-        document.getElementById('adminScore').value = '';
-    }
-
-    function savePlayerData() {
-        const playerCode = document.getElementById('adminPlayerCode').value;
-        let score = parseInt(document.getElementById('adminScore').value);
-
-        if (!isNaN(score)) {
-            score = score * 1000; // 自動的に末尾に000を追加
-        }
-
-        let player = players.find(p => p.code == playerCode);
-
-        if (player) {
-            player.score = score;
-        } else {
-            player = { code: playerCode, score: score };
-            players.push(player);
-        }
-
-        players.sort((a, b) => b.score - a.score);
-        players.forEach((player, index) => {
-            player.rank = index + 1;
-        });
-
-        localStorage.setItem('players', JSON.stringify(players));
-        alert('Player data saved!');
-        clearScore();
-    }
-
-    function deletePlayerData() {
-        const playerCode = document.getElementById('adminPlayerCode').value;
-        players = players.filter(p => p.code != playerCode);
-
-        players.sort((a, b) => b.score - a.score);
-        players.forEach((player, index) => {
-            player.rank = index + 1;
-        });
-
-        localStorage.setItem('players', JSON.stringify(players));
-        alert('Player data deleted!');
-        clearScore();
-    }
-
-    function resetAllData() {
-        players = [];
-        localStorage.removeItem('players');
-        alert('All player data reset!');
-        clearScore();
-    }
 
     function fetchPlayerData() {
         const playerCode = document.getElementById('playerCodeInput').value;
@@ -222,18 +109,21 @@
         const table = document.getElementById('playerTable');
         table.innerHTML = `
             <tr>
+                <th>Rank</th>
                 <th>Player</th>
                 <th>Score</th>
-                <th>Rank</th>
+                <th>Standard Score</th>
             </tr>
         `;
 
         if (player) {
+            const standardScore = calculateStandardScore(player.score);
             table.innerHTML += `
                 <tr>
+                    <td>${player.rank}</td>
                     <td>${player.code}</td>
                     <td>${player.score}</td>
-                    <td>${player.rank}</td>
+                    <td>${standardScore}</td>
                 </tr>
             `;
         } else {
@@ -245,21 +135,32 @@
         const table = document.getElementById('playerTable');
         table.innerHTML = `
             <tr>
+                <th>Rank</th>
                 <th>Player</th>
                 <th>Score</th>
-                <th>Rank</th>
+                <th>Standard Score</th>
             </tr>
         `;
 
-        players.forEach(player => {
+        players.forEach((player, index) => {
+            const standardScore = calculateStandardScore(player.score);
+            const rowClass = index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : '';
             table.innerHTML += `
-                <tr>
+                <tr class="${rowClass}">
+                    <td>${player.rank}</td>
                     <td>${player.code}</td>
                     <td>${player.score}</td>
-                    <td>${player.rank}</td>
+                    <td>${standardScore}</td>
                 </tr>
             `;
         });
+    }
+
+    function calculateStandardScore(score) {
+        const mean = players.reduce((acc, player) => acc + player.score, 0) / players.length;
+        const variance = players.reduce((acc, player) => acc + Math.pow(player.score - mean, 2), 0) / players.length;
+        const standardDeviation = Math.sqrt(variance);
+        return ((score - mean) / standardDeviation * 10 + 50).toFixed(2);
     }
 </script>
 
