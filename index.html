@@ -14,7 +14,7 @@
             background-image: url('path/to/your/image.png');
             background-size: cover;
             background-position: center;
-            padding: 60px 20px;
+            padding: 40px 20px;
             text-align: center;
             color: #fff;
         }
@@ -38,7 +38,7 @@
             font-size: 1.2em;
         }
         .game-section {
-            margin: 40px 0;
+            margin: 20px 0;
         }
         .game-section h2 {
             font-size: 1.8em;
@@ -52,7 +52,6 @@
         }
         .game-card {
             background-color: #222;
-            background-image: url('path/to/your/image.png'); /* Apply the same image or different ones for each game */
             background-size: cover;
             background-position: center;
             padding: 20px;
@@ -72,33 +71,52 @@
             font-size: 1.2em;
         }
         .link-section {
-            margin: 40px 0;
+            margin: 20px 0;
         }
-        .link-section a {
-            display: inline-block;
+        .link-section button {
             padding: 10px 20px;
             font-size: 1.2em;
             background-color: #007BFF;
             color: #fff;
-            text-decoration: none;
+            border: none;
             border-radius: 5px;
+            cursor: pointer;
         }
-        .link-section a:hover {
+        .link-section button:hover {
             background-color: #0056b3;
         }
+        .long-text {
+            display: none;
+            text-align: left;
+            margin: 20px;
+        }
     </style>
+    <script>
+        function toggleLongText() {
+            var x = document.getElementById("longText");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
 
 <header>
     <h1>3Dカジノ</h1>
-    <p>ここにキャッチコピーを入力</p>
+    <p>最高のカジノ体験を提供します</p>
 </header>
 
 <div class="container">
     <section class="introduction">
         <h2>ようこそ、3Dカジノへ！</h2>
-        <p>3Dカジノは、最高のカジノ体験を提供する場所です。ルーレット、トランプゲーム（ポーカー、ブラックジャック）、そしてダイスゲーム（チンチロ）など、さまざまなゲームを楽しむことができます。友達と一緒に楽しむも良し、一人で腕を磨くも良し。ここでは皆が楽しめる空間を提供しています。</p>
+        <p>クリックして詳細を表示</p>
+        <button onclick="toggleLongText()">ルールを表示</button>
+        <div id="longText" class="long-text">
+            <p>3Dカジノは、最高のカジノ体験を提供する場所です。ルーレット、トランプゲーム（ポーカー、ブラックジャック）、そしてダイスゲーム（チンチロ）など、さまざまなゲームを楽しむことができます。友達と一緒に楽しむも良し、一人で腕を磨くも良し。ここでは皆が楽しめる空間を提供しています。</p>
+        </div>
     </section>
 
     <section class="game-section">
@@ -120,7 +138,7 @@
     </section>
 
     <section class="link-section">
-        <a href="ranking.html">ランキングを見る</a>
+        <button onclick="location.href='index.html'">ランキングを見る</button>
     </section>
 </div>
 
