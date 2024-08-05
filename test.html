@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3Dカジノ - ランキング</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Roboto:wght@900&display=swap" rel="stylesheet">
     <style>
         body {
@@ -48,7 +49,7 @@
             background-color: #0056b3;
         }
         table {
-            width: 80%;
+            width: 50%;
             margin: 20px auto;
             border-collapse: collapse;
             background-color: #222;
@@ -73,29 +74,13 @@
         .bronze {
             background-color: #cd7f32;
         }
-        .home-button {
-            padding: 10px 20px;
-            font-size: 1em;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
-        }
-        .home-button:hover {
-            background-color: #0056b3;
-        }
-        .chart-container {
-            width: 80%;
-            margin: 0 auto;
-        }
-        .chart {
-            background-color: #333;
-            padding: 20px;
-            border-radius: 10px;
+        canvas {
+            width: 80% !important;
+            height: auto !important;
+            margin: 20px auto;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -108,8 +93,8 @@
     <div class="score-section">
         <input type="text" id="playerCodeInput" placeholder="プレイヤーコードを入力">
         <button onclick="getPlayerData()">IDから検索</button>
-        <button onclick="showAllPlayers()">ランキング</button>
-        <button class="home-button" onclick="location.href='index.html'">ホームに戻る</button>
+        <button onclick="loadRanking()">ランキング</button>
+        <button onclick="location.href='index.html'">ホームに戻る</button>
     </div>
     <table id="rankingTable">
         <thead>
@@ -120,125 +105,65 @@
                 <th>偏差値</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- プレイヤーデータがここに挿入されます -->
-        </tbody>
+        <tbody></tbody>
     </table>
-    <div class="chart-container">
-        <canvas id="scoreDistributionChart" class="chart"></canvas>
-    </div>
+    <canvas id="scoreDistributionChart"></canvas>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const spreadsheetId = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
-    const apiKey = 'YOUR_API_KEY';  // Google APIキーをここに挿入
-    const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Sheet1?key=${apiKey}`;
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbyR5gh4WqZuPo8GUqqwRgn6Djw_vXz4esuj7E7ht4lhjbdfbrIRAmLaFwUgc2Y6IYahow/exec';
+    const rankingTableBody = document.querySelector('#rankingTable tbody');
 
-    async function getSpreadsheetData() {
-        const response = await fetch(apiUrl);
+    async function loadRanking() {
+        const response = await fetch(`${apiUrl}?action=getRanking`);
         const data = await response.json();
-        return data.values;
+        displayRanking(data.ranking);
+        displayScoreDistribution(data.scores);
     }
 
     async function getPlayerData() {
         const playerCode = document.getElementById('playerCodeInput').value;
-        const data = await getSpreadsheetData();
-        const playerData = data.find(row => row[0] === playerCode);
-
-        if (playerData) {
-            const playerScore = parseInt(playerData[1]);
-            const average = data.reduce((sum, row) => sum + parseInt(row[1]), 0) / data.length;
-            const stdDev = Math.sqrt(data.reduce((sum, row) => sum + Math.pow(parseInt(row[1]) - average, 2), 0) / data.length);
-            const deviationScore = ((playerScore - average) / stdDev * 10 + 50).toFixed(2);
-
-            document.getElementById('rankingTable').innerHTML = `
-                <thead>
-                    <tr>
-                        <th>ランク</th>
-                        <th>プレイヤー</th>
-                        <th>スコア</th>
-                        <th>偏差値</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td>${playerCode}</td>
-                        <td>${playerScore}</td>
-                        <td>${deviationScore}</td>
-                    </tr>
-                </tbody>
-            `;
-
-            showPlayerPosition(playerScore, average, stdDev);
-        } else {
-            alert('プレイヤーが見つかりません。');
-        }
+        const response = await fetch(`${apiUrl}?action=getPlayerData&code=${playerCode}`);
+        const data = await response.json();
+        displayRanking([data]);
+        displayScoreDistribution(data.scores, playerCode);
     }
 
-    async function showAllPlayers() {
-        const data = await getSpreadsheetData();
-        const sortedData = data.sort((a, b) => parseInt(b[1]) - parseInt(a[1]));
-        const average = sortedData.reduce((sum, row) => sum + parseInt(row[1]), 0) / sortedData.length;
-        const stdDev = Math.sqrt(sortedData.reduce((sum, row) => sum + Math.pow(parseInt(row[1]) - average, 2), 0) / sortedData.length);
-
-        let tableRows = '';
-        let rank = 1;
-
-        for (let i = 0; i < sortedData.length; i++) {
-            const row = sortedData[i];
-            const playerScore = parseInt(row[1]);
-            const deviationScore = ((playerScore - average) / stdDev * 10 + 50).toFixed(2);
-            const rankClass = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
-
-            tableRows += `
-                <tr class="${rankClass}">
-                    <td>${rank}</td>
-                    <td>${row[0]}</td>
-                    <td>${row[1]}</td>
-                    <td>${deviationScore}</td>
-                </tr>
+    function displayRanking(ranking) {
+        rankingTableBody.innerHTML = '';
+        ranking.forEach((player, index) => {
+            const tr = document.createElement('tr');
+            if (index === 0) tr.classList.add('gold');
+            if (index === 1) tr.classList.add('silver');
+            if (index === 2) tr.classList.add('bronze');
+            tr.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${player.name}</td>
+                <td>${player.score}</td>
+                <td>${player.deviation}</td>
             `;
-
-            if (i < sortedData.length - 1 && playerScore !== parseInt(sortedData[i + 1][1])) {
-                rank++;
-            }
-        }
-
-        document.getElementById('rankingTable').innerHTML = `
-            <thead>
-                <tr>
-                    <th>ランク</th>
-                    <th>プレイヤー</th>
-                    <th>スコア</th>
-                    <th>偏差値</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${tableRows}
-            </tbody>
-        `;
-
-        showScoreDistribution(sortedData);
+            rankingTableBody.appendChild(tr);
+        });
     }
 
-    function showScoreDistribution(data) {
-        const scores = data.map(row => parseInt(row[1]));
-        const labels = Array.from(new Set(scores)).sort((a, b) => a - b);
-        const frequencies = labels.map(label => scores.filter(score => score === label).length);
-
+    function displayScoreDistribution(scores, playerCode = null) {
         const ctx = document.getElementById('scoreDistributionChart').getContext('2d');
+        const labels = Object.keys(scores);
+        const data = Object.values(scores);
+
         new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'スコア分布',
-                    data: frequencies,
-                    borderColor: '#007BFF',
-                    borderWidth: 2,
+                    label: '人数',
+                    data: data,
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 3,
                     fill: false,
+                    tension: 0.1,
+                    pointRadius: 0,
+                    spanGaps: true
                 }]
             },
             options: {
@@ -259,15 +184,10 @@
                 }
             }
         });
-    }
 
-    function showPlayerPosition(playerScore, average, stdDev) {
-        const ctx = document.getElementById('scoreDistributionChart').getContext('2d');
-        const playerPosition = ((playerScore - average) / stdDev * 10 + 50).toFixed(2);
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
+        if (playerCode) {
+            const playerScore = scores[playerCode] || 0;
+            const playerData = {
                 labels: ['プレイヤー位置'],
                 datasets: [{
                     label: 'スコア',
@@ -276,26 +196,33 @@
                     borderColor: 'rgba(0, 123, 255, 1)',
                     borderWidth: 1
                 }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'スコア'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: '人数'
+            };
+
+            new Chart(document.getElementById('playerScoreChart').getContext('2d'), {
+                type: 'bar',
+                data: playerData,
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'スコア'
+                            }
                         },
-                        beginAtZero: true
+                        y: {
+                            title: {
+                                display: true,
+                                text: '人数'
+                            },
+                            beginAtZero: true
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
+
+    loadRanking();
 </script>
 </body>
 </html>
