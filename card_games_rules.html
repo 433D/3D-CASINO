@@ -16,10 +16,16 @@
             background-color: #333;
             padding: 20px;
             text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            cursor: pointer;
+            perspective: 1000px;
         }
         header h1 {
             margin: 0;
-            font-size: 2.5em;
+            font-size: 1.5em;
+            transform: rotateX(20deg);
+            text-shadow: 0 5px 10px #000;
         }
         .container {
             padding: 20px;
@@ -46,11 +52,24 @@
         .content.active {
             display: block;
         }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+        }
     </style>
 </head>
 <body>
 
-<header>
+<header onclick="location.href='index.html'">
     <h1>ポーカーとブラックジャックのルール</h1>
 </header>
 
@@ -60,37 +79,103 @@
     <button class="button" onclick="location.href='index.html'">ホームに戻る</button>
 
     <div id="poker" class="content active">
-        <h2>ポーカーのルール</h2>
-        <p>ポーカーは、5枚のカードを使って役を作り、他のプレイヤーと競うゲームです。</p>
-        <p>基本的なルールは以下の通りです：</p>
-        <ul>
-            <li>各プレイヤーに5枚のカードが配られます。</li>
-            <li>カードを見た後、1回だけカードを交換できます。</li>
-            <li>最終的に手持ちのカードで役を作り、最も強い役を持っているプレイヤーが勝ちます。</li>
-        </ul>
-        <p>代表的な役：</p>
-        <ul>
-            <li>フラッシュ：同じスーツの5枚のカード。</li>
-            <li>ストレート：連続する数字のカード。</li>
-            <li>フルハウス：同じ数字の3枚と別の同じ数字の2枚。</li>
-        </ul>
+        <h2>ポーカー</h2>
+        <p>ポーカーは、手札のカードの組み合わせの強さを競うゲームです。</p>
+        <h3>ゲームの流れ</h3>
+        <ol>
+            <li>最初に、各プレイヤーにカードが配られます。</li>
+            <li>プレイヤーは、手札のカードを見て、賭け金を出し合います。</li>
+            <li>賭けが終わったら、不要なカードを捨てて、新しいカードと交換することができます。</li>
+            <li>最後に、全員で手札を公開し、一番強い役の人が勝ちとなります。</li>
+        </ol>
+        <h3>役の強さ</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>役</th>
+                    <th>説明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ロイヤルストレートフラッシュ</td>
+                    <td>同じマークの10、J、Q、K、A</td>
+                </tr>
+                <tr>
+                    <td>ストレートフラッシュ</td>
+                    <td>同じマークの連続した5枚</td>
+                </tr>
+                <tr>
+                    <td>フォーカード</td>
+                    <td>同じ数字のカードが4枚</td>
+                </tr>
+                <tr>
+                    <td>フルハウス</td>
+                    <td>スリーカードとワンペア</td>
+                </tr>
+                <tr>
+                    <td>フラッシュ</td>
+                    <td>同じマークの5枚</td>
+                </tr>
+                <tr>
+                    <td>ストレート</td>
+                    <td>連続した数字の5枚</td>
+                </tr>
+                <tr>
+                    <td>スリーカード</td>
+                    <td>同じ数字のカードが3枚</td>
+                </tr>
+                <tr>
+                    <td>ツーペア</td>
+                    <td>2組のペア</td>
+                </tr>
+                <tr>
+                    <td>ワンペア</td>
+                    <td>同じ数字のカードが2枚</td>
+                </tr>
+                <tr>
+                    <td>ハイカード</td>
+                    <td>上記以外の役がない場合、一番数字の大きいカード</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>詳しくは、当日スタッフにお尋ねください。</p>
     </div>
 
     <div id="blackjack" class="content">
-        <h2>ブラックジャックのルール</h2>
-        <p>ブラックジャックは、カードの合計が21に近い方が勝つゲームです。</p>
-        <p>基本的なルールは以下の通りです：</p>
-        <ul>
-            <li>各プレイヤーに2枚のカードが配られます。</li>
-            <li>カードの合計が21に近づくように、カードを追加するか、止めるかを選びます。</li>
-            <li>21を超えるとバスト（負け）になります。</li>
-        </ul>
-        <p>カードの価値：</p>
-        <ul>
-            <li>数字カードはそのままの値。</li>
-            <li>絵札（ジャック、クイーン、キング）は10。</li>
-            <li>エースは1または11としてカウントできます。</li>
-        </ul>
+        <h2>ブラックジャック</h2>
+        <p>ブラックジャックは、手札のカードの合計が21に近い方が勝ちとなるゲームです。ただし、21を超えると負けとなります。</p>
+        <h3>ゲームの流れ</h3>
+        <ol>
+            <li>最初に、プレイヤーとディーラーにそれぞれ2枚のカードが配られます。</li>
+            <li>プレイヤーは、手札の合計を見ながら、カードを追加で引くか、そのままにするかを選びます。</li>
+            <li>プレイヤーがカードを引かなくなったら、ディーラーがカードを引きます。ディーラーは、手札の合計が17以上になるまでカードを引かなければなりません。</li>
+            <li>最後に、プレイヤーとディーラーの手札の合計を比較し、21により近い方が勝ちとなります。</li>
+        </ol>
+        <h3>カードの点数</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>カード</th>
+                    <th>点数</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2～10</td>
+                    <td>数字通りの点数</td>
+                </tr>
+                <tr>
+                    <td>J、Q、K</td>
+                    <td>10点</td>
+                </tr>
+                <tr>
+                    <td>A</td>
+                    <td>1点または11点（状況によって有利な方を選べます）</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>詳しくは、当日スタッフにお尋ねください。</p>
     </div>
 </div>
 
