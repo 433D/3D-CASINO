@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ルーレットのルール - 3Dカジノ</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Roboto:wght@900&display=swap" rel="stylesheet">
+    <title>ルーレットのルール</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&display=swap">
     <style>
         body {
             font-family: 'Raleway', sans-serif;
@@ -11,99 +10,164 @@
             padding: 0;
             background-color: #111;
             color: #fff;
+            text-align: center;
         }
         header {
-            background-image: url('path/to/your/image.png');
-            background-size: cover;
-            background-position: center;
+            background-color: #333;
             padding: 20px;
             text-align: center;
-            color: #fff;
+            cursor: pointer;
         }
         header h1 {
             margin: 0;
-            font-size: 3em;
-            font-family: 'Roboto', sans-serif;
-            text-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+            font-size: 2.5em;
         }
         .container {
             padding: 20px;
+        }
+        .button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            display: none;
+        }
+        .content.active {
+            display: block;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
             text-align: left;
         }
-        .rules-section {
-            background-color: #222;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            margin-top: 20px;
+        th {
+            background-color: #333;
         }
-        .rules-section h2 {
-            font-size: 2em;
-            margin-bottom: 10px;
+        .fade-in {
+            animation: fadeIn 2s;
         }
-        .rules-section p {
-            font-size: 1.2em;
-            line-height: 1.6;
-        }
-        .rules-section ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        .rules-section ul li {
-            margin-bottom: 10px;
-        }
-        .back-button {
-            background-color: #fff;
-            color: #000;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            margin-top: 20px;
-            display: inline-block;
-            text-decoration: none;
-        }
-        .back-button:hover {
-            background-color: #ddd;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>ルーレットのルール</h1>
+<header onclick="location.href='index.html'">
+    <h1>3Dカジノ</h1>
 </header>
 
 <div class="container">
-    <section class="rules-section">
-        <h2>基本ルール</h2>
-        <p>ルーレットは、カジノの代表的なゲームの一つで、プレイヤーはボールがどの番号に落ちるかを予想します。ルーレットホイールには0から36までの数字があり、これらの数字が赤と黒の色に分かれています（0は緑色）。</p>
-        
-        <h2>賭け方の種類</h2>
-        <p>ルーレットには多様な賭け方があります。以下は主要な賭け方の例です：</p>
-        <ul>
-            <li><strong>ストレートアップ:</strong> 一つの番号に賭ける。配当は35倍。</li>
-            <li><strong>スプリット:</strong> 隣接する二つの番号に賭ける。配当は17倍。</li>
-            <li><strong>ストリート:</strong> 横一列の三つの番号に賭ける。配当は11倍。</li>
-            <li><strong>コーナー:</strong> 四つの番号に賭ける。配当は8倍。</li>
-            <li><strong>ライン:</strong> 二列の六つの番号に賭ける。配当は5倍。</li>
-            <li><strong>赤/黒:</strong> 赤または黒に賭ける。配当は2倍。</li>
-            <li><strong>奇数/偶数:</strong> 奇数または偶数に賭ける。配当は2倍。</li>
-            <li><strong>ハイ/ロー:</strong> 1-18または19-36に賭ける。配当は2倍。</li>
-            <li><strong>ダズン:</strong> 1-12、13-24、25-36のどれかの12個の数字に賭ける。配当は3倍。</li>
-            <li><strong>コラム:</strong> 縦の列に賭ける。配当は3倍。</li>
-            <li><strong>スネークベット:</strong> 特定のパターンに賭ける。通常は1、5、9、12、14、16、19、23、27、30、32、34。配当は3倍。</li>
-        </ul>
-        
-        <h2>ゲームの流れ</h2>
-        <p>1. プレイヤーはベットを置きます。</p>
-        <p>2. ディーラーはルーレットホイールを回し、ボールを投げ入れます。</p>
-        <p>3. ボールが落ちた番号が勝利番号となり、勝ったプレイヤーに配当が支払われます。</p>
-        
-        <a href="index.html" class="back-button">ホームに戻る</a>
-    </section>
+    <p class="fade-in">3Dカジノではルーレットが遊べます</p>
+    <button class="button" onclick="showContent('roulette')">ルーレットのルール</button>
+    <button class="button" onclick="location.href='index.html'">ホームに戻る</button>
+
+    <div id="roulette" class="content active">
+        <h2>ルーレット</h2>
+        <p>ルーレットは、回転する円盤に投げ入れられたボールがどの数字のポケットに入るかに賭けるゲームです。</p>
+
+        <h3>ゲームの流れ</h3>
+        <ol>
+            <li>プレイヤーは、賭けたい場所にチップを置きます。</li>
+            <li>ディーラーがルーレットを回し、ボールを投げ入れます。</li>
+            <li>ボールがポケットに入ると、その数字と色が結果となります。</li>
+            <li>賭けが当たったプレイヤーは、配当を受け取ります。</li>
+        </ol>
+
+        <h3>賭けの種類</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>賭け方</th>
+                    <th>説明</th>
+                    <th>配当</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ストレートアップ</td>
+                    <td>特定の数字1つに賭ける</td>
+                    <td>35倍</td>
+                </tr>
+                <tr>
+                    <td>スプリット</td>
+                    <td>隣り合った2つの数字に賭ける</td>
+                    <td>17倍</td>
+                </tr>
+                <tr>
+                    <td>ストリート</td>
+                    <td>横1列の3つの数字に賭ける</td>
+                    <td>11倍</td>
+                </tr>
+                <tr>
+                    <td>コーナー</td>
+                    <td>4つの数字が交わる角に賭ける</td>
+                    <td>8倍</td>
+                </tr>
+                <tr>
+                    <td>ライン</td>
+                    <td>縦2列の6つの数字に賭ける</td>
+                    <td>5倍</td>
+                </tr>
+                <tr>
+                    <td>コラム</td>
+                    <td>縦1列の12個の数字に賭ける</td>
+                    <td>2倍</td>
+                </tr>
+                <tr>
+                    <td>ダズン</td>
+                    <td>12個ずつの数字のグループ（1-12, 13-24, 25-36）に賭ける</td>
+                    <td>2倍</td>
+                </tr>
+                <tr>
+                    <td>赤/黒</td>
+                    <td>赤または黒の数字に賭ける</td>
+                    <td>1倍</td>
+                </tr>
+                <tr>
+                    <td>奇数/偶数</td>
+                    <td>奇数または偶数の数字に賭ける</td>
+                    <td>1倍</td>
+                </tr>
+                <tr>
+                    <td>ハイ/ロー</td>
+                    <td>1-18（ロー）または19-36（ハイ）の数字に賭ける</td>
+                    <td>1倍</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>詳しくは、当日スタッフにお尋ねください。</p>
+    </div>
 </div>
+
+<script>
+    function showContent(contentId) {
+        var contents = document.querySelectorAll('.content');
+        contents.forEach(function(content) {
+            content.classList.remove('active');
+        });
+        document.getElementById(contentId).classList.add('active');
+    }
+</script>
 
 </body>
 </html>
