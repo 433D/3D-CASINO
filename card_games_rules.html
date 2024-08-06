@@ -16,16 +16,11 @@
             background-color: #333;
             padding: 20px;
             text-align: center;
-            font-size: 3em;
-            margin-bottom: 20px;
             cursor: pointer;
-            perspective: 1000px;
         }
         header h1 {
             margin: 0;
-            font-size: 1.5em;
-            transform: rotateX(20deg);
-            text-shadow: 0 5px 10px #000;
+            font-size: 2.5em;
         }
         .container {
             padding: 20px;
@@ -65,15 +60,23 @@
         th {
             background-color: #333;
         }
+        .fade-in {
+            animation: fadeIn 2s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
 <header onclick="location.href='index.html'">
-    <h1>ポーカーとブラックジャックのルール</h1>
+    <h1>3Dカジノ</h1>
 </header>
 
 <div class="container">
+    <p class="fade-in">3Dカジノではポーカーとブラックジャックが遊べます</p>
     <button class="button" onclick="showContent('poker')">ポーカーのルール</button>
     <button class="button" onclick="showContent('blackjack')">ブラックジャックのルール</button>
     <button class="button" onclick="location.href='index.html'">ホームに戻る</button>
