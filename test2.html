@@ -246,8 +246,7 @@
 
         const scoreCounts = {};
         scores.forEach(score => {
-            const bin = Math.floor(score / 1000) * 1000; // グループ化
-            scoreCounts[bin] = (scoreCounts[bin] || 0) + 1;
+            scoreCounts[score] = (scoreCounts[score] || 0) + 1;
         });
 
         const scoreLabels = Object.keys(scoreCounts).sort((a, b) => a - b);
