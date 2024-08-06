@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>カジノゲームルール説明</title>
+<style>
+body {
+  font-family: sans-serif;
+}
+.game-section {
+  display: none;
+}
+.game-section.active {
+  display: block;
+}
+</style>
+</head>
+<body>
+
+<h1>カジノゲームルール説明</h1>
+
+<button onclick="showGame('poker')">ポーカー</button>
+<button onclick="showGame('blackjack')">ブラックジャック</button>
+
+<div id="poker" class="game-section">
+  <h2>ポーカー</h2>
+  <p>ポーカーは、手札のカードの組み合わせの強さを競うゲームです。</p>
+  <h3>ゲームの流れ</h3>
+  <ol>
+    <li>最初に、各プレイヤーにカードが配られます。</li>
+    <li>プレイヤーは、手札のカードを見て、賭け金を出し合います。</li>
+    <li>賭けが終わったら、不要なカードを捨てて、新しいカードと交換することができます。</li>
+    <li>最後に、全員で手札を公開し、一番強い役の人が勝ちとなります。</li>
+  </ol>
+  <h3>役の強さ</h3>
+  <p>役の強さは、以下の通りです。(強い順)</p>
+  <ul>
+    <li>ロイヤルストレートフラッシュ：同じマークの10、J、Q、K、A</li>
+    <li>ストレートフラッシュ：同じマークの連続した5枚</li>
+    <li>フォーカード：同じ数字のカードが4枚</li>
+    <li>フルハウス：スリーカードとワンペア</li>
+    <li>フラッシュ：同じマークの5枚</li>
+    <li>ストレート：連続した数字の5枚</li>
+    <li>スリーカード：同じ数字のカードが3枚</li>
+    <li>ツーペア：2組のペア</li>
+    <li>ワンペア：同じ数字のカードが2枚</li>
+    <li>ハイカード：上記以外の役がない場合、一番数字の大きいカード</li>
+  </ul>
+  <p>詳しくは、当日スタッフにお尋ねください。</p>
+</div>
+
+<div id="blackjack" class="game-section">
+  <h2>ブラックジャック</h2>
+  <p>ブラックジャックは、手札のカードの合計が21に近い方が勝ちとなるゲームです。ただし、21を超えると負けとなります。</p>
+  <h3>ゲームの流れ</h3>
+  <ol>
+    <li>最初に、プレイヤーとディーラーにそれぞれ2枚のカードが配られます。</li>
+    <li>プレイヤーは、手札の合計を見ながら、カードを追加で引くか、そのままにするかを選びます。</li>
+    <li>プレイヤーがカードを引かなくなったら、ディーラーがカードを引きます。ディーラーは、手札の合計が17以上になるまでカードを引かなければなりません。</li>
+    <li>最後に、プレイヤーとディーラーの手札の合計を比較し、21により近い方が勝ちとなります。</li>
+  </ol>
+  <h3>カードの点数</h3>
+  <ul>
+    <li>2～10：数字通りの点数</li>
+    <li>J、Q、K：10点</li>
+    <li>A：1点または11点（状況によって有利な方を選べます）</li>
+  </ul>
+  <p>詳しくは、当日スタッフにお尋ねください。</p>
+</div>
+
+<br>
+<a href="index.html">ホームに戻る</a>
+
+<script>
+function showGame(game) {
+  var pokerSection = document.getElementById('poker');
+  var blackjackSection = document.getElementById('blackjack');
+
+  pokerSection.classList.remove('active');
+  blackjackSection.classList.remove('active');
+
+  if (game === 'poker') {
+    pokerSection.classList.add('active');
+  } else if (game === 'blackjack') {
+    blackjackSection.classList.add('active');
+  }
+}
+</script>
+
+</body>
+</html>
