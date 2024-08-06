@@ -121,10 +121,18 @@
         #summaryTable th {
             background-color: #333;
         }
+        #loading-text {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .loading #loading-text {
+            opacity: 1;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body class="loading">
 
 <header onclick="location.href='index.html'">
     <h1>3Dカジノ</h1>
@@ -139,7 +147,9 @@
         <button onclick="fetchPlayerData()">ID検索</button>
         <button onclick="clearPlayerData()">クリア</button>
     </div>
+
     <p id="loading-text">あ</p>
+
     <div id="playerScore" class="player-score" style="display:none;">
         <h3>あなたのスコア</h3>
         <table>
@@ -361,6 +371,10 @@
     }
 
     fetchData();
+
+    window.onload = function() {
+        document.body.classList.remove('loading');
+    };
 </script>
 
 </body>
