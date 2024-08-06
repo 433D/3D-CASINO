@@ -69,6 +69,7 @@
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
+            font-size: 1.2em; /* フォントサイズを大きく */
         }
         th {
             background-color: #333;
@@ -106,6 +107,20 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        #summaryTable {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        #summaryTable th, #summaryTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 1.2em; /* フォントサイズを大きく */
+        }
+        #summaryTable th {
+            background-color: #333;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -116,7 +131,7 @@
 </header>
 
 <div class="container">
-    <h3>ランキング</h3>
+    <h2>ランキング</h2>
     <p class="fade-in">ランキングを確認しましょう</p>
     <button class="button" onclick="location.href='index.html'">ホームに戻る</button>
     <div class="score-section">
@@ -145,6 +160,22 @@
             </tbody>
         </table>
     </div>
+
+    <table id="summaryTable">
+        <thead>
+            <tr>
+                <th>参加人数</th>
+                <th>平均スコア</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="totalPlayers"></td>
+                <td id="averageScore"></td>
+            </tr>
+        </tbody>
+    </table>
+
     <table id="rankingTable">
         <thead>
             <tr>
@@ -179,6 +210,7 @@
                 players.sort((a, b) => b.score - a.score);
                 displayPlayers(players);
                 displayChart(players);
+                displaySummary(players);
             })
             .catch(error => console.error('Error fetching data:', error));
     }
@@ -221,7 +253,19 @@
         let currentRank = 1;
         let previousScore = null;
 
-        players.slice(0, 10).forEach((player, index) => {
+        // 10位までではなく、10位以内を全て表示
+        let playersToShow = players.filter((player, index) => {
+            if (previousScore !== null && player.score !== previousScore) {
+                currentRank = index + 1;
+            }
+            previousScore = player.score;
+            return currentRank <= 10;
+        });
+
+        currentRank = 1;
+        previousScore = null;
+
+        playersToShow.forEach((player, index) => {
             // 同点の場合、同じランクを付与
             if (previousScore !== null && player.score !== previousScore) {
                 currentRank = index + 1;
@@ -263,8 +307,15 @@
             scoreCounts[score] = (scoreCounts[score] || 0) + 1;
         });
 
-        const scoreLabels = Object.keys(scoreCounts).sort((a, b) => a - b);
-        const scoreData = scoreLabels.map(score => scoreCounts[score]);
+        // グラフの横軸を連続した値にする
+        let minScore = Math.min(...scores);
+        let maxScore = Math.max(...scores);
+        let scoreLabels = [];
+        for (let i = minScore; i <= maxScore; i++) {
+            scoreLabels.push(i);
+        }
+
+        const scoreData = scoreLabels.map(score => scoreCounts[score] || 0);
 
         new Chart(ctx, {
             type: 'line',
@@ -298,6 +349,14 @@
                 }
             }
         });
+    }
+
+    function displaySummary(players) {
+        let totalPlayers = players.length;
+        let averageScore = players.reduce((sum, player) => sum + player.score, 0) / totalPlayers;
+
+        document.getElementById('totalPlayers').textContent = totalPlayers;
+        document.getElementById('averageScore').textContent = averageScore.toFixed(2);
     }
 
     fetchData();
