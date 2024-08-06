@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>チンチロリンのルール</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&display=swap">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+        }
+        header {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .container {
+            padding: 20px;
+        }
+        .button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            display: none;
+        }
+        .content.active {
+            display: block;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+        }
+        .fade-in {
+            animation: fadeIn 2s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<header onclick="location.href='index.html'">
+    <h1>3Dカジノ</h1>
+</header>
+
+<div class="container">
+    <p class="fade-in">3Dカジノではチンチロリンが遊べます</p>
+    <button class="button" onclick="showContent('chinchirorin')">チンチロリンのルール</button>
+    <button class="button" onclick="location.href='index.html'">ホームに戻る</button>
+
+    <div id="chinchirorin" class="content active">
+        <h2>チンチロリン</h2>
+        <p>チンチロリンは、3つのサイコロを振って出た目で勝負する、シンプルなゲームです。</p>
+
+        <h3>ゲームの流れ</h3>
+        <ol>
+            <li>親を決めます。(最初はじゃんけんなどで)</li>
+            <li>親はサイコロを3つ、見えないようにカップに入れて振ります。</li>
+            <li>親は出た目を確認し、他のプレイヤーにバレないように結果を宣言します。(嘘をついてもOK！)</li>
+            <li>親の左隣のプレイヤーから順番に、親の宣言を信じるか疑うか選択します。</li>
+            <ul>
+                <li>信じる場合：自分もサイコロを振り、親よりも強い目を出せば勝ち、親と同じか弱い目なら負けです。</li>
+                <li>疑う場合：親はカップを開けて出た目を公開します。親の宣言が本当なら疑った人が負け、嘘なら親が負けです。</li>
+            </ul>
+            <li>負けた人は親になります。勝った人はそのまま続けます。</li>
+        </ol>
+
+        <h3>役と強さ</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>役</th>
+                    <th>出目</th>
+                    <th>説明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ピンゾロ</td>
+                    <td>1-1-1</td>
+                    <td>最強の役！無条件で勝ちです。</td>
+                </tr>
+                <tr>
+                    <td>ゾロ目</td>
+                    <td>同じ目が3つ (例：2-2-2, 3-3-3など)</td>
+                    <td>ピンゾロの次に強い役です。</td>
+                </tr>
+                <tr>
+                    <td>4-5-6</td>
+                    <td>4-5-6</td>
+                    <td>ゾロ目の次に強い役です。</td>
+                </tr>
+                <tr>
+                    <td>1-2-3</td>
+                    <td>1-2-3</td>
+                    <td>最弱の役です。</td>
+                </tr>
+                <tr>
+                    <td>数字の合計</td>
+                    <td>それ以外の場合</td>
+                    <td>出目の合計が大きい方が強い役です。(例：5-3-2は合計10)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>詳しくは、当日スタッフにお尋ねください。</p>
+    </div>
+</div>
+
+<script>
+    function showContent(contentId) {
+        var contents = document.querySelectorAll('.content');
+        contents.forEach(function(content) {
+            content.classList.remove('active');
+        });
+        document.getElementById(contentId).classList.add('active');
+    }
+</script>
+
+</body>
+</html>
