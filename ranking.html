@@ -42,6 +42,17 @@
         .button:hover {
             background-color: #0056b3;
         }
+        .button-group {
+            margin-bottom: 20px;
+        }
+        .button.active {
+            background-color: #fff;
+            color: #007BFF;
+        }
+        .button.inactive {
+            background-color: #ccc;
+            color: #666;
+        }
         .score-section input {
             padding: 10px;
             margin: 10px 0;
@@ -148,6 +159,12 @@
     <h2>ランキング</h2>
     <p class="fade-in">ランキングを確認しましょう</p>
     <button class="button" onclick="location.href='index.html'">ホームに戻る</button>
+
+    <div class="button-group">
+        <button class="button active" id="top10Button" onclick="showTop10()">TOP10</button>
+        <button class="button inactive" id="allButton" onclick="showAll()">全体</button>
+    </div>
+
     <div class="score-section">
         <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
         <button onclick="fetchPlayerData()">ID検索</button>
@@ -158,50 +175,50 @@
         <h3>あなたのスコア</h3>
         <table>
             <thead>
-                <tr>
-                    <th>ランク</th>
-                    <th>プレイヤー</th>
-                    <th>スコア</th>
-                    <th>偏差値</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td id="playerRank"></td>
-                    <td id="playerName"></td>
-                    <td id="playerScoreValue"></td>
-                    <td id="playerStandardScore"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <table id="summaryTable">
-        <thead>
-            <tr>
-                <th>参加人数</th>
-                <th>平均スコア</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td id="totalPlayers"></td>
-                <td id="averageScore"></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <table id="rankingTable">
-        <thead>
             <tr>
                 <th>ランク</th>
                 <th>プレイヤー</th>
                 <th>スコア</th>
                 <th>偏差値</th>
             </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td id="playerRank"></td>
+                <td id="playerName"></td>
+                <td id="playerScoreValue"></td>
+                <td id="playerStandardScore"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <table id="summaryTable">
+        <thead>
+        <tr>
+            <th>参加人数</th>
+            <th>平均スコア</th>
+        </tr>
         </thead>
         <tbody>
-            <!-- プレイヤーデータがここに挿入されます -->
+        <tr>
+            <td id="totalPlayers"></td>
+            <td id="averageScore"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table id="rankingTable">
+        <thead>
+        <tr>
+            <th>ランク</th>
+            <th>プレイヤー</th>
+            <th>スコア</th>
+            <th>偏差値</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- プレイヤーデータがここに挿入されます -->
         </tbody>
     </table>
     <canvas id="scoreChart" width="800" height="400"></canvas>
@@ -212,20 +229,22 @@
     const SHEET_NAME = 'Sheet1';
     const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
+    let allPlayers = []; // 全プレイヤーデータを格納する変数
+
     function fetchData() {
         fetch(URL)
             .then(response => response.text())
             .then(data => {
                 const jsonData = JSON.parse(data.substr(47).slice(0, -2));
                 const rows = jsonData.table.rows;
-                let players = rows.map(row => ({
+                allPlayers = rows.map(row => ({
                     name: row.c[0].v,
                     score: parseInt(row.c[1].v)
                 }));
-                players.sort((a, b) => b.score - a.score);
-                displayPlayers(players);
-                displayChart(players);
-                displaySummary(players);
+                allPlayers.sort((a, b) => b.score - a.score);
+                showTop10(); // デフォルトでTOP10を表示
+                displayChart(allPlayers);
+                displaySummary(allPlayers);
             })
             .catch(error => console.error('Error fetching data:', error));
     }
@@ -268,19 +287,7 @@
         let currentRank = 1;
         let previousScore = null;
 
-        // 10位までではなく、10位以内を全て表示
-        let playersToShow = players.filter((player, index) => {
-            if (previousScore !== null && player.score !== previousScore) {
-                currentRank = index + 1;
-            }
-            previousScore = player.score;
-            return currentRank <= 10;
-        });
-
-        currentRank = 1;
-        previousScore = null;
-
-        playersToShow.forEach((player, index) => {
+        players.forEach((player, index) => {
             // 同点の場合、同じランクを付与
             if (previousScore !== null && player.score !== previousScore) {
                 currentRank = index + 1;
@@ -300,7 +307,7 @@
 
             row.insertCell(1).textContent = player.name;
             row.insertCell(2).textContent = player.score;
-            row.insertCell(3).textContent = calculateStandardScore(player.score, players);
+            row.insertCell(3).textContent = calculateStandardScore(player.score, allPlayers);
 
             previousScore = player.score;
         });
@@ -373,6 +380,23 @@
         document.getElementById('totalPlayers').textContent = totalPlayers;
         document.getElementById('averageScore').textContent = averageScore.toFixed(2);
     }
+
+    function showTop10() {
+        displayPlayers(allPlayers.slice(0, 10));
+        document.getElementById('top10Button').classList.add('active');
+        document.getElementById('top10Button').classList.remove('inactive');
+        document.getElementById('allButton').classList.add('inactive');
+        document.getElementById('allButton').classList.remove('active');
+    }
+
+    function showAll() {
+        displayPlayers(allPlayers);
+        document.getElementById('allButton').classList.add('active');
+        document.getElementById('allButton').classList.remove('inactive');
+        document.getElementById('top10Button').classList.add('inactive');
+        document.getElementById('top10Button').classList.remove('active');
+    }
+
 
     fetchData();
 
