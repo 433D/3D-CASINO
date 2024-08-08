@@ -80,7 +80,7 @@
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
-            font-size: 1.2em; /* フォントサイズを大きく */
+            font-size: 1.2em;
         }
         th {
             background-color: #333;
@@ -127,27 +127,39 @@
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
-            font-size: 1.2em; /* フォントサイズを大きく */
+            font-size: 1.2em;
         }
         #summaryTable th {
             background-color: #333;
         }
         #loading-text {
             opacity: 0;
-            animation: fadeInOut 2s 2 ; /* アニメーションを2秒に設定 */
+            animation: fadeInOut 2s 2;
         }
-
         .loading #loading-text {
             opacity: 1;
         }
-
         @keyframes fadeInOut {
             0% { opacity: 0; }
             50% { opacity: 1; }
             100% { opacity: 0; }
         }
+        .pagination {
+            margin: 20px;
+        }
+        .pagination button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+        }
+        .pagination button:hover {
+            background-color: #0056b3;
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="loading">
 
@@ -221,7 +233,7 @@
         <!-- プレイヤーデータがここに挿入されます -->
         </tbody>
     </table>
-    <canvas id="scoreChart" width="800" height="400"></canvas>
+    <div class="pagination" id="pagination"></div>
 </div>
 
 <script>
@@ -229,7 +241,9 @@
     const SHEET_NAME = 'Sheet1';
     const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
-    let allPlayers = []; // 全プレイヤーデータを格納する変数
+    let allPlayers = [];
+    let currentPage = 1;
+    const itemsPerPage = 100;
 
     function fetchData() {
         fetch(URL)
@@ -242,9 +256,9 @@
                     score: parseInt(row.c[1].v)
                 }));
                 allPlayers.sort((a, b) => b.score - a.score);
-                showTop10(); // デフォルトでTOP10を表示
-                displayChart(allPlayers);
+                showTop10();
                 displaySummary(allPlayers);
+                createPagination();
             })
             .catch(error => console.error('Error fetching data:', error));
     }
@@ -280,17 +294,20 @@
         document.getElementById('playerScore').style.display = 'none';
     }
 
-    function displayPlayers(players) {
+    function displayPlayers(players, page = 1) {
         let tbody = document.getElementById('rankingTable').getElementsByTagName('tbody')[0];
         tbody.innerHTML = '';
 
-        let currentRank = 1;
+        let startIndex = (page - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
+        let currentPlayers = players.slice(startIndex, endIndex);
+
+        let currentRank = startIndex + 1;
         let previousScore = null;
 
-        players.forEach((player, index) => {
-            // 同点の場合、同じランクを付与
+        currentPlayers.forEach((player, index) => {
             if (previousScore !== null && player.score !== previousScore) {
-                currentRank = index + 1;
+                currentRank = startIndex + index + 1;
             }
 
             let row = tbody.insertRow();
@@ -320,59 +337,6 @@
         return standardScore.toFixed(2);
     }
 
-    function displayChart(players) {
-        const ctx = document.getElementById('scoreChart').getContext('2d');
-        const scores = players.map(player => player.score);
-
-        const scoreCounts = {};
-        scores.forEach(score => {
-            scoreCounts[score] = (scoreCounts[score] || 0) + 1;
-        });
-
-        // グラフの横軸を連続した値にする
-        let minScore = Math.min(...scores);
-        let maxScore = Math.max(...scores);
-        let scoreLabels = [];
-        for (let i = minScore; i <= maxScore; i++) {
-            scoreLabels.push(i);
-        }
-
-        const scoreData = scoreLabels.map(score => scoreCounts[score] || 0);
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: scoreLabels,
-                datasets: [{
-                    label: 'スコアの度数分布',
-                    data: scoreData,
-                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                    borderColor: 'rgba(0, 123, 255, 1)',
-                    borderWidth: 2,
-                    fill: false,
-                    tension: 0.4 // Make the line smooth
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'スコア'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: '人数'
-                        },
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    }
-
     function displaySummary(players) {
         let totalPlayers = players.length;
         let averageScore = players.reduce((sum, player) => sum + player.score, 0) / totalPlayers;
@@ -387,16 +351,33 @@
         document.getElementById('top10Button').classList.remove('inactive');
         document.getElementById('allButton').classList.add('inactive');
         document.getElementById('allButton').classList.remove('active');
+        document.getElementById('pagination').style.display = 'none';
     }
 
     function showAll() {
-        displayPlayers(allPlayers);
-        document.getElementById('allButton').classList.add('active');
-        document.getElementById('allButton').classList.remove('inactive');
+        displayPlayers(allPlayers, currentPage);
         document.getElementById('top10Button').classList.add('inactive');
         document.getElementById('top10Button').classList.remove('active');
+        document.getElementById('allButton').classList.add('active');
+        document.getElementById('allButton').classList.remove('inactive');
+        document.getElementById('pagination').style.display = 'block';
     }
 
+    function createPagination() {
+        const totalPages = Math.ceil(allPlayers.length / itemsPerPage);
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            let button = document.createElement('button');
+            button.textContent = i;
+            button.onclick = function() {
+                currentPage = i;
+                displayPlayers(allPlayers, currentPage);
+            };
+            pagination.appendChild(button);
+        }
+    }
 
     fetchData();
 
