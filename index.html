@@ -11,7 +11,6 @@
             padding: 0;
             background-color: #111;
             color: #fff;
-            text-align: center;
         }
         header {
             background-color: #333;
@@ -26,13 +25,9 @@
             color: silver;
         }
         .header-menu {
-            position: absolute;
-            top: 1.25rem; /* ヘッダー内の位置調整 */
-            left: 50%;
-            transform: translateX(-50%);
+            margin-top: 1rem;
             display: flex;
-            justify-content: space-between;
-            width: 70%;
+            justify-content: space-evenly;
         }
         .header-menu a {
             color: silver;
@@ -46,13 +41,14 @@
         }
         .container {
             padding: 1.25rem; /* 20pxを相対的に */
+            text-align: center;
         }
         .introduction h2 {
             font-size: 4rem; /* 大きなフォントサイズに変更 */
             margin-bottom: 2rem; /* 40pxを相対的に */
             font-family: 'Dancing Script', cursive;
             color: #aaa;
-            text-align: center; /* 中央揃え */
+            text-align: center;
         }
         .introduction h2 span:first-child {
             opacity: 0;
