@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>チンチロリンのルール</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
+    <link rel="icon" href="favicon.ico">
     <style>
         body {
             font-family: 'Raleway', sans-serif;
@@ -21,15 +22,16 @@
         header h1 {
             margin: 0;
             font-size: 2.5em;
+            font-family: 'Dancing Script', cursive;
         }
         .container {
             padding: 20px;
         }
         .button {
-            background-color: #007BFF;
-            color: #fff;
+            background-color: #ffffff;
+            color: #000;
             border: none;
-            padding: 10px 20px;
+            padding: 15px 30px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
@@ -37,9 +39,13 @@
             margin: 10px 5px;
             cursor: pointer;
             border-radius: 5px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: 'Dancing Script', cursive;
         }
         .button:hover {
-            background-color: #0056b3;
+            background-color: #e0e0e0;
         }
         .content {
             display: none;
@@ -51,6 +57,7 @@
             width: 80%;
             margin: 20px auto;
             border-collapse: collapse;
+            font-family: 'Arial', sans-serif;
         }
         th, td {
             border: 1px solid #ddd;
@@ -59,6 +66,9 @@
         }
         th {
             background-color: #333;
+        }
+        td:nth-child(2) {
+            font-family: 'Arial', sans-serif; /* 数字のフォントをゴシック体に変更 */
         }
         .fade-in {
             animation: fadeIn 2s;
@@ -72,13 +82,13 @@
 <body>
 
 <header onclick="location.href='index.html'">
-    <h1>3Dカジノ</h1>
+    <h1>3D CASINO</h1>
 </header>
 
 <div class="container">
     <p class="fade-in">3Dカジノではチンチロリンが遊べます</p>
     <button class="button" onclick="showContent('chinchirorin')">チンチロリンのルール</button>
-    <button class="button" onclick="location.href='index.html'">ホームに戻る</button>
+    <button class="button" onclick="location.href='index.html'">Back to Home</button>
 
     <div id="chinchirorin" class="content active">
         <h2>チンチロリン</h2>
