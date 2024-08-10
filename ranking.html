@@ -35,11 +35,11 @@
             background-color: #007BFF;
             color: #fff;
             border: none;
-            padding: 0.625rem 1.25rem; /* 10px 20pxを相対的に */
+            padding: 1rem 2rem; /* ボタンを大きく */
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 1.25rem; /* 16pxを相対的に */
+            font-size: 1.5rem; /* ボタンのテキストも大きく */
             margin: 0.625rem 0.3125rem; /* 10px 5pxを相対的に */
             cursor: pointer;
             border-radius: 0.3125rem; /* 5pxを相対的に */
@@ -59,13 +59,15 @@
             color: #666;
         }
         .score-section input {
-            padding: 0.625rem; /* 10pxを相対的に */
+            padding: 1rem; /* 入力欄を大きく */
             margin: 0.625rem 0; /* 10pxを相対的に */
-            font-size: 1rem; /* 基準フォントサイズ */
+            font-size: 1.5rem; /* 入力欄のフォントサイズも大きく */
+            width: 80%; /* スマホでの操作を考慮 */
+            max-width: 400px;
         }
         .score-section button {
-            padding: 0.625rem 1.25rem; /* 10px 20pxを相対的に */
-            font-size: 1rem; /* 基準フォントサイズ */
+            padding: 1rem 2rem; /* ボタンを大きく */
+            font-size: 1.5rem; /* ボタンのテキストも大きく */
             background-color: #007BFF;
             color: #fff;
             border: none;
@@ -154,7 +156,8 @@
             margin: 1.25rem; /* 20pxを相対的に */
         }
         .pagination button {
-            padding: 0.625rem; /* 10pxを相対的に */
+            padding: 1rem 2rem; /* ボタンを大きく */
+            font-size: 1.5rem; /* ボタンのテキストも大きく */
             margin: 0.3125rem; /* 5pxを相対的に */
             cursor: pointer;
             border-radius: 0.3125rem; /* 5pxを相対的に */
@@ -308,6 +311,7 @@
 
     function clearPlayerData() {
         document.getElementById('playerScore').style.display = 'none';
+        document.getElementById('playerId').value = ''; // プレイヤーIDの入力欄をクリア
     }
 
     function displayPlayers(players, page = 1) {
