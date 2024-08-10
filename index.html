@@ -29,7 +29,7 @@
         }
         .introduction h2 {
             font-size: 4rem; /* 大きなフォントサイズに変更 */
-            margin-bottom: 1.25rem; /* 20pxを相対的に */
+            margin-bottom: 2rem; /* 40pxを相対的に */
             font-family: 'Dancing Script', cursive;
             color: #aaa;
             text-align: center; /* 中央揃え */
@@ -51,9 +51,9 @@
             font-family: 'Dancing Script', cursive;
             color: gold;
             font-size: 3.5rem; /* セクションタイトルを大きく */
-            margin: 2rem 0; /* ルーレットとランキングの間にスペース */
+            margin: 3rem 0; /* スペースを広げる */
             opacity: 0;
-            animation: fadeIn 2s forwards 4s; /* フェードインアニメーション */
+            transition: opacity 2s ease-in-out, transform 2s ease-in-out;
         }
         @keyframes fadeIn {
             from {
@@ -141,6 +141,29 @@
             }
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sectionTitles = document.querySelectorAll('.section-title');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            sectionTitles.forEach(title => {
+                title.style.opacity = '0';
+                title.style.transform = 'translateY(20px)';
+                observer.observe(title);
+            });
+        });
+    </script>
 </head>
 <body>
 
