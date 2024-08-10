@@ -5,6 +5,9 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Dancing+Script&display=swap" rel="stylesheet">
     <style>
+        :root {
+            font-size: 16px; /* 基準となるフォントサイズ */
+        }
         body {
             font-family: 'Raleway', sans-serif;
             margin: 0;
@@ -12,39 +15,40 @@
             background-color: #111;
             color: #fff;
             text-align: center;
+            font-size: 1rem; /* 基準フォントサイズ */
         }
         header {
             background-color: #333;
-            padding: 20px;
+            padding: 1.25rem; /* 20pxを相対的に */
             text-align: center;
             cursor: pointer;
         }
         header h1 {
             margin: 0;
-            font-size: 2.5em;
+            font-size: 2.5rem; /* 大きな見出し */
             font-family: 'Dancing Script', cursive;
         }
         .container {
-            padding: 20px;
+            padding: 1.25rem; /* 20pxを相対的に */
         }
         .button {
             background-color: #007BFF;
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 0.625rem 1.25rem; /* 10px 20pxを相対的に */
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 1.5em;
-            margin: 10px 5px;
+            font-size: 1.25rem; /* 16pxを相対的に */
+            margin: 0.625rem 0.3125rem; /* 10px 5pxを相対的に */
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 0.3125rem; /* 5pxを相対的に */
         }
         .button:hover {
             background-color: #0056b3;
         }
         .button-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.25rem; /* 20pxを相対的に */
         }
         .button.active {
             background-color: #fff;
@@ -55,34 +59,34 @@
             color: #666;
         }
         .score-section input {
-            padding: 1em;
-            margin: 10px 0;
-            font-size: 1.2em;
+            padding: 0.625rem; /* 10pxを相対的に */
+            margin: 0.625rem 0; /* 10pxを相対的に */
+            font-size: 1rem; /* 基準フォントサイズ */
         }
         .score-section button {
-            padding: 1em 2em;
-            font-size: 1.2em;
+            padding: 0.625rem 1.25rem; /* 10px 20pxを相対的に */
+            font-size: 1rem; /* 基準フォントサイズ */
             background-color: #007BFF;
             color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 0.3125rem; /* 5pxを相対的に */
             cursor: pointer;
-            margin: 5px;
+            margin: 0.3125rem; /* 5pxを相対的に */
         }
         .score-section button:hover {
             background-color: #0056b3;
         }
         table {
             width: 80%;
-            margin: 20px auto;
+            margin: 1.25rem auto; /* 20pxを相対的に */
             border-collapse: collapse;
             font-family: 'Arial', sans-serif; /* 数字のフォントをゴシック体に変更 */
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 0.5rem; /* 8pxを相対的に */
             text-align: left;
-            font-size: 1.2em;
+            font-size: 1.25rem; /* 1.2emで相対的に */
         }
         th {
             background-color: #333;
@@ -98,11 +102,11 @@
         }
         .player-score {
             background-color: #007BFF;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
+            padding: 0.625rem; /* 10pxを相対的に */
+            border-radius: 0.3125rem; /* 5pxを相対的に */
+            margin-top: 1.25rem; /* 20pxを相対的に */
             width: 80%;
-            margin: 20px auto;
+            margin: 1.25rem auto; /* 20pxを相対的に */
         }
         .player-score h3 {
             margin-top: 0;
@@ -122,14 +126,14 @@
         }
         #summaryTable {
             width: 80%;
-            margin: 20px auto;
+            margin: 1.25rem auto; /* 20pxを相対的に */
             border-collapse: collapse;
         }
         #summaryTable th, #summaryTable td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 0.5rem; /* 8pxを相対的に */
             text-align: left;
-            font-size: 1.2em;
+            font-size: 1.25rem; /* 1.2emで相対的に */
         }
         #summaryTable th {
             background-color: #333;
@@ -147,13 +151,13 @@
             100% { opacity: 0; }
         }
         .pagination {
-            margin: 20px;
+            margin: 1.25rem; /* 20pxを相対的に */
         }
         .pagination button {
-            padding: 1em;
-            margin: 5px;
+            padding: 0.625rem; /* 10pxを相対的に */
+            margin: 0.3125rem; /* 5pxを相対的に */
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 0.3125rem; /* 5pxを相対的に */
             background-color: #007BFF;
             color: #fff;
             border: none;
@@ -163,13 +167,13 @@
         }
         .button.back-to-home {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 1.25rem; /* 20pxを相対的に */
+            right: 1.25rem; /* 20pxを相対的に */
             background-color: #ffffff;
             color: #000;
             font-family: 'Dancing Script', cursive;
-            font-size: 1.5em;
-            padding: 1em 2em;
+            font-size: 1.5rem; /* 大きなフォントサイズ */
+            padding: 1rem 2rem; /* 大きなボタンに */
         }
     </style>
 </head>
