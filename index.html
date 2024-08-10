@@ -11,6 +11,7 @@
             padding: 0;
             background-color: #111;
             color: #fff;
+            text-align: center;
         }
         header {
             background-color: #333;
@@ -27,19 +28,19 @@
             text-align: center;
         }
         .introduction h2 {
-            font-size: 2rem;
-            margin-bottom: 0.625rem; /* 10pxを相対的に */
+            font-size: 4rem; /* 大きなフォントサイズに変更 */
+            margin-bottom: 1.25rem; /* 20pxを相対的に */
             font-family: 'Dancing Script', cursive;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
             color: #aaa;
             opacity: 0;
             animation: slideIn 2s forwards;
+            text-align: center; /* 中央揃え */
         }
         .introduction h2 span:last-child {
             color: #fff;
+            display: block;
             margin-top: 0.5rem;
+            font-size: 5rem; /* "3D CASINO"をさらに大きく */
         }
         @keyframes slideIn {
             from {
@@ -53,14 +54,10 @@
         }
         @media (max-width: 768px) {
             .introduction h2 {
-                font-size: 1.5rem;
-                text-align: left;
-            }
-            .introduction h2 span {
-                display: block;
+                font-size: 2.5rem; /* スマホ用にフォントサイズを調整 */
             }
             .introduction h2 span:last-child {
-                margin-top: 0.5rem;
+                font-size: 3.5rem; /* "3D CASINO"をさらに大きく */
             }
         }
         .game-section {
@@ -133,7 +130,6 @@
 <div class="container">
     <section class="introduction">
         <h2><span>Welcome to</span> <span>3D CASINO</span></h2>
-        <h3>タップしてルールを確認</h3>
     </section>
 
     <section class="game-section">
