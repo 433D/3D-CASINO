@@ -67,6 +67,19 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        #home-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: white; /* ボタンの色を白に変更 */
+            padding: 15px 25px; /* ボタンを少し大きく */
+        }
+        p {
+            text-align: left; /* pタグの文章を左寄せ */
+        }
+        table {
+            font-family: sans-serif; /* 数字のフォントをゴシック体に変更 */
+        }
     </style>
 </head>
 <body>
@@ -77,8 +90,7 @@
 
 <div class="container">
     <p class="fade-in">3Dカジノではルーレットが遊べます</p>
-    <button class="button" onclick="showContent('roulette')">ルーレットのルール</button>
-    <button class="button" onclick="location.href='index.html'">ホームに戻る</button>
+    <button id="home-button" onclick="location.href='index.html'">ホームに戻る</button>
 
     <div id="roulette" class="content active">
         <h2>ルーレット</h2>
@@ -159,15 +171,6 @@
     </div>
 </div>
 
-<script>
-    function showContent(contentId) {
-        var contents = document.querySelectorAll('.content');
-        contents.forEach(function(content) {
-            content.classList.remove('active');
-        });
-        document.getElementById(contentId).classList.add('active');
-    }
-</script>
 
 </body>
 </html>
