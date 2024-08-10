@@ -51,9 +51,12 @@
             font-family: 'Dancing Script', cursive;
             color: gold;
             font-size: 3.5rem; /* セクションタイトルを大きく */
-            margin: 3rem 0; /* スペースを広げる */
+            margin: 2rem 0; /* 40pxを相対的に */
             opacity: 0;
             transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+            text-align: center;
+            width: 100%;
+            display: block;
         }
         @keyframes fadeIn {
             from {
@@ -83,9 +86,8 @@
         }
         .game-section {
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1.25rem; /* 20pxを相対的に */
+            flex-direction: column;
+            align-items: center;
             margin: 1.25rem 0; /* 20pxを相対的に */
         }
         .game {
@@ -95,7 +97,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             text-align: center;
             flex: 1;
-            min-width: 45%;
+            min-width: 90%;
             max-width: 90%;
             height: auto;
             color: #fff;
@@ -126,7 +128,7 @@
             font-size: 1.5rem;
             cursor: pointer;
             flex: 1;
-            min-width: 45%;
+            min-width: 90%;
             max-width: 90%;
             height: auto;
             transition: transform 0.3s;
