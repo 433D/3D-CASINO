@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D CASINO</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
@@ -20,6 +22,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
+            cursor: pointer;
         }
         header h1 {
             margin: 0;
@@ -215,6 +218,12 @@
                     document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
                 });
             });
+
+            // ヘッダーのタイトルをクリックしたらページトップにスクロール
+            document.querySelector('header h1').addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
         });
     </script>
 </head>
