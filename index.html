@@ -49,19 +49,36 @@
             padding: 5rem 1.25rem 1.25rem; /* 上部にスペースを追加して固定ヘッダーに対応 */
             text-align: center;
         }
+        .introduction {
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            padding: 5rem 1rem; /* 背景画像のエリアを確保 */
+            position: relative;
+        }
+        .introduction::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 明るさを落とすためのオーバーレイ */
+            z-index: 0;
+        }
         .introduction h2 {
             font-size: 4rem; /* 大きなフォントサイズに変更 */
             margin-bottom: 2rem; /* 40pxを相対的に */
             font-family: 'Dancing Script', cursive;
-            color: #aaa;
-            text-align: center;
+            color: #fff;
+            position: relative;
+            z-index: 1;
         }
         .introduction h2 span:first-child {
             opacity: 0;
             animation: fadeIn 2s forwards;
         }
         .introduction h2 span:last-child {
-            color: #fff;
             display: block;
             margin-top: 0.5rem;
             font-size: 5rem; /* "3D CASINO"をさらに大きく */
@@ -69,64 +86,18 @@
             transform: translateY(20px); /* 初期位置を少し下に */
             animation: slideIn 2s forwards 2s; /* フェードイン後にスライド */
         }
-        .section-title {
-            font-family: 'Dancing Script', cursive;
-            color: gold;
-            font-size: 4rem; /* 見出しを大きく */
-            margin: 2rem 0; /* 40pxを相対的に */
-            opacity: 0;
-            transition: opacity 2s ease-in-out, transform 2s ease-in-out;
-            text-align: left; /* 左寄せに変更 */
-            padding-left: 1rem; /* 左にパディングを追加 */
-            display: inline-block;
-        }
-        .caption {
-            font-family: 'Dancing Script', cursive;
-            color: #bbb;
-            font-size: 3rem; /* 見出しよりも少し小さく */
-            opacity: 0;
-            display: inline-block;
-            vertical-align: bottom;
-            margin-left: 1rem;
-            animation: slideInCaption 2s forwards 2s; /* 見出しの後にスライドイン */
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes slideInCaption {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
         @media (max-width: 768px) {
+            .container {
+                padding-top: 6.5rem; /* スマホ用に上部のスペースを増やす */
+            }
+            .introduction {
+                padding: 7rem 1rem; /* スマホ用にWelcome to 3D CASINOをさらに下げる */
+            }
             .introduction h2 {
                 font-size: 2.5rem; /* スマホ用にフォントサイズを調整 */
             }
             .introduction h2 span:last-child {
                 font-size: 3.5rem; /* "3D CASINO"をさらに大きく */
-            }
-            .section-title, .caption {
-                font-size: 2rem;
             }
         }
         .game-section {
