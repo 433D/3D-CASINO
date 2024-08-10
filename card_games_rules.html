@@ -4,6 +4,7 @@
     <title>ポーカーとブラックジャックのルール</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap">
     <style>
         body {
             font-family: 'Raleway', sans-serif;
@@ -47,10 +48,15 @@
         .button:hover {
             background-color: #e0e0e0;
         }
+        .switch-container {
+            text-align: center;
+            margin: 40px 0;
+        }
         .switch {
             display: inline-block;
-            margin: 20px;
-            font-family: 'Dancing Script', cursive;
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1.5em;
+            margin: 0 10px;
         }
         .switch input {
             display: none;
@@ -58,29 +64,29 @@
         .slider {
             position: relative;
             display: inline-block;
-            width: 60px;
-            height: 34px;
+            width: 100px;
+            height: 50px;
             background-color: #ccc;
-            border-radius: 34px;
+            border-radius: 50px;
             cursor: pointer;
             transition: 0.4s;
         }
         .slider:before {
             content: "";
             position: absolute;
-            width: 26px;
-            height: 26px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background-color: white;
-            top: 4px;
-            left: 4px;
+            top: 5px;
+            left: 5px;
             transition: 0.4s;
         }
         input:checked + .slider {
             background-color: #007BFF;
         }
         input:checked + .slider:before {
-            transform: translateX(26px);
+            transform: translateX(50px);
         }
         .content {
             display: none;
@@ -92,14 +98,21 @@
             width: 80%;
             margin: 20px auto;
             border-collapse: collapse;
+            font-family: 'Arial', sans-serif;
         }
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
+            font-family: 'Noto Serif JP', serif; /* 数字のフォントを変更 */
         }
         th {
             background-color: #333;
+        }
+        td:nth-child(2) {
+            font-weight: bold;
+            font-size: 1.2em;
+            font-family: 'Noto Serif JP', serif;
         }
         .fade-in {
             animation: fadeIn 2s;
@@ -107,6 +120,11 @@
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+        .switch-description {
+            font-size: 1em;
+            margin-bottom: 20px;
+            font-family: 'Noto Serif JP', serif;
         }
     </style>
 </head>
@@ -117,16 +135,19 @@
 </header>
 
 <div class="container">
-    <p class="fade-in">3Dカジノではポーカーとブラックジャックが遊べます</p>
+    <p class="fade-in">当店ではポーカーとブラックジャックが遊べます</p>
+    
+    <!-- スイッチの説明 -->
+    <div class="switch-description">ポーカーとブラックジャックのルールを切り替えるには、以下のスイッチを使用してください。</div>
 
     <!-- スイッチ式のボタン -->
-    <div class="switch">
+    <div class="switch-container">
+        <span class="switch">ポーカー</span>
         <label>
-            ポーカー
             <input type="checkbox" id="toggleSwitch" onclick="toggleContent()">
             <span class="slider"></span>
-            ブラックジャック
         </label>
+        <span class="switch">ブラックジャック</span>
     </div>
 
     <button class="button" onclick="location.href='index.html'">Back to Home</button>
@@ -234,11 +255,11 @@
 
 <script>
     function toggleContent() {
-        var checkbox = document.getElementById('toggleSwitch');
+        var toggleSwitch = document.getElementById('toggleSwitch');
         var pokerContent = document.getElementById('poker');
         var blackjackContent = document.getElementById('blackjack');
-
-        if (checkbox.checked) {
+        
+        if (toggleSwitch.checked) {
             pokerContent.classList.remove('active');
             blackjackContent.classList.add('active');
         } else {
