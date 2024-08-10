@@ -22,6 +22,7 @@
         header h1 {
             margin: 0;
             font-size: 2.5em;
+            font-family: 'Dancing Script', cursive;
         }
         .container {
             padding: 20px;
@@ -34,7 +35,7 @@
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 16px;
+            font-size: 1.5em;
             margin: 10px 5px;
             cursor: pointer;
             border-radius: 5px;
@@ -54,13 +55,13 @@
             color: #666;
         }
         .score-section input {
-            padding: 10px;
+            padding: 1em;
             margin: 10px 0;
-            font-size: 1em;
+            font-size: 1.2em;
         }
         .score-section button {
-            padding: 10px 20px;
-            font-size: 1em;
+            padding: 1em 2em;
+            font-size: 1.2em;
             background-color: #007BFF;
             color: #fff;
             border: none;
@@ -75,6 +76,7 @@
             width: 80%;
             margin: 20px auto;
             border-collapse: collapse;
+            font-family: 'Arial', sans-serif; /* 数字のフォントをゴシック体に変更 */
         }
         th, td {
             border: 1px solid #ddd;
@@ -148,7 +150,7 @@
             margin: 20px;
         }
         .pagination button {
-            padding: 10px;
+            padding: 1em;
             margin: 5px;
             cursor: pointer;
             border-radius: 5px;
@@ -159,18 +161,28 @@
         .pagination button:hover {
             background-color: #0056b3;
         }
+        .button.back-to-home {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ffffff;
+            color: #000;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5em;
+            padding: 1em 2em;
+        }
     </style>
 </head>
 <body class="loading">
 
 <header onclick="location.href='index.html'">
-    <h1>3Dカジノ</h1>
+    <h1>3D CASINO</h1>
 </header>
 
 <div class="container">
     <h2>ランキング</h2>
     <p class="fade-in">ランキングを確認しましょう</p>
-    <button class="button" onclick="location.href='index.html'">ホームに戻る</button>
+    <button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
 
     <div class="button-group">
         <button class="button active" id="top10Button" onclick="showTop10()">TOP10</button>
