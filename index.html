@@ -17,11 +17,24 @@
             background-color: #333;
             padding: 1.25rem; /* 20pxを相対的に */
             text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         header h1 {
             margin: 0;
             font-size: 2.5rem; /* ヘッダーの大きさを他ページに合わせる */
             font-family: 'Dancing Script', cursive;
+        }
+        .nav-menu {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+        .nav-menu a {
+            color: #fff;
+            margin: 0 1rem;
+            text-decoration: none;
+            cursor: pointer;
         }
         .container {
             padding: 1.25rem; /* 20pxを相対的に */
@@ -50,13 +63,21 @@
         .section-title {
             font-family: 'Dancing Script', cursive;
             color: gold;
-            font-size: 3.5rem; /* セクションタイトルを大きく */
-            margin: 2rem 0; /* 40pxを相対的に */
+            font-size: 4rem; /* 見出しを大きく */
+            margin: 3rem 0 1rem 0; /* 上にスペース、下に少しスペース */
+            text-align: left; /* 左寄せ */
+            position: relative;
+        }
+        .section-title .catchphrase {
+            font-family: 'Raleway', sans-serif;
+            color: lightgray;
+            font-size: 2rem; /* キャッチコピーは少し小さめ */
             opacity: 0;
-            transition: opacity 2s ease-in-out, transform 2s ease-in-out;
-            text-align: center;
-            width: 100%;
-            display: block;
+            transform: translateX(-20px); /* 初期位置を少し左に */
+            animation: fadeInRight 2s forwards;
+            position: absolute;
+            left: 100%; /* 見出しの右側に配置 */
+            white-space: nowrap;
         }
         @keyframes fadeIn {
             from {
@@ -74,6 +95,16 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
         @media (max-width: 768px) {
@@ -150,8 +181,8 @@
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
+                        entry.target.querySelector('.catchphrase').style.opacity = '1';
+                        entry.target.querySelector('.catchphrase').style.transform = 'translateX(0)';
                         observer.unobserve(entry.target);
                     }
                 });
@@ -160,9 +191,20 @@
             });
 
             sectionTitles.forEach(title => {
-                title.style.opacity = '0';
-                title.style.transform = 'translateY(20px)';
+                const catchphrase = title.querySelector('.catchphrase');
+                if (catchphrase) {
+                    catchphrase.style.opacity = '0';
+                    catchphrase.style.transform = 'translateX(-20px)';
+                }
                 observer.observe(title);
+            });
+
+            document.querySelectorAll('.nav-menu a').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    target.scrollIntoView({ behavior: 'smooth' });
+                });
             });
         });
     </script>
@@ -171,6 +213,11 @@
 
 <header>
     <h1>3D CASINO</h1>
+    <nav class="nav-menu">
+        <a href="#games">Games</a>
+        <a href="#rankings">Rankings</a>
+        <a href="#promotions">Promotions</a>
+    </nav>
 </header>
 
 <div class="container">
@@ -178,8 +225,8 @@
         <h2><span>Welcome to</span> <span>3D CASINO</span></h2>
     </section>
 
-    <section class="game-section">
-        <h2 class="section-title">Games</h2>
+    <section id="games" class="game-section">
+        <h2 class="section-title">Games<span class="catchphrase"> - Thrilling experiences await!</span></h2>
         <div class="game" onclick="location.href='roulette_rules.html'">
             <img src="roulette.png" alt="Roulette">
             <h3>ルーレット</h3>
@@ -197,12 +244,21 @@
         </div>
     </section>
 
-    <section class="game-section">
-        <h2 class="section-title">Rankings</h2>
+    <section id="rankings" class="game-section">
+        <h2 class="section-title">Rankings<span class="catchphrase"> - See who's on top!</span></h2>
         <div class="game" onclick="location.href='ranking.html'">
             <img src="king.png" alt="Rankings">
             <h3>ランキング</h3>
             <p>ランキングを確認しましょう。</p>
+        </div>
+    </section>
+
+    <section id="promotions" class="game-section">
+        <h2 class="section-title">Promotions<span class="catchphrase"> - Exclusive offers for you!</span></h2>
+        <div class="game">
+            <img src="promo.png" alt="Promotions">
+            <h3>お得なキャンペーン</h3>
+            <p>期間限定のお得なキャンペーンをご覧ください。</p>
         </div>
     </section>
 </div>
