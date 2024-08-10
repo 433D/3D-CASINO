@@ -32,24 +32,37 @@
             margin-bottom: 1.25rem; /* 20pxを相対的に */
             font-family: 'Dancing Script', cursive;
             color: #aaa;
-            opacity: 0;
-            animation: slideIn 2s forwards;
             text-align: center; /* 中央揃え */
+        }
+        .introduction h2 span:first-child {
+            opacity: 0;
+            animation: fadeIn 2s forwards;
         }
         .introduction h2 span:last-child {
             color: #fff;
             display: block;
             margin-top: 0.5rem;
             font-size: 5rem; /* "3D CASINO"をさらに大きく */
+            opacity: 0;
+            transform: translateY(20px); /* 初期位置を少し下に */
+            animation: slideIn 2s forwards 2s; /* フェードイン後にスライド */
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateX(-100%);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateY(0);
             }
         }
         @media (max-width: 768px) {
