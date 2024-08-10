@@ -77,10 +77,10 @@
             left: 5px;
             transition: 0.4s;
         }
-        input:checked + .slider {
+        .slider.active {
             background-color: #007BFF;
         }
-        input:checked + .slider:before {
+        .slider.active:before {
             transform: translateX(50px);
         }
         .content {
@@ -117,10 +117,11 @@
             font-size: 1em;
             margin-bottom: 20px;
             font-family: 'Noto Serif JP', serif;
-            animation: fadeOut 4s forwards;
+            animation: fadeOut 8s forwards;
         }
         @keyframes fadeOut {
             0% { opacity: 1; }
+            75% { opacity: 1; } /* 表示を8秒間に設定 */
             100% { opacity: 0; visibility: hidden; }
         }
     </style>
@@ -140,7 +141,7 @@
     <!-- スイッチ式のボタン -->
     <div class="switch-container">
         <span class="switch">ポーカー</span>
-        <label class="slider" onclick="toggleContent()"></label>
+        <div class="slider" onclick="toggleContent()"></div>
         <span class="switch">ブラックジャック</span>
     </div>
 
@@ -249,15 +250,18 @@
 
 <script>
     function toggleContent() {
+        var slider = document.querySelector('.slider');
         var pokerContent = document.getElementById('poker');
         var blackjackContent = document.getElementById('blackjack');
         
-        if (blackjackContent.classList.contains('active')) {
-            blackjackContent.classList.remove('active');
-            pokerContent.classList.add('active');
-        } else {
+        slider.classList.toggle('active');
+        
+        if (slider.classList.contains('active')) {
             pokerContent.classList.remove('active');
             blackjackContent.classList.add('active');
+        } else {
+            blackjackContent.classList.remove('active');
+            pokerContent.classList.add('active');
         }
     }
 </script>
