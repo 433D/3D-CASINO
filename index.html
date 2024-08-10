@@ -47,6 +47,14 @@
             transform: translateY(20px); /* 初期位置を少し下に */
             animation: slideIn 2s forwards 2s; /* フェードイン後にスライド */
         }
+        .section-title {
+            font-family: 'Dancing Script', cursive;
+            color: gold;
+            font-size: 3.5rem; /* セクションタイトルを大きく */
+            margin: 2rem 0; /* ルーレットとランキングの間にスペース */
+            opacity: 0;
+            animation: fadeIn 2s forwards 4s; /* フェードインアニメーション */
+        }
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -146,6 +154,7 @@
     </section>
 
     <section class="game-section">
+        <h2 class="section-title">Games</h2>
         <div class="game" onclick="location.href='roulette_rules.html'">
             <img src="roulette.png" alt="Roulette">
             <h3>ルーレット</h3>
@@ -161,10 +170,15 @@
             <h3>ダイスゲーム</h3>
             <p>シンプルで楽しいダイスゲームに挑戦しましょう。</p>
         </div>
+    </section>
+
+    <section class="game-section">
+        <h2 class="section-title">Rankings</h2>
         <div class="game" onclick="location.href='ranking.html'">
-            <img src="king.png" alt="Ranking">
+            <img src="king.png" alt="Rankings">
             <h3>ランキング</h3>
             <p>ランキングを確認しましょう。</p>
+        </div>
     </section>
 </div>
 
