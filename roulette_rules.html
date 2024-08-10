@@ -1,178 +1,179 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>3D CASINO</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
-<link rel="icon" href="favicon.ico">
-<style>
-body {
-font-family: 'Raleway', sans-serif;
-margin: 0;
-padding: 0;
-background-color: #111;
-color: #fff;
-text-align: center;
-}
-header {
-background-color: #333;
-padding: 20px;
-text-align: center;
-cursor: pointer;
-}
-header h1 {
-margin: 0;
-font-size: 2.5em;
-font-family: 'Dancing Script', cursive;
-}
-.container {
-padding: 20px;
-}
-.button {
-background-color: #ffffff;
-color: #000;
-border: none;
-padding: 15px 30px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-margin: 10px 5px;
-cursor: pointer;
-border-radius: 5px;
-position: fixed;
-bottom: 20px;
-right: 20px;
-font-family: 'Dancing Script', cursive;
-}
-.button:hover {
-background-color: #e0e0e0;
-}
-.content {
-display: none;
-}
-.content.active {
-display: block;
-}
-table {
-width: 80%;
-margin: 20px auto;
-border-collapse: collapse;
-font-family: 'Arial', sans-serif; /* 数字のテキストをゴシック体に変更 */
-}
-th, td {
-border: 1px solid #ddd;
-padding: 8px;
-text-align: left;
-}
-th {
-background-color: #333;
-}
-td:nth-child(3) {
-font-weight: bold; /* 配当の部分の数字を強調 */
-font-size: 1.2em;
-}
-.fade-in {
-animation: fadeIn 2s;
-}
-@keyframes fadeIn {
-from { opacity: 0; }
-to { opacity: 1; }
-}
-</style>
+    <title>3D CASINO</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
+    <link rel="icon" href="favicon.ico">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem; /* 基準フォントサイズ */
+        }
+        header {
+            background-color: #333;
+            padding: 1.25rem; /* 20pxを相対的に */
+            text-align: center;
+            cursor: pointer;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem; /* 大きな見出し */
+            font-family: 'Dancing Script', cursive;
+        }
+        .container {
+            padding: 1.25rem; /* 20pxを相対的に */
+        }
+        .button {
+            background-color: #ffffff;
+            color: #000;
+            border: none;
+            padding: 1rem 2rem; /* ボタンの大きさを相対的に */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.5rem; /* ボタンのフォントサイズも相対的に */
+            margin: 0.625rem 0.3125rem; /* 10px 5pxを相対的に */
+            cursor: pointer;
+            border-radius: 0.3125rem; /* 5pxを相対的に */
+            position: fixed;
+            bottom: 1.25rem; /* 20pxを相対的に */
+            right: 1.25rem; /* 20pxを相対的に */
+            font-family: 'Dancing Script', cursive;
+        }
+        .button:hover {
+            background-color: #e0e0e0;
+        }
+        .content {
+            display: none;
+        }
+        .content.active {
+            display: block;
+        }
+        table {
+            width: 80%;
+            margin: 1.25rem auto; /* 20pxを相対的に */
+            border-collapse: collapse;
+            font-family: 'Arial', sans-serif;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 0.5rem; /* 8pxを相対的に */
+            text-align: left;
+            font-size: 1.25rem; /* テーブルのフォントサイズも相対的に */
+        }
+        th {
+            background-color: #333;
+        }
+        td:nth-child(3) {
+            font-weight: bold; /* 配当の部分の数字を強調 */
+            font-size: 1.5rem; /* 数字をさらに強調 */
+        }
+        .fade-in {
+            animation: fadeIn 2s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
 <header onclick="location.href='index.html'">
-<h1>3D CASINO</h1>
+    <h1>3D CASINO</h1>
 </header>
 <div class="container">
-<p class="fade-in">当店ではルーレットが遊べます</p>
-<!-- 「ルーレットのルール」ボタンを削除 -->
-<button class="button" onclick="location.href='index.html'">Back to Home</button>
-<div id="roulette" class="content active">
-    <h2>ルーレット</h2>
-    <p>ルーレットは、回転する円盤に投げ入れられたボールがどの数字のポケットに入るかに賭けるゲームです。</p>
+    <p class="fade-in">当店ではルーレットが遊べます</p>
+    <button class="button" onclick="location.href='index.html'">Back to Home</button>
+    <div id="roulette" class="content active">
+        <h2>ルーレット</h2>
+        <p>ルーレットは、回転する円盤に投げ入れられたボールがどの数字のポケットに入るかに賭けるゲームです。</p>
 
-    <h3>ゲームの流れ</h3>
-    <ol>
-        <li>プレイヤーは、賭けたい場所にチップを置きます。</li>
-        <li>ディーラーがルーレットを回し、ボールを投げ入れます。</li>
-        <li>ボールがポケットに入ると、その数字と色が結果となります。</li>
-        <li>賭けが当たったプレイヤーは、配当を受け取ります。</li>
-    </ol>
+        <h3>ゲームの流れ</h3>
+        <ol>
+            <li>プレイヤーは、賭けたい場所にチップを置きます。</li>
+            <li>ディーラーがルーレットを回し、ボールを投げ入れます。</li>
+            <li>ボールがポケットに入ると、その数字と色が結果となります。</li>
+            <li>賭けが当たったプレイヤーは、配当を受け取ります。</li>
+        </ol>
 
-    <h3>賭けの種類</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>賭け方</th>
-                <th>説明</th>
-                <th>配当</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>ストレートアップ</td>
-                <td>特定の数字1つに賭ける</td>
-                <td>35倍</td>
-            </tr>
-            <tr>
-                <td>スプリット</td>
-                <td>隣り合った2つの数字に賭ける</td>
-                <td>17倍</td>
-            </tr>
-            <tr>
-                <td>ストリート</td>
-                <td>横1列の3つの数字に賭ける</td>
-                <td>11倍</td>
-            </tr>
-            <tr>
-                <td>コーナー</td>
-                <td>4つの数字が交わる角に賭ける</td>
-                <td>8倍</td>
-            </tr>
-            <tr>
-                <td>ライン</td>
-                <td>縦2列の6つの数字に賭ける</td>
-                <td>5倍</td>
-            </tr>
-            <tr>
-                <td>コラム</td>
-                <td>縦1列の12個の数字に賭ける</td>
-                <td>2倍</td>
-            </tr>
-            <tr>
-                <td>ダズン</td>
-                <td>12個ずつの数字のグループ（1-12, 13-24, 25-36）に賭ける</td>
-                <td>2倍</td>
-            </tr>
-            <tr>
-                <td>赤/黒</td>
-                <td>赤または黒の数字に賭ける</td>
-                <td>1倍</td>
-            </tr>
-            <tr>
-                <td>奇数/偶数</td>
-                <td>奇数または偶数の数字に賭ける</td>
-                <td>1倍</td>
-            </tr>
-            <tr>
-                <td>ハイ/ロー</td>
-                <td>1-18（ロー）または19-36（ハイ）の数字に賭ける</td>
-                <td>1倍</td>
-            </tr>
-        </tbody>
-    </table>
+        <h3>賭けの種類</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>賭け方</th>
+                    <th>説明</th>
+                    <th>配当</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ストレートアップ</td>
+                    <td>特定の数字1つに賭ける</td>
+                    <td>35倍</td>
+                </tr>
+                <tr>
+                    <td>スプリット</td>
+                    <td>隣り合った2つの数字に賭ける</td>
+                    <td>17倍</td>
+                </tr>
+                <tr>
+                    <td>ストリート</td>
+                    <td>横1列の3つの数字に賭ける</td>
+                    <td>11倍</td>
+                </tr>
+                <tr>
+                    <td>コーナー</td>
+                    <td>4つの数字が交わる角に賭ける</td>
+                    <td>8倍</td>
+                </tr>
+                <tr>
+                    <td>ライン</td>
+                    <td>縦2列の6つの数字に賭ける</td>
+                    <td>5倍</td>
+                </tr>
+                <tr>
+                    <td>コラム</td>
+                    <td>縦1列の12個の数字に賭ける</td>
+                    <td>2倍</td>
+                </tr>
+                <tr>
+                    <td>ダズン</td>
+                    <td>12個ずつの数字のグループ（1-12, 13-24, 25-36）に賭ける</td>
+                    <td>2倍</td>
+                </tr>
+                <tr>
+                    <td>赤/黒</td>
+                    <td>赤または黒の数字に賭ける</td>
+                    <td>1倍</td>
+                </tr>
+                <tr>
+                    <td>奇数/偶数</td>
+                    <td>奇数または偶数の数字に賭ける</td>
+                    <td>1倍</td>
+                </tr>
+                <tr>
+                    <td>ハイ/ロー</td>
+                    <td>1-18（ロー）または19-36（ハイ）の数字に賭ける</td>
+                    <td>1倍</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <p>詳しくは、当日スタッフにお尋ねください。</p>
-</div>
+        <p>詳しくは、当日スタッフにお尋ねください。</p>
+    </div>
 </div>
 <script>
 function showContent(contentId) {
-var contents = document.querySelectorAll('.content');
-contents.forEach(function(content) {
-content.classList.remove('active');
-});
-document.getElementById(contentId).classList.add('active');
+    var contents = document.querySelectorAll('.content');
+    contents.forEach(function(content) {
+        content.classList.remove('active');
+    });
+    document.getElementById(contentId).classList.add('active');
 }
 </script>
 </body>

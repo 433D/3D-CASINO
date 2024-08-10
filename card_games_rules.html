@@ -13,36 +13,37 @@
             background-color: #111;
             color: #fff;
             text-align: center;
+            font-size: 1rem; /* 基準フォントサイズ */
         }
         header {
             background-color: #333;
-            padding: 20px;
+            padding: 1.25rem; /* 20pxを相対的に */
             text-align: center;
             cursor: pointer;
         }
         header h1 {
             margin: 0;
-            font-size: 2.5em;
+            font-size: 2.5rem; /* 大きな見出し */
             font-family: 'Dancing Script', cursive;
         }
         .container {
-            padding: 20px;
+            padding: 1.25rem; /* 20pxを相対的に */
         }
         .button {
             background-color: #ffffff;
             color: #000;
             border: none;
-            padding: 15px 30px;
+            padding: 1rem 2rem; /* ボタンの大きさを相対的に */
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 16px;
-            margin: 10px 5px;
+            font-size: 1.5rem; /* ボタンのフォントサイズも相対的に */
+            margin: 0.625rem 0.3125rem; /* 10px 5pxを相対的に */
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 0.3125rem; /* 5pxを相対的に */
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 1.25rem; /* 20pxを相対的に */
+            right: 1.25rem; /* 20pxを相対的に */
             font-family: 'Dancing Script', cursive;
         }
         .button:hover {
@@ -50,39 +51,39 @@
         }
         .switch-container {
             text-align: center;
-            margin: 40px 0;
+            margin: 2.5rem 0;
         }
         .switch {
             font-family: 'Noto Serif JP', serif;
-            font-size: 1.5em;
-            margin: 0 10px;
+            font-size: 1.5rem; /* 相対的に大きく設定 */
+            margin: 0 0.625rem; /* 10pxを相対的に */
         }
         .slider {
             position: relative;
             display: inline-block;
-            width: 100px;
-            height: 50px;
+            width: 6.25rem; /* 100pxを相対的に */
+            height: 3.125rem; /* 50pxを相対的に */
             background-color: #ccc;
-            border-radius: 50px;
+            border-radius: 3.125rem; /* 50pxを相対的に */
             cursor: pointer;
             transition: 0.4s;
         }
         .slider:before {
             content: "";
             position: absolute;
-            width: 40px;
-            height: 40px;
+            width: 2.5rem; /* 40pxを相対的に */
+            height: 2.5rem; /* 40pxを相対的に */
             border-radius: 50%;
             background-color: white;
-            top: 5px;
-            left: 5px;
+            top: 0.3125rem; /* 5pxを相対的に */
+            left: 0.3125rem; /* 5pxを相対的に */
             transition: 0.4s;
         }
         .slider.active {
             background-color: #007BFF;
         }
         .slider.active:before {
-            transform: translateX(50px);
+            transform: translateX(3.125rem); /* 50pxを相対的に */
         }
         .content {
             display: none;
@@ -92,14 +93,15 @@
         }
         table {
             width: 80%;
-            margin: 20px auto;
+            margin: 1.25rem auto; /* 20pxを相対的に */
             border-collapse: collapse;
             font-family: 'Arial', sans-serif;
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 0.5rem; /* 8pxを相対的に */
             text-align: left;
+            font-size: 1.25rem; /* テーブルのフォントサイズも相対的に */
         }
         th {
             background-color: #333;
@@ -115,14 +117,14 @@
             to { opacity: 1; }
         }
         .switch-description {
-            font-size: 1em;
-            margin-bottom: 20px;
+            font-size: 1rem; /* 基準サイズに設定 */
+            margin-bottom: 1.25rem; /* 20pxを相対的に */
             font-family: 'Noto Serif JP', serif;
-            animation: fadeOut 8s forwards;
+            animation: fadeOut 16s forwards; /* 表示時間を2倍に */
         }
         @keyframes fadeOut {
             0% { opacity: 1; }
-            75% { opacity: 1; } /* 表示を8秒間に設定 */
+            75% { opacity: 1; } /* 表示を16秒間に設定 */
             100% { opacity: 0; visibility: hidden; }
         }
     </style>
