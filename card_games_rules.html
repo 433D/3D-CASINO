@@ -4,8 +4,6 @@
     <title>ポーカーとブラックジャックのルール</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap">
-    <link rel="icon" href="favicon.ico">
     <style>
         body {
             font-family: 'Raleway', sans-serif;
@@ -54,13 +52,9 @@
             margin: 40px 0;
         }
         .switch {
-            display: inline-block;
             font-family: 'Noto Serif JP', serif;
             font-size: 1.5em;
             margin: 0 10px;
-        }
-        .switch input {
-            display: none;
         }
         .slider {
             position: relative;
@@ -105,15 +99,12 @@
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
-            font-family: 'Noto Serif JP', serif; /* 数字のフォントを変更 */
         }
         th {
             background-color: #333;
         }
         td:nth-child(2) {
-            font-weight: bold;
-            font-size: 1.2em;
-            font-family: 'Noto Serif JP', serif;
+            font-family: 'Arial', sans-serif; /* 数字のフォントをゴシック体に変更 */
         }
         .fade-in {
             animation: fadeIn 2s;
@@ -126,6 +117,11 @@
             font-size: 1em;
             margin-bottom: 20px;
             font-family: 'Noto Serif JP', serif;
+            animation: fadeOut 4s forwards;
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
         }
     </style>
 </head>
@@ -136,7 +132,7 @@
 </header>
 
 <div class="container">
-    <p class="fade-in">当店ではポーカーとブラックジャックが遊べます</p>
+    <p class="fade-in">3Dカジノではポーカーとブラックジャックが遊べます</p>
     
     <!-- スイッチの説明 -->
     <div class="switch-description">ポーカーとブラックジャックのルールを切り替えるには、以下のスイッチを使用してください。</div>
@@ -144,10 +140,7 @@
     <!-- スイッチ式のボタン -->
     <div class="switch-container">
         <span class="switch">ポーカー</span>
-        <label>
-            <input type="checkbox" id="toggleSwitch" onclick="toggleContent()">
-            <span class="slider"></span>
-        </label>
+        <label class="slider" onclick="toggleContent()"></label>
         <span class="switch">ブラックジャック</span>
     </div>
 
@@ -256,16 +249,15 @@
 
 <script>
     function toggleContent() {
-        var toggleSwitch = document.getElementById('toggleSwitch');
         var pokerContent = document.getElementById('poker');
         var blackjackContent = document.getElementById('blackjack');
         
-        if (toggleSwitch.checked) {
-            pokerContent.classList.remove('active');
-            blackjackContent.classList.add('active');
-        } else {
+        if (blackjackContent.classList.contains('active')) {
             blackjackContent.classList.remove('active');
             pokerContent.classList.add('active');
+        } else {
+            pokerContent.classList.remove('active');
+            blackjackContent.classList.add('active');
         }
     }
 </script>
