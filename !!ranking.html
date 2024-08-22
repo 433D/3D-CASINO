@@ -296,7 +296,7 @@
                 const jsonData = JSON.parse(data.substr(47).slice(0, -2));
                 const rows = jsonData.table.rows;
                 allPlayers = rows.map(row => ({
-                    id: row.c[0].v, // A列（ID）
+                    id: Number(row.c[0].v), // A列（ID）
                     name: row.c[1].v, // B列（プレイヤー名）
                     score: parseInt(row.c[2].v) // C列（スコア）
                 }));
@@ -309,9 +309,9 @@
     }
 
     function fetchPlayerById() {
-        const searchId = document.getElementById('playerId').value.trim();
-        if (searchId === "") {
-            alert('IDを入力してください');
+        const searchId = Number(document.getElementById('playerId').value.trim());
+        if (isNaN(searchId)) {
+            alert('有効な数値IDを入力してください');
             return;
         }
         const matchedPlayers = allPlayers.filter(p => p.id === searchId);
@@ -330,7 +330,6 @@
             return;
         }
         const matchedPlayers = allPlayers.filter(p => p.name.includes(searchName));
-        matchedPlayers.sort((a, b) => b.name.includes(searchName) - a.name.includes(searchName));
 
         if (matchedPlayers.length > 0) {
             displayMatchedPlayers(matchedPlayers, allPlayers);
