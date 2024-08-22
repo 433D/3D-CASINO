@@ -255,24 +255,32 @@
     const itemsPerPage = 100;
     let searchById = true; // デフォルトではIDで検索
 
-    function fetchData() {
-        fetch(URL)
-            .then(response => response.text())
-            .then(data => {
-                const jsonData = JSON.parse(data.substr(47).slice(0, -2));
-                const rows = jsonData.table.rows;
-                allPlayers = rows.map(row => ({
-                    id: row.c[0].v, // A列（ID）
-                    name: row.c[1].v, // B列（プレイヤー名）
-                    score: parseInt(row.c[2].v) // C列（スコア）
-                }));
-                allPlayers.sort((a, b) => b.score - a.score);
-                showTop10();
-                displaySummary(allPlayers);
-                createPagination();
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }
+    function fetchPlayerData() {
+    const searchInput = document.getElementById('playerId').value.trim();
+    fetch(URL)
+        .then(response => response.text())
+        .then(data => {
+            const jsonData = JSON.parse(data.substr(47).slice(0, -2));
+            const rows = jsonData.table.rows;
+            let players = rows.map(row => ({
+                id: row.c[0].v, // A列（ID）
+                name: row.c[1].v, // B列（プレイヤー名）
+                score: parseInt(row.c[2].v) // C列（スコア）
+            }));
+            players.sort((a, b) => b.score - a.score);
+
+            // IDが一致するか、名前が部分一致するプレイヤーを検索
+            const matchedPlayers = players.filter(p => p.id === searchInput || p.name.includes(searchInput));
+
+            if (matchedPlayers.length > 0) {
+                displayMatchedPlayers(matchedPlayers, players);
+            } else {
+                alert('プレイヤーが見つかりません');
+            }
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
+
 
     function fetchPlayerData() {
         const searchInput = document.getElementById('playerInput').value;
