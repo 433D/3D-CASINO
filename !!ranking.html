@@ -47,37 +47,19 @@
         .button:hover {
             background-color: #0056b3;
         }
-        .button-group {
+        .button.selected {
+            background-color: #0056b3;
+            color: #fff;
+        }
+        .score-section {
+            display: flex;
+            justify-content: center;
             margin-bottom: 1.25rem;
         }
-        .button.active {
-            background-color: #fff;
-            color: #007BFF;
-        }
-        .button.inactive {
-            background-color: #ccc;
-            color: #666;
-        }
-
-        .score-section input {
-            padding: 1rem;
-            margin: 0.625rem 0;
-            font-size: 1.5rem;
-            width: 80%;
-            max-width: 400px;
-        }
-        .score-section button {
-            padding: 1rem 2rem;
-            font-size: 1.5rem;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 0.3125rem;
-            cursor: pointer;
-            margin: 0.3125rem;
-        }
-        .score-section button:hover {
-            background-color: #0056b3;
+        .score-section input, .score-section button {
+            width: calc(80% - 1rem);
+            max-width: none;
+            margin: 0.625rem 0.5rem;
         }
 
         table {
@@ -181,20 +163,34 @@
             padding: 1rem 2rem;
         }
 
-        /* タブボタンのスタイルを調整 */
-        .search-tabs {
+        /* 検索ボタンのスタイル調整 */
+        .search-buttons {
             display: flex;
-            justify-content: space-between; /* 両端を表の両端に合わせる */
-            width: 80%;
-            margin: 0 auto 1.25rem; /* 表に合わせて中央に配置 */
+            justify-content: space-around;
+            margin-bottom: 1.25rem;
         }
 
-        .search-tabs .button {
-            width: 49%; /* 2つのタブで幅を均等に */
+        .search-buttons .button {
+            flex: 1;
+            margin: 0 0.5rem;
             border-radius: 0.3125rem;
-            margin: 0;
         }
 
+        .selected {
+            background-color: #0056b3;
+            color: #fff;
+        }
+
+        /* Top10と全体のボタンの位置変更 */
+        .button-group {
+            margin-bottom: 1.25rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .button-group .button {
+            margin: 0 0.5rem;
+        }
     </style>
 </head>
 <body class="loading">
@@ -207,15 +203,29 @@
     <h2>ランキング</h2>
     <button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
 
+    <table id="summaryTable">
+        <thead>
+        <tr>
+            <th>参加人数</th>
+            <th>平均スコア</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td id="totalPlayers"></td>
+            <td id="averageScore"></td>
+        </tr>
+        </tbody>
+    </table>
+
     <div class="button-group">
         <button class="button active" id="top10Button" onclick="showTop10()">TOP10</button>
         <button class="button inactive" id="allButton" onclick="showAll()">全体</button>
     </div>
 
-    <!-- タブ切り替え用のボタン -->
-    <div class="search-tabs">
-        <button class="button active" id="idSearchTab" onclick="showIdSearch()">ID検索</button>
-        <button class="button inactive" id="nameSearchTab" onclick="showNameSearch()">プレイヤー名検索</button>
+    <div class="search-buttons">
+        <button class="button selected" id="idSearchButton" onclick="showIdSearch()">ID検索</button>
+        <button class="button" id="nameSearchButton" onclick="showNameSearch()">プレイヤー名検索</button>
     </div>
 
     <!-- ID検索用の入力欄 -->
@@ -248,21 +258,6 @@
             </tbody>
         </table>
     </div>
-
-    <table id="summaryTable">
-        <thead>
-        <tr>
-            <th>参加人数</th>
-            <th>平均スコア</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td id="totalPlayers"></td>
-            <td id="averageScore"></td>
-        </tr>
-        </tbody>
-    </table>
 
     <table id="rankingTable">
         <thead>
@@ -324,12 +319,12 @@
     }
 
     function fetchPlayerByName() {
-        const searchName = document.getElementById('playerName').value.trim();
+        const searchName = document.getElementById('playerName').value.trim().toLowerCase();
         if (searchName === "") {
             alert('プレイヤー名を入力してください');
             return;
         }
-        const matchedPlayers = allPlayers.filter(p => p.name.includes(searchName));
+        const matchedPlayers = allPlayers.filter(p => p.name.toLowerCase().includes(searchName));
 
         if (matchedPlayers.length > 0) {
             displayMatchedPlayers(matchedPlayers, allPlayers);
