@@ -188,7 +188,6 @@
 
 <div class="container">
     <h2>ランキング</h2>
-    <p class="fade-in">ランキングを確認しましょう</p>
     <button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
 
     <div class="button-group">
@@ -197,8 +196,9 @@
     </div>
 
     <div class="score-section">
-        <input type="text" id="playerId" placeholder="プレイヤーIDまたは名前を入力">
-        <button onclick="fetchPlayerData()">検索</button>
+        <input type="text" id="playerSearchInput" placeholder="プレイヤーIDまたは名前を入力">
+        <button onclick="searchById()">ID検索</button>
+        <button onclick="searchByName()">プレイヤー名検索</button>
         <button onclick="clearPlayerData()">クリア</button>
     </div>
 
@@ -278,34 +278,35 @@
             .catch(error => console.error('Error fetching data:', error));
     }
 
-    function fetchPlayerData() {
-    const searchInput = document.getElementById('playerId').value.trim();
-    fetch(URL)
-        .then(response => response.text())
-        .then(data => {
-            const jsonData = JSON.parse(data.substr(47).slice(0, -2));
-            const rows = jsonData.table.rows;
-            let players = rows.map(row => ({
-                id: row.c[0].v, // A列（ID）
-                name: row.c[1].v, // B列（プレイヤー名）
-                score: parseInt(row.c[2].v) // C列（スコア）
-            }));
-            players.sort((a, b) => b.score - a.score);
-
-            // IDが一致するか、名前が部分一致するプレイヤーを検索
-            const matchedPlayers = players.filter(p => p.id === searchInput || p.name.includes(searchInput));
-
-            if (matchedPlayers.length > 0) {
-                displayMatchedPlayers(matchedPlayers, players);
-            } else {
-                alert('プレイヤーが見つかりません');
-            }
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    function searchById() {
+        const searchInput = document.getElementById('playerSearchInput').value.trim();
+        const matchedPlayers = allPlayers.filter(player => player.id === searchInput);
+        
+        if (matchedPlayers.length > 0) {
+            displayMatchedPlayers(matchedPlayers);
+        } else {
+            alert('IDに一致するプレイヤーが見つかりません');
+        }
     }
 
+    function searchByName() {
+        const searchInput = document.getElementById('playerSearchInput').value.trim().toLowerCase();
+        const matchedPlayers = allPlayers
+            .filter(player => player.name.toLowerCase().includes(searchInput))
+            .sort((a, b) => {
+                const aMatch = a.name.toLowerCase().indexOf(searchInput);
+                const bMatch = b.name.toLowerCase().indexOf(searchInput);
+                return aMatch - bMatch;
+            });
 
-    function displayMatchedPlayers(matchedPlayers, allPlayers) {
+        if (matchedPlayers.length > 0) {
+            displayMatchedPlayers(matchedPlayers);
+        } else {
+            alert('名前に一致するプレイヤーが見つかりません');
+        }
+    }
+
+    function displayMatchedPlayers(matchedPlayers) {
         const playerScoreTable = document.getElementById('playerScore').getElementsByTagName('tbody')[0];
         playerScoreTable.innerHTML = '';
         
@@ -323,7 +324,7 @@
 
     function clearPlayerData() {
         document.getElementById('playerScore').style.display = 'none';
-        document.getElementById('playerId').value = ''; 
+        document.getElementById('playerSearchInput').value = ''; 
     }
 
     function displayPlayers(players, page = 1) {
