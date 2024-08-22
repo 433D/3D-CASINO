@@ -181,7 +181,7 @@
             padding: 1rem 2rem;
         }
 
-        /* ボタンのスタイルを統一 */
+        /* ボタンのスタイルを改善 */
         .search-type-buttons {
             display: flex;
             justify-content: center;
@@ -189,8 +189,12 @@
         }
 
         .search-type-buttons .button {
-            width: 49%;
-            margin: 0.5rem;
+            flex: 0 0 auto;
+            width: 45%; /* 幅を45%に調整 */
+            margin: 0.25rem; /* マージンを小さくする */
+            text-align: center;
+            padding: 1rem 0; /* 上下のパディングを確保 */
+            border-radius: 0.3125rem;
         }
 
     </style>
@@ -304,6 +308,26 @@
                 createPagination();
             })
             .catch(error => console.error('Error fetching data:', error));
+    }
+
+    function selectIdSearch() {
+        document.getElementById('idSearchButton').classList.add('active');
+        document.getElementById('idSearchButton').classList.remove('inactive');
+        document.getElementById('nameSearchButton').classList.add('inactive');
+        document.getElementById('nameSearchButton').classList.remove('active');
+
+        document.getElementById('idSearchSection').style.display = 'block';
+        document.getElementById('nameSearchSection').style.display = 'none';
+    }
+
+    function selectNameSearch() {
+        document.getElementById('nameSearchButton').classList.add('active');
+        document.getElementById('nameSearchButton').classList.remove('inactive');
+        document.getElementById('idSearchButton').classList.add('inactive');
+        document.getElementById('idSearchButton').classList.remove('active');
+
+        document.getElementById('idSearchSection').style.display = 'none';
+        document.getElementById('nameSearchSection').style.display = 'block';
     }
 
     function fetchPlayerById() {
