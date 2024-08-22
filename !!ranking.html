@@ -58,25 +58,19 @@
             background-color: #ccc;
             color: #666;
         }
-        .score-section input {
-            padding: 1rem;
-            margin: 0.625rem 0;
-            font-size: 1.5rem;
-            width: 80%;
-            max-width: 400px;
+        .score-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .score-section button {
-            padding: 1rem 2rem;
-            font-size: 1.5rem;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 0.3125rem;
-            cursor: pointer;
-            margin: 0.3125rem;
+            margin: 0 0.3125rem;
         }
-        .score-section button:hover {
-            background-color: #0056b3;
+        .score-section input {
+            padding: 1rem;
+            font-size: 1.5rem;
+            width: 60%;
+            max-width: 400px;
         }
         table {
             width: 80%;
@@ -197,7 +191,8 @@
     </div>
 
     <div class="score-section">
-        <input type="text" id="playerId" placeholder="プレイヤーIDまたは名前を入力">
+        <button id="toggleSearchButton" class="button" onclick="toggleSearchMode()">IDで検索する</button>
+        <input type="text" id="playerInput" placeholder="プレイヤー名を入力">
         <button onclick="fetchPlayerData()">検索</button>
         <button onclick="clearPlayerData()">クリア</button>
     </div>
@@ -258,6 +253,7 @@
     let allPlayers = [];
     let currentPage = 1;
     const itemsPerPage = 100;
+    let searchById = true; // デフォルトではIDで検索
 
     function fetchData() {
         fetch(URL)
@@ -279,7 +275,7 @@
     }
 
     function fetchPlayerData() {
-        const searchInput = document.getElementById('playerId').value;
+        const searchInput = document.getElementById('playerInput').value;
         fetch(URL)
             .then(response => response.text())
             .then(data => {
@@ -291,8 +287,11 @@
                     score: parseInt(row.c[2].v) // C列（スコア）
                 }));
                 players.sort((a, b) => b.score - a.score);
-                const matchedPlayers = players.filter(p => p.id === searchInput || p.name === searchInput);
-                
+
+                const matchedPlayers = searchById
+                    ? players.filter(p => p.id === searchInput)
+                    : players.filter(p => p.name === searchInput);
+
                 if (matchedPlayers.length > 0) {
                     displayMatchedPlayers(matchedPlayers, players);
                 } else {
@@ -320,7 +319,21 @@
 
     function clearPlayerData() {
         document.getElementById('playerScore').style.display = 'none';
-        document.getElementById('playerId').value = ''; 
+        document.getElementById('playerInput').value = ''; 
+    }
+
+    function toggleSearchMode() {
+        searchById = !searchById;
+        const toggleButton = document.getElementById('toggleSearchButton');
+        const inputField = document.getElementById('playerInput');
+
+        if (searchById) {
+            toggleButton.textContent = 'IDで検索する';
+            inputField.placeholder = 'プレイヤーIDを入力';
+        } else {
+            toggleButton.textContent = '名前で検索する';
+            inputField.placeholder = 'プレイヤー名を入力';
+        }
     }
 
     function displayPlayers(players, page = 1) {
