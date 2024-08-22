@@ -178,6 +178,25 @@
             font-size: 1.5rem;
             padding: 1rem 2rem;
         }
+        /* 新しいCSS追加: タブ切り替え */
+        .tab-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            margin: 0.625rem;
+            font-size: 1.25rem;
+        }
+        .tab-button.active {
+            background-color: #007BFF;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body class="loading">
@@ -195,11 +214,26 @@
         <button class="button inactive" id="allButton" onclick="showAll()">全体</button>
     </div>
 
-    <div class="score-section">
-        <input type="text" id="playerSearchInput" placeholder="プレイヤーIDまたは名前を入力">
-        <button onclick="searchById()">ID検索</button>
-        <button onclick="searchByName()">プレイヤー名検索</button>
-        <button onclick="clearPlayerData()">クリア</button>
+    <!-- タブ切り替えボタン -->
+    <div class="button-group">
+        <button class="tab-button" id="idSearchTab" onclick="openTab('idSearch')">ID検索</button>
+        <button class="tab-button" id="nameSearchTab" onclick="openTab('nameSearch')">プレイヤー名検索</button>
+    </div>
+
+    <!-- ID検索のコンテンツ -->
+    <div id="idSearch" class="tab-content">
+        <div class="score-section">
+            <input type="text" id="playerIdInput" placeholder="プレイヤーIDを入力">
+            <button onclick="fetchPlayerById()">ID検索</button>
+        </div>
+    </div>
+
+    <!-- プレイヤー名検索のコンテンツ -->
+    <div id="nameSearch" class="tab-content">
+        <div class="score-section">
+            <input type="text" id="playerNameInput" placeholder="プレイヤー名を入力">
+            <button onclick="fetchPlayerByName()">プレイヤー名検索</button>
+        </div>
     </div>
 
     <div id="playerScore" class="player-score" style="display:none;">
@@ -253,7 +287,7 @@
 <script>
     const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
     const SHEET_NAME = 'Sheet1';
-    const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+    const URL = `https://docs.google.com/spreadsheets/d/${SHEET_NAME}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
     let allPlayers = [];
     let currentPage = 1;
@@ -278,31 +312,36 @@
             .catch(error => console.error('Error fetching data:', error));
     }
 
-    function searchById() {
-        const searchInput = document.getElementById('playerSearchInput').value.trim();
-        const matchedPlayers = allPlayers.filter(player => player.id === searchInput);
-        
+    function fetchPlayerById() {
+        const searchId = document.getElementById('playerIdInput').value.trim();
+        if (searchId === "") {
+            alert("プレイヤーIDを入力してください");
+            return;
+        }
+
+        const matchedPlayers = allPlayers.filter(p => p.id === searchId);
         if (matchedPlayers.length > 0) {
             displayMatchedPlayers(matchedPlayers);
         } else {
-            alert('IDに一致するプレイヤーが見つかりません');
+            alert('プレイヤーが見つかりません');
         }
     }
 
-    function searchByName() {
-        const searchInput = document.getElementById('playerSearchInput').value.trim().toLowerCase();
+    function fetchPlayerByName() {
+        const searchName = document.getElementById('playerNameInput').value.trim();
+        if (searchName === "") {
+            alert("プレイヤー名を入力してください");
+            return;
+        }
+
         const matchedPlayers = allPlayers
-            .filter(player => player.name.toLowerCase().includes(searchInput))
-            .sort((a, b) => {
-                const aMatch = a.name.toLowerCase().indexOf(searchInput);
-                const bMatch = b.name.toLowerCase().indexOf(searchInput);
-                return aMatch - bMatch;
-            });
+            .filter(p => p.name.toLowerCase().includes(searchName.toLowerCase()))
+            .sort((a, b) => b.name.toLowerCase().split(searchName.toLowerCase()).length - a.name.toLowerCase().split(searchName.toLowerCase()).length);
 
         if (matchedPlayers.length > 0) {
             displayMatchedPlayers(matchedPlayers);
         } else {
-            alert('名前に一致するプレイヤーが見つかりません');
+            alert('プレイヤーが見つかりません');
         }
     }
 
@@ -324,7 +363,8 @@
 
     function clearPlayerData() {
         document.getElementById('playerScore').style.display = 'none';
-        document.getElementById('playerSearchInput').value = ''; 
+        document.getElementById('playerIdInput').value = '';
+        document.getElementById('playerNameInput').value = '';
     }
 
     function displayPlayers(players, page = 1) {
@@ -409,6 +449,25 @@
                 displayPlayers(allPlayers, currentPage);
             };
             pagination.appendChild(button);
+        }
+    }
+
+    function openTab(tabName) {
+        const idSearchTab = document.getElementById('idSearch');
+        const nameSearchTab = document.getElementById('nameSearch');
+        const idSearchButton = document.getElementById('idSearchTab');
+        const nameSearchButton = document.getElementById('nameSearchTab');
+
+        if (tabName === 'idSearch') {
+            idSearchTab.classList.add('active');
+            nameSearchTab.classList.remove('active');
+            idSearchButton.classList.add('active');
+            nameSearchButton.classList.remove('active');
+        } else if (tabName === 'nameSearch') {
+            nameSearchTab.classList.add('active');
+            idSearchTab.classList.remove('active');
+            nameSearchButton.classList.add('active');
+            idSearchButton.classList.remove('active');
         }
     }
 
