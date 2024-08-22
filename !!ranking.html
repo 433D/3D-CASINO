@@ -47,19 +47,37 @@
         .button:hover {
             background-color: #0056b3;
         }
-        .button.selected {
-            background-color: #0056b3;
-            color: #fff;
-        }
-        .score-section {
-            display: flex;
-            justify-content: center;
+        .button-group {
             margin-bottom: 1.25rem;
         }
-        .score-section input, .score-section button {
-            width: calc(80% - 1rem);
-            max-width: none;
-            margin: 0.625rem 0.5rem;
+        .button.active {
+            background-color: #007BFF;
+            color: #fff;
+        }
+        .button.inactive {
+            background-color: #ccc;
+            color: #666;
+        }
+
+        .score-section input {
+            padding: 1rem;
+            margin: 0.625rem 0;
+            font-size: 1.5rem;
+            width: 80%;
+            max-width: 400px;
+        }
+        .score-section button {
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 0.3125rem;
+            cursor: pointer;
+            margin: 0.3125rem;
+        }
+        .score-section button:hover {
+            background-color: #0056b3;
         }
 
         table {
@@ -163,34 +181,18 @@
             padding: 1rem 2rem;
         }
 
-        /* 検索ボタンのスタイル調整 */
-        .search-buttons {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 1.25rem;
-        }
-
-        .search-buttons .button {
-            flex: 1;
-            margin: 0 0.5rem;
-            border-radius: 0.3125rem;
-        }
-
-        .selected {
-            background-color: #0056b3;
-            color: #fff;
-        }
-
-        /* Top10と全体のボタンの位置変更 */
-        .button-group {
-            margin-bottom: 1.25rem;
+        /* ボタンのスタイルを統一 */
+        .search-type-buttons {
             display: flex;
             justify-content: center;
+            margin-bottom: 1.25rem;
         }
 
-        .button-group .button {
-            margin: 0 0.5rem;
+        .search-type-buttons .button {
+            width: 49%;
+            margin: 0.5rem;
         }
+
     </style>
 </head>
 <body class="loading">
@@ -203,29 +205,15 @@
     <h2>ランキング</h2>
     <button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
 
-    <table id="summaryTable">
-        <thead>
-        <tr>
-            <th>参加人数</th>
-            <th>平均スコア</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td id="totalPlayers"></td>
-            <td id="averageScore"></td>
-        </tr>
-        </tbody>
-    </table>
-
     <div class="button-group">
         <button class="button active" id="top10Button" onclick="showTop10()">TOP10</button>
         <button class="button inactive" id="allButton" onclick="showAll()">全体</button>
     </div>
 
-    <div class="search-buttons">
-        <button class="button selected" id="idSearchButton" onclick="showIdSearch()">ID検索</button>
-        <button class="button" id="nameSearchButton" onclick="showNameSearch()">プレイヤー名検索</button>
+    <!-- 検索タイプを選択するボタン -->
+    <div class="search-type-buttons">
+        <button class="button active" id="idSearchButton" onclick="selectIdSearch()">ID検索</button>
+        <button class="button inactive" id="nameSearchButton" onclick="selectNameSearch()">プレイヤー名検索</button>
     </div>
 
     <!-- ID検索用の入力欄 -->
@@ -258,6 +246,21 @@
             </tbody>
         </table>
     </div>
+
+    <table id="summaryTable">
+        <thead>
+        <tr>
+            <th>参加人数</th>
+            <th>平均スコア</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td id="totalPlayers"></td>
+            <td id="averageScore"></td>
+        </tr>
+        </tbody>
+    </table>
 
     <table id="rankingTable">
         <thead>
