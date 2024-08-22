@@ -184,22 +184,15 @@
         /* タブボタンのスタイルを調整 */
         .search-tabs {
             display: flex;
-            justify-content: center;
-            margin-bottom: 1.25rem;
+            justify-content: space-between; /* 両端を表の両端に合わせる */
+            width: 80%;
+            margin: 0 auto 1.25rem; /* 表に合わせて中央に配置 */
         }
 
         .search-tabs .button {
-            flex: 1;
+            width: 49%; /* 2つのタブで幅を均等に */
+            border-radius: 0.3125rem;
             margin: 0;
-            border-radius: 0;
-        }
-
-        .search-tabs .button:first-child {
-            border-radius: 0.3125rem 0 0 0.3125rem;
-        }
-
-        .search-tabs .button:last-child {
-            border-radius: 0 0.3125rem 0.3125rem 0;
         }
 
     </style>
@@ -317,6 +310,10 @@
 
     function fetchPlayerById() {
         const searchId = document.getElementById('playerId').value.trim();
+        if (searchId === "") {
+            alert('IDを入力してください');
+            return;
+        }
         const matchedPlayers = allPlayers.filter(p => p.id === searchId);
 
         if (matchedPlayers.length > 0) {
@@ -328,6 +325,10 @@
 
     function fetchPlayerByName() {
         const searchName = document.getElementById('playerName').value.trim();
+        if (searchName === "") {
+            alert('プレイヤー名を入力してください');
+            return;
+        }
         const matchedPlayers = allPlayers.filter(p => p.name.includes(searchName));
         matchedPlayers.sort((a, b) => b.name.includes(searchName) - a.name.includes(searchName));
 
