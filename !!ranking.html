@@ -58,6 +58,7 @@
             background-color: #ccc;
             color: #666;
         }
+
         .score-section input {
             padding: 1rem;
             margin: 0.625rem 0;
@@ -78,6 +79,7 @@
         .score-section button:hover {
             background-color: #0056b3;
         }
+
         table {
             width: 80%;
             margin: 1.25rem auto;
@@ -178,25 +180,28 @@
             font-size: 1.5rem;
             padding: 1rem 2rem;
         }
-        /* 新しいCSS追加: タブ切り替え */
-        .tab-button {
-            background-color: #333;
-            color: #fff;
-            border: none;
-            padding: 1rem;
-            cursor: pointer;
-            margin: 0.625rem;
-            font-size: 1.25rem;
+
+        /* タブボタンのスタイルを調整 */
+        .search-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.25rem;
         }
-        .tab-button.active {
-            background-color: #007BFF;
+
+        .search-tabs .button {
+            flex: 1;
+            margin: 0;
+            border-radius: 0;
         }
-        .tab-content {
-            display: none;
+
+        .search-tabs .button:first-child {
+            border-radius: 0.3125rem 0 0 0.3125rem;
         }
-        .tab-content.active {
-            display: block;
+
+        .search-tabs .button:last-child {
+            border-radius: 0 0.3125rem 0.3125rem 0;
         }
+
     </style>
 </head>
 <body class="loading">
@@ -214,26 +219,24 @@
         <button class="button inactive" id="allButton" onclick="showAll()">全体</button>
     </div>
 
-    <!-- タブ切り替えボタン -->
-    <div class="button-group">
-        <button class="tab-button" id="idSearchTab" onclick="openTab('idSearch')">ID検索</button>
-        <button class="tab-button" id="nameSearchTab" onclick="openTab('nameSearch')">プレイヤー名検索</button>
+    <!-- タブ切り替え用のボタン -->
+    <div class="search-tabs">
+        <button class="button active" id="idSearchTab" onclick="showIdSearch()">ID検索</button>
+        <button class="button inactive" id="nameSearchTab" onclick="showNameSearch()">プレイヤー名検索</button>
     </div>
 
-    <!-- ID検索のコンテンツ -->
-    <div id="idSearch" class="tab-content">
-        <div class="score-section">
-            <input type="text" id="playerIdInput" placeholder="プレイヤーIDを入力">
-            <button onclick="fetchPlayerById()">ID検索</button>
-        </div>
+    <!-- ID検索用の入力欄 -->
+    <div id="idSearchSection" class="score-section">
+        <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
+        <button onclick="fetchPlayerById()">ID検索</button>
+        <button onclick="clearPlayerData()">クリア</button>
     </div>
 
-    <!-- プレイヤー名検索のコンテンツ -->
-    <div id="nameSearch" class="tab-content">
-        <div class="score-section">
-            <input type="text" id="playerNameInput" placeholder="プレイヤー名を入力">
-            <button onclick="fetchPlayerByName()">プレイヤー名検索</button>
-        </div>
+    <!-- プレイヤー名検索用の入力欄 -->
+    <div id="nameSearchSection" class="score-section" style="display:none;">
+        <input type="text" id="playerName" placeholder="プレイヤー名を入力">
+        <button onclick="fetchPlayerByName()">名前検索</button>
+        <button onclick="clearPlayerData()">クリア</button>
     </div>
 
     <div id="playerScore" class="player-score" style="display:none;">
@@ -287,7 +290,7 @@
 <script>
     const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
     const SHEET_NAME = 'Sheet1';
-    const URL = `https://docs.google.com/spreadsheets/d/${SHEET_NAME}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+    const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
     let allPlayers = [];
     let currentPage = 1;
@@ -313,39 +316,29 @@
     }
 
     function fetchPlayerById() {
-        const searchId = document.getElementById('playerIdInput').value.trim();
-        if (searchId === "") {
-            alert("プレイヤーIDを入力してください");
-            return;
-        }
-
+        const searchId = document.getElementById('playerId').value.trim();
         const matchedPlayers = allPlayers.filter(p => p.id === searchId);
+
         if (matchedPlayers.length > 0) {
-            displayMatchedPlayers(matchedPlayers);
+            displayMatchedPlayers(matchedPlayers, allPlayers);
         } else {
             alert('プレイヤーが見つかりません');
         }
     }
 
     function fetchPlayerByName() {
-        const searchName = document.getElementById('playerNameInput').value.trim();
-        if (searchName === "") {
-            alert("プレイヤー名を入力してください");
-            return;
-        }
-
-        const matchedPlayers = allPlayers
-            .filter(p => p.name.toLowerCase().includes(searchName.toLowerCase()))
-            .sort((a, b) => b.name.toLowerCase().split(searchName.toLowerCase()).length - a.name.toLowerCase().split(searchName.toLowerCase()).length);
+        const searchName = document.getElementById('playerName').value.trim();
+        const matchedPlayers = allPlayers.filter(p => p.name.includes(searchName));
+        matchedPlayers.sort((a, b) => b.name.includes(searchName) - a.name.includes(searchName));
 
         if (matchedPlayers.length > 0) {
-            displayMatchedPlayers(matchedPlayers);
+            displayMatchedPlayers(matchedPlayers, allPlayers);
         } else {
             alert('プレイヤーが見つかりません');
         }
     }
 
-    function displayMatchedPlayers(matchedPlayers) {
+    function displayMatchedPlayers(matchedPlayers, allPlayers) {
         const playerScoreTable = document.getElementById('playerScore').getElementsByTagName('tbody')[0];
         playerScoreTable.innerHTML = '';
         
@@ -363,8 +356,8 @@
 
     function clearPlayerData() {
         document.getElementById('playerScore').style.display = 'none';
-        document.getElementById('playerIdInput').value = '';
-        document.getElementById('playerNameInput').value = '';
+        document.getElementById('playerId').value = ''; 
+        document.getElementById('playerName').value = ''; 
     }
 
     function displayPlayers(players, page = 1) {
@@ -449,25 +442,6 @@
                 displayPlayers(allPlayers, currentPage);
             };
             pagination.appendChild(button);
-        }
-    }
-
-    function openTab(tabName) {
-        const idSearchTab = document.getElementById('idSearch');
-        const nameSearchTab = document.getElementById('nameSearch');
-        const idSearchButton = document.getElementById('idSearchTab');
-        const nameSearchButton = document.getElementById('nameSearchTab');
-
-        if (tabName === 'idSearch') {
-            idSearchTab.classList.add('active');
-            nameSearchTab.classList.remove('active');
-            idSearchButton.classList.add('active');
-            nameSearchButton.classList.remove('active');
-        } else if (tabName === 'nameSearch') {
-            nameSearchTab.classList.add('active');
-            idSearchTab.classList.remove('active');
-            nameSearchButton.classList.add('active');
-            idSearchButton.classList.remove('active');
         }
     }
 
