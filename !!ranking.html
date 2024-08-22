@@ -1,65 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>3Dカジノ - ランキング</title>
+    <title>ランキング</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Roboto:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Dancing+Script&display=swap" rel="stylesheet">
     <style>
+        :root {
+            font-size: 16px;
+        }
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Raleway', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #111;
             color: #fff;
+            text-align: center;
+            font-size: 1rem;
         }
         header {
             background-color: #333;
-            padding: 20px;
+            padding: 1.25rem;
             text-align: center;
+            cursor: pointer;
         }
         header h1 {
             margin: 0;
-            font-size: 2.5em;
-        }
-        header p {
-            font-size: 1.2em;
-            margin-top: 10px;
+            font-size: 2.5rem;
+            font-family: 'Dancing Script', cursive;
         }
         .container {
-            padding: 20px;
-            text-align: center;
+            padding: 1.25rem;
         }
-        .score-section input {
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 1em;
-        }
-        .score-section button {
-            padding: 10px 20px;
-            font-size: 1em;
+        .button {
             background-color: #007BFF;
             color: #fff;
             border: none;
-            border-radius: 5px;
+            padding: 1rem 2rem;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.5rem;
+            margin: 0.625rem 0.3125rem;
             cursor: pointer;
-            margin: 5px;
+            border-radius: 0.3125rem;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .button-group {
+            margin-bottom: 1.25rem;
+        }
+        .button.active {
+            background-color: #fff;
+            color: #007BFF;
+        }
+        .button.inactive {
+            background-color: #ccc;
+            color: #666;
+        }
+        .score-section input {
+            padding: 1rem;
+            margin: 0.625rem 0;
+            font-size: 1.5rem;
+            width: 80%;
+            max-width: 400px;
+        }
+        .score-section button {
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 0.3125rem;
+            cursor: pointer;
+            margin: 0.3125rem;
         }
         .score-section button:hover {
             background-color: #0056b3;
         }
         table {
-            width: 70%;
-            margin: 20px auto;
+            width: 80%;
+            margin: 1.25rem auto;
             border-collapse: collapse;
-            background-color: #222;
-            color: #fff;
-        }
-        table, th, td {
-            border: 1px solid #444;
+            font-family: 'Arial', sans-serif;
         }
         th, td {
-            padding: 15px;
+            border: 1px solid #ddd;
+            padding: 0.5rem;
             text-align: left;
+            font-size: 1.25rem;
         }
         th {
             background-color: #333;
@@ -73,29 +102,13 @@
         .bronze {
             background-color: #cd7f32;
         }
-        .button {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
         .player-score {
             background-color: #007BFF;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
-            width: 70%;
-            margin: 20px auto;
+            padding: 0.625rem;
+            border-radius: 0.3125rem;
+            margin-top: 1.25rem;
+            width: 80%;
+            margin: 1.25rem auto;
         }
         .player-score h3 {
             margin-top: 0;
@@ -106,58 +119,135 @@
             background-color: #222;
             color: #fff;
         }
+        .fade-in {
+            animation: fadeIn 2s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        #summaryTable {
+            width: 80%;
+            margin: 1.25rem auto;
+            border-collapse: collapse;
+        }
+        #summaryTable th, #summaryTable td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: left;
+            font-size: 1.25rem;
+        }
+        #summaryTable th {
+            background-color: #333;
+        }
+        #loading-text {
+            opacity: 0;
+            animation: fadeInOut 2s 2;
+        }
+        .loading #loading-text {
+            opacity: 1;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .pagination {
+            margin: 1.25rem;
+        }
+        .pagination button {
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            margin: 0.3125rem;
+            cursor: pointer;
+            border-radius: 0.3125rem;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+        }
+        .pagination button:hover {
+            background-color: #0056b3;
+        }
+        .button.back-to-home {
+            position: fixed;
+            bottom: 1.25rem;
+            right: 1.25rem;
+            background-color: #ffffff;
+            color: #000;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            padding: 1rem 2rem;
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body class="loading">
 
-<header>
-    <h1>3Dカジノ - ランキング</h1>
-    <p>最高のカジノ体験を提供します</p>
+<header onclick="location.href='index.html'">
+    <h1>3D CASINO</h1>
 </header>
 
 <div class="container">
-    <button class="button" onclick="location.href='index.html'">ホームに戻る</button>
+    <h2>ランキング</h2>
+    <p class="fade-in">ランキングを確認しましょう</p>
+    <button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
+
+    <div class="button-group">
+        <button class="button active" id="top10Button" onclick="showTop10()">TOP10</button>
+        <button class="button inactive" id="allButton" onclick="showAll()">全体</button>
+    </div>
+
     <div class="score-section">
-        <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
-        <button onclick="fetchPlayerData()">ID検索</button>
+        <input type="text" id="playerId" placeholder="プレイヤーIDまたは名前を入力">
+        <button onclick="fetchPlayerData()">検索</button>
         <button onclick="clearPlayerData()">クリア</button>
     </div>
+
     <div id="playerScore" class="player-score" style="display:none;">
-        <h3>あなたのスコア</h3>
+        <h3>検索結果</h3>
         <table>
             <thead>
-                <tr>
-                    <th>ランク</th>
-                    <th>プレイヤー</th>
-                    <th>スコア</th>
-                    <th>偏差値</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td id="playerRank"></td>
-                    <td id="playerName"></td>
-                    <td id="playerScoreValue"></td>
-                    <td id="playerStandardScore"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <table id="rankingTable">
-        <thead>
             <tr>
                 <th>ランク</th>
                 <th>プレイヤー</th>
                 <th>スコア</th>
                 <th>偏差値</th>
             </tr>
+            </thead>
+            <tbody>
+            <!-- 検索結果がここに挿入されます -->
+            </tbody>
+        </table>
+    </div>
+
+    <table id="summaryTable">
+        <thead>
+        <tr>
+            <th>参加人数</th>
+            <th>平均スコア</th>
+        </tr>
         </thead>
         <tbody>
-            <!-- プレイヤーデータがここに挿入されます -->
+        <tr>
+            <td id="totalPlayers"></td>
+            <td id="averageScore"></td>
+        </tr>
         </tbody>
     </table>
-    <canvas id="scoreChart" width="400" height="200"></canvas>
+
+    <table id="rankingTable">
+        <thead>
+        <tr>
+            <th>ランク</th>
+            <th>プレイヤー</th>
+            <th>スコア</th>
+            <th>偏差値</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- プレイヤーデータがここに挿入されます -->
+        </tbody>
+    </table>
+    <div class="pagination" id="pagination"></div>
 </div>
 
 <script>
@@ -165,43 +255,46 @@
     const SHEET_NAME = 'Sheet1';
     const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
+    let allPlayers = [];
+    let currentPage = 1;
+    const itemsPerPage = 100;
+
     function fetchData() {
         fetch(URL)
             .then(response => response.text())
             .then(data => {
                 const jsonData = JSON.parse(data.substr(47).slice(0, -2));
                 const rows = jsonData.table.rows;
-                let players = rows.map(row => ({
-                    name: row.c[0].v,
-                    score: parseInt(row.c[1].v)
+                allPlayers = rows.map(row => ({
+                    id: row.c[0].v, // A列（ID）
+                    name: row.c[1].v, // B列（プレイヤー名）
+                    score: parseInt(row.c[2].v) // C列（スコア）
                 }));
-                players.sort((a, b) => b.score - a.score);
-                displayPlayers(players);
-                displayChart(players);
+                allPlayers.sort((a, b) => b.score - a.score);
+                showTop10();
+                displaySummary(allPlayers);
+                createPagination();
             })
             .catch(error => console.error('Error fetching data:', error));
     }
 
     function fetchPlayerData() {
-        const playerId = document.getElementById('playerId').value;
+        const searchInput = document.getElementById('playerId').value;
         fetch(URL)
             .then(response => response.text())
             .then(data => {
                 const jsonData = JSON.parse(data.substr(47).slice(0, -2));
                 const rows = jsonData.table.rows;
                 let players = rows.map(row => ({
-                    name: row.c[0].v,
-                    score: parseInt(row.c[1].v)
+                    id: row.c[0].v, // A列（ID）
+                    name: row.c[1].v, // B列（プレイヤー名）
+                    score: parseInt(row.c[2].v) // C列（スコア）
                 }));
                 players.sort((a, b) => b.score - a.score);
-                const player = players.find(p => p.name === playerId);
-                if (player) {
-                    const playerRank = players.findIndex(p => p.name === playerId) + 1;
-                    document.getElementById('playerRank').textContent = playerRank;
-                    document.getElementById('playerName').textContent = player.name;
-                    document.getElementById('playerScoreValue').textContent = player.score;
-                    document.getElementById('playerStandardScore').textContent = calculateStandardScore(player.score, players);
-                    document.getElementById('playerScore').style.display = 'block';
+                const matchedPlayers = players.filter(p => p.id === searchInput || p.name === searchInput);
+                
+                if (matchedPlayers.length > 0) {
+                    displayMatchedPlayers(matchedPlayers, players);
                 } else {
                     alert('プレイヤーが見つかりません');
                 }
@@ -209,27 +302,60 @@
             .catch(error => console.error('Error fetching data:', error));
     }
 
-    function clearPlayerData() {
-        document.getElementById('playerScore').style.display = 'none';
-    }
-
-    function displayPlayers(players) {
-        let tbody = document.getElementById('rankingTable').getElementsByTagName('tbody')[0];
-        tbody.innerHTML = '';
-        players.slice(0, 10).forEach((player, index) => {
-            let row = tbody.insertRow();
-            let rankCell = row.insertCell(0);
-            rankCell.textContent = index + 1;
-            if (index === 0) {
-                row.classList.add('gold');
-            } else if (index === 1) {
-                row.classList.add('silver');
-            } else if (index === 2) {
-                row.classList.add('bronze');
-            }
+    function displayMatchedPlayers(matchedPlayers, allPlayers) {
+        const playerScoreTable = document.getElementById('playerScore').getElementsByTagName('tbody')[0];
+        playerScoreTable.innerHTML = '';
+        
+        matchedPlayers.forEach(player => {
+            const playerRank = allPlayers.findIndex(p => p.id === player.id) + 1;
+            let row = playerScoreTable.insertRow();
+            row.insertCell(0).textContent = playerRank;
             row.insertCell(1).textContent = player.name;
             row.insertCell(2).textContent = player.score;
-            row.insertCell(3).textContent = calculateStandardScore(player.score, players);
+            row.insertCell(3).textContent = calculateStandardScore(player.score, allPlayers);
+        });
+
+        document.getElementById('playerScore').style.display = 'block';
+    }
+
+    function clearPlayerData() {
+        document.getElementById('playerScore').style.display = 'none';
+        document.getElementById('playerId').value = ''; 
+    }
+
+    function displayPlayers(players, page = 1) {
+        let tbody = document.getElementById('rankingTable').getElementsByTagName('tbody')[0];
+        tbody.innerHTML = '';
+
+        let startIndex = (page - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
+        let currentPlayers = players.slice(startIndex, endIndex);
+
+        let currentRank = startIndex + 1;
+        let previousScore = null;
+
+        currentPlayers.forEach((player, index) => {
+            if (previousScore !== null && player.score !== previousScore) {
+                currentRank = startIndex + index + 1;
+            }
+
+            let row = tbody.insertRow();
+            let rankCell = row.insertCell(0);
+            rankCell.textContent = currentRank;
+
+            if (currentRank === 1) {
+                row.classList.add('gold');
+            } else if (currentRank === 2) {
+                row.classList.add('silver');
+            } else if (currentRank === 3) {
+                row.classList.add('bronze');
+            }
+
+            row.insertCell(1).textContent = player.name;
+            row.insertCell(2).textContent = player.score;
+            row.insertCell(3).textContent = calculateStandardScore(player.score, allPlayers);
+
+            previousScore = player.score;
         });
     }
 
@@ -240,54 +366,54 @@
         return standardScore.toFixed(2);
     }
 
-    function displayChart(players) {
-        const ctx = document.getElementById('scoreChart').getContext('2d');
-        const scores = players.map(player => player.score);
+    function displaySummary(players) {
+        let totalPlayers = players.length;
+        let averageScore = players.reduce((sum, player) => sum + player.score, 0) / totalPlayers;
 
-        const scoreCounts = {};
-        scores.forEach(score => {
-            scoreCounts[score] = (scoreCounts[score] || 0) + 1;
-        });
+        document.getElementById('totalPlayers').textContent = totalPlayers;
+        document.getElementById('averageScore').textContent = averageScore.toFixed(2);
+    }
 
-        const scoreLabels = Object.keys(scoreCounts).sort((a, b) => a - b);
-        const scoreData = scoreLabels.map(score => scoreCounts[score]);
+    function showTop10() {
+        displayPlayers(allPlayers.slice(0, 10));
+        document.getElementById('top10Button').classList.add('active');
+        document.getElementById('top10Button').classList.remove('inactive');
+        document.getElementById('allButton').classList.add('inactive');
+        document.getElementById('allButton').classList.remove('active');
+        document.getElementById('pagination').style.display = 'none';
+    }
 
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: scoreLabels,
-                datasets: [{
-                    label: 'スコアの度数分布',
-                    data: scoreData,
-                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                    borderColor: 'rgba(0, 123, 255, 1)',
-                    borderWidth: 2,
-                    fill: false,
-                    tension: 0.4 // Make the line smooth
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'スコア'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: '人数'
-                        },
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+    function showAll() {
+        displayPlayers(allPlayers, currentPage);
+        document.getElementById('top10Button').classList.add('inactive');
+        document.getElementById('top10Button').classList.remove('active');
+        document.getElementById('allButton').classList.add('active');
+        document.getElementById('allButton').classList.remove('inactive');
+        document.getElementById('pagination').style.display = 'block';
+    }
+
+    function createPagination() {
+        const totalPages = Math.ceil(allPlayers.length / itemsPerPage);
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            let button = document.createElement('button');
+            button.textContent = i;
+            button.onclick = function() {
+                currentPage = i;
+                displayPlayers(allPlayers, currentPage);
+            };
+            pagination.appendChild(button);
+        }
     }
 
     fetchData();
-</script>
 
+    window.onload = function() {
+        document.body.classList.remove('loading');
+    };
+</script>
+<p id="loading-text">データを取得しています</p>
 </body>
 </html>
