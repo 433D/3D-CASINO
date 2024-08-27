@@ -105,12 +105,12 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(dataBuffer) // バッファ内のデータを一度に送信
+                body: JSON.stringify(dataBuffer)
             })
             .then(response => response.text())
             .then(data => {
                 console.log("データが送信されました: ", data);
-                dataBuffer = []; // 送信後にバッファをクリア
+                dataBuffer = [];
                 alert("すべてのデータがスプレッドシートに送信されました");
             })
             .catch(error => {

@@ -48,14 +48,6 @@
             border-radius: 0.25rem;
             font-size: 1rem;
         }
-        input[type="number"]::-webkit-outer-spin-button,
-        input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
         button {
             background-color: #007BFF;
             color: #fff;
@@ -138,29 +130,24 @@
 <button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
 
 <script>
-    const SPREADSHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyDwqb583ESLgnolY7pIrPI83Hp-Pqp_hpEDPON6JvwNh4ETTe9Jz6JatSack__ICwiaQ/exec';
+    const playerData = {
+        "1": "プレイヤーA",
+        "2": "プレイヤーB",
+        "3": "プレイヤーC",
+        "4": "プレイヤーD"
+        // IDと名前のペアをここに追加
+    };
 
-    let bets = [];
+    let bets = JSON.parse(localStorage.getItem('bets')) || [];
+
+    document.addEventListener('DOMContentLoaded', function() {
+        displayBets(); // ページロード時に保存された賭け一覧を表示
+    });
 
     function fetchPlayerName() {
         const playerId = document.getElementById('playerId').value.trim();
-        if (playerId) {
-            fetch(URL)
-                .then(response => response.text())
-                .then(data => {
-                    const jsonData = JSON.parse(data.substr(47).slice(0, -2));
-                    const rows = jsonData.table.rows;
-                    const player = rows.find(row => row.c[0].v === Number(playerId));
-                    if (player) {
-                        document.getElementById('playerName').value = player.c[1].v;
-                    } else {
-                        document.getElementById('playerName').value = '';
-                    }
-                })
-                .catch(error => console.error('データの取得中にエラーが発生しました:', error));
-        } else {
-            document.getElementById('playerName').value = '';
-        }
+        const playerName = playerData[playerId] || '';
+        document.getElementById('playerName').value = playerName;
     }
 
     function validateBetAmount() {
@@ -182,13 +169,12 @@
         const betOnPlayer = document.getElementById('betOnPlayer').value;
 
         if (playerId && playerName && betAmount >= 1000 && betOnPlayer) {
-            // 賭けデータを一時的に保存
             bets.push({ playerId, playerName, betAmount, betOnPlayer });
+            localStorage.setItem('bets', JSON.stringify(bets));
             displayBets();
             clearInputs();
 
-            // 条件を満たしたら一括でスプレッドシートに送信
-            if (bets.length >= 5) { // 例えば5件溜まったら送信
+            if (bets.length >= 5) {
                 sendBetsToSpreadsheet();
             }
         } else {
@@ -219,12 +205,13 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(bets) // すべての賭けデータを一度に送信
+            body: JSON.stringify(bets)
         })
         .then(response => response.text())
         .then(data => {
             console.log("データが送信されました: ", data);
-            bets = []; // 送信後にバッファをクリア
+            bets = [];
+            localStorage.removeItem('bets');
         })
         .catch(error => {
             console.error("データ送信中にエラーが発生しました: ", error);
