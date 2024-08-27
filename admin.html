@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <title>管理者ページ</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者ページ - 3D CASINO</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&display=swap">
     <style>
         body {
@@ -43,6 +45,18 @@
         .button-container {
             margin: 20px 0;
         }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input, select {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 400px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -62,10 +76,56 @@
     <div class="button-container">
         <button class="button" onclick="window.open('https://docs.google.com/spreadsheets/d/1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98/edit?gid=0', '_blank')">ランキングデータ入力</button>
     </div>
+
+    <h2>勝者と倍率の設定</h2>
+    <div class="form-group">
+        <label for="winner">勝者を選択:</label>
+        <select id="winner">
+            <option value="">--選択してください--</option>
+            <option value="Aさん">Aさん</option>
+            <option value="Bさん">Bさん</option>
+            <option value="Cさん">Cさん</option>
+            <option value="Dさん">Dさん</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="multiplier">倍率を入力:</label>
+        <input type="number" id="multiplier" min="1" placeholder="倍率を入力" />
+    </div>
+    <button class="button" onclick="applyWinnings()">配当を適用</button>
 </div>
-<h3>Git Hub</h3>
-<h4>UserID:433D</h4>
-<h4>Pass:Mur@t@Y0u</h4>
+
+<script>
+    const SPREADSHEET_WEB_APP_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'; // スプレッドシートのWebアプリURLを記入
+
+    function applyWinnings() {
+        const winner = document.getElementById('winner').value;
+        const multiplier = document.getElementById('multiplier').value;
+
+        if (winner && multiplier >= 1) {
+            // 勝者と倍率の情報をスプレッドシートに送信
+            fetch(SPREADSHEET_WEB_APP_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    winner: winner,
+                    multiplier: multiplier
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert("配当が適用されました");
+            })
+            .catch(error => {
+                console.error("配当適用中にエラーが発生しました: ", error);
+            });
+        } else {
+            alert('勝者と倍率を正しく入力してください');
+        }
+    }
+</script>
 
 </body>
 </html>
