@@ -52,8 +52,8 @@
             margin-bottom: 1.25rem;
         }
         .button-group .button {
-            flex: 1;
-            margin: 0.25rem;
+            flex: 0 0 20%;  /* 幅を20%に調整 */
+            margin: 0.25rem; /* マージンを小さくする */
             text-align: center;
         }
         .button.active {
@@ -65,14 +65,34 @@
             color: #666;
         }
 
+        /* 検索タイプを選択するボタン */
+        .search-type-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+        }
+        .search-type-buttons .button {
+            flex: 0 0 20%;  /* 幅を20%に調整 */
+            margin: 0.25rem; /* マージンを小さくする */
+            text-align: center;
+        }
+
+        /* プレイヤー名・ID入力欄とボタンの配置調整 */
+        .score-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.3125rem;
+            flex-wrap: wrap; /* これでボタンが小さい画面でも1行に収まる */
+        }
         .score-section input {
-            padding: 1rem;
-            margin: 0.625rem 0;
-            font-size: 1.5rem;
-            width: calc(100% - 4rem); /* 検索ボタンの幅に合わせる */
-            max-width: 80%;
+            flex: 1; /* 入力欄が利用可能なスペースを最大限使用 */
+            min-width: 200px; /* 最小幅を設定して、狭い画面での崩れを防止 */
         }
         .score-section button {
+            flex: 0 0 auto;
+            width: 30%; /* ボタンの幅を30%に設定 */
+            min-width: 80px; /* 最小幅を設定 */
             padding: 1rem;
             font-size: 1.5rem;
             background-color: #007BFF;
@@ -81,16 +101,6 @@
             border-radius: 0.3125rem;
             cursor: pointer;
             margin: 0.3125rem;
-            width: 8rem; /* 固定幅 */
-        }
-        .score-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.3125rem;
-        }
-        .score-section input {
-            flex: 1;
         }
 
         table {
@@ -183,6 +193,8 @@
         .pagination button:hover {
             background-color: #0056b3;
         }
+
+        /* Back to Homeボタンのスタイルを元に戻す */
         .button.back-to-home {
             position: fixed;
             bottom: 1.25rem;
@@ -191,20 +203,12 @@
             color: #000;
             font-family: 'Dancing Script', cursive;
             font-size: 1.5rem;
-            padding: 1rem;
-        }
-
-        /* ボタンのスタイルを改善 */
-        .search-type-buttons {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1.25rem;
-        }
-
-        .search-type-buttons .button {
-            flex: 1;
-            margin: 0.25rem;
+            padding: 1rem 2rem;
             text-align: center;
+            border: none;
+            border-radius: 0.3125rem;
+            cursor: pointer;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
 
     </style>
