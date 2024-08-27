@@ -130,11 +130,12 @@
 <button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
 
 <script>
+    // スプレッドシートのA列（プレイヤーID）とB列（プレイヤー名）のデータをオブジェクトとして定義
     const playerData = {
-        "1": "プレイヤーA",
-        "2": "プレイヤーB",
-        "3": "プレイヤーC",
-        "4": "プレイヤーD"
+        "1001": "田中太郎",
+        "1002": "佐藤花子",
+        "1003": "山田一郎",
+        "1004": "中村二郎"
         // IDと名前のペアをここに追加
     };
 
@@ -146,7 +147,7 @@
 
     function fetchPlayerName() {
         const playerId = document.getElementById('playerId').value.trim();
-        const playerName = playerData[playerId] || '';
+        const playerName = playerData[playerId] || ''; // IDに対応するプレイヤー名を取得
         document.getElementById('playerName').value = playerName;
     }
 
