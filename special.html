@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>競馬風ゲーム - 3D CASINO</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            font-size: 16px;
+        }
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem;
+        }
+        header {
+            background-color: #333;
+            padding: 1rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-family: 'Dancing Script', cursive;
+        }
+        .container {
+            padding: 1rem;
+            width: 95%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .bet-list {
+            background-color: #222;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .bet-list h2 {
+            margin-top: 0;
+            color: #fff;
+        }
+        .bet-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .bet-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #444;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>3D CASINO</h1>
+</header>
+
+<div class="container">
+    <h2>競馬風ゲーム</h2>
+    
+    <div class="input-section">
+        <input type="text" id="playerId" placeholder="プレイヤーIDを入力" oninput="fetchPlayerName()" />
+        <input type="text" id="playerName" placeholder="プレイヤー名" readonly />
+        <input type="number" id="betAmount" placeholder="賭け金を入力" />
+        
+        <select id="betOnPlayer">
+            <option value="">賭けるプレイヤーを選択</option>
+            <option value="Aさん">Aさん</option>
+            <option value="Bさん">Bさん</option>
+            <option value="Cさん">Cさん</option>
+            <option value="Dさん">Dさん</option>
+        </select>
+        
+        <button onclick="saveBet()">賭ける</button>
+    </div>
+    
+    <div class="bet-list">
+        <h2>賭け一覧</h2>
+        <ul id="betList"></ul>
+    </div>
+</div>
+
+<script>
+    const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
+    const SHEET_NAME = 'Sheet1';
+    const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+
+    let bets = [];
+
+    function fetchPlayerName() {
+        const playerId = document.getElementById('playerId').value.trim();
+        if (playerId) {
+            fetch(URL)
+                .then(response => response.text())
+                .then(data => {
+                    const jsonData = JSON.parse(data.substr(47).slice(0, -2));
+                    const rows = jsonData.table.rows;
+                    const player = rows.find(row => row.c[0].v === Number(playerId));
+                    if (player) {
+                        document.getElementById('playerName').value = player.c[1].v;
+                    } else {
+                        document.getElementById('playerName').value = '';
+                    }
+                })
+                .catch(error => console.error('データの取得中にエラーが発生しました:', error));
+        } else {
+            document.getElementById('playerName').value = '';
+        }
+    }
+
+    function saveBet() {
+        const playerId = document.getElementById('playerId').value;
+        const playerName = document.getElementById('playerName').value;
+        const betAmount = document.getElementById('betAmount').value;
+        const betOnPlayer = document.getElementById('betOnPlayer').value;
+
+        if (playerId && playerName && betAmount && betOnPlayer) {
+            bets.push({ playerId, playerName, betAmount, betOnPlayer });
+            displayBets();
+            clearInputs();
+        } else {
+            alert('すべてのフィールドを正しく入力してください');
+        }
+    }
+
+    function displayBets() {
+        const betList = document.getElementById('betList');
+        betList.innerHTML = '';
+        bets.forEach(bet => {
+            const li = document.createElement('li');
+            li.textContent = `${bet.playerName} (ID: ${bet.playerId}) が ${bet.betAmount} 円を ${bet.betOnPlayer} に賭けました`;
+            betList.appendChild(li);
+        });
+    }
+
+    function clearInputs() {
+        document.getElementById('playerId').value = '';
+        document.getElementById('playerName').value = '';
+        document.getElementById('betAmount').value = '';
+        document.getElementById('betOnPlayer').value = '';
+    }
+</script>
+
+</body>
+</html>
