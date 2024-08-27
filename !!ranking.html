@@ -35,19 +35,24 @@
             background-color: #007BFF;
             color: #fff;
             border: none;
-            padding: 1rem 2rem;
+            padding: 1rem 0;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 1.5rem;
-            margin: 0.625rem 0.3125rem;
+            margin: 0.625rem 0;
             cursor: pointer;
             border-radius: 0.3125rem;
+            width: 100%;
+            box-sizing: border-box;
         }
         .button:hover {
             background-color: #0056b3;
         }
-        .button-group {
+        .button-group, .search-type-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.3125rem;
             margin-bottom: 1.25rem;
         }
         .button.active {
@@ -58,28 +63,24 @@
             background-color: #ccc;
             color: #666;
         }
-
-        .score-section input {
-            padding: 1rem;
-            margin: 0.625rem 0;
-            font-size: 1.5rem;
-            width: 80%;
+        .score-section input, .score-section button {
+            width: 100%;
             max-width: 400px;
+            padding: 1rem;
+            font-size: 1.5rem;
+            margin: 0.625rem 0;
+            box-sizing: border-box;
         }
         .score-section button {
-            padding: 1rem 2rem;
-            font-size: 1.5rem;
             background-color: #007BFF;
             color: #fff;
             border: none;
             border-radius: 0.3125rem;
             cursor: pointer;
-            margin: 0.3125rem;
         }
         .score-section button:hover {
             background-color: #0056b3;
         }
-
         table {
             width: 80%;
             margin: 1.25rem auto;
@@ -156,11 +157,13 @@
         }
         .pagination {
             margin: 1.25rem;
+            display: flex;
+            justify-content: center;
+            gap: 0.3125rem;
         }
         .pagination button {
             padding: 1rem 2rem;
             font-size: 1.5rem;
-            margin: 0.3125rem;
             cursor: pointer;
             border-radius: 0.3125rem;
             background-color: #007BFF;
@@ -180,26 +183,11 @@
             font-size: 1.5rem;
             padding: 1rem 2rem;
         }
-
-        /* ボタンのスタイルを改善 */
-        .search-type-buttons {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1.25rem;
-        }
-
-        .search-type-buttons .button {
-            flex: 0 0 auto;
-            width: 45%; /* 幅を45%に調整 */
-            margin: 0.25rem; /* マージンを小さくする */
-            text-align: center;
-            padding: 1rem 0; /* 上下のパディングを確保 */
-            border-radius: 0.3125rem;
-        }
-
     </style>
 </head>
 <body class="loading">
+<!-- 以下は元のHTMLと同様の構造 -->
+
 
 <header onclick="location.href='index.html'">
     <h1>3D CASINO</h1>
