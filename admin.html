@@ -42,9 +42,6 @@
         .button:hover {
             background-color: #0056b3;
         }
-        .button-container {
-            margin: 20px 0;
-        }
         .form-group {
             margin-bottom: 15px;
         }
@@ -66,18 +63,6 @@
 </header>
 
 <div class="container">
-    <div class="button-container">
-        <button class="button" onclick="location.href='index.html'">ホームページ</button>
-        <button class="button" onclick="location.href='roulette_rules.html'">ルーレットルール</button>
-        <button class="button" onclick="location.href='card_games_rules.html'">トランプルール</button>
-        <button class="button" onclick="location.href='dice_games_rules.html'">ダイスルール</button>
-        <button class="button" onclick="location.href='ranking.html'">ランキング</button>
-    </div>
-    <div class="button-container">
-        <button class="button" onclick="window.open('https://docs.google.com/spreadsheets/d/1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98/edit?gid=0', '_blank')">ランキングデータ入力</button>
-    </div>
-
-    <h2>勝者と倍率の設定</h2>
     <div class="form-group">
         <label for="winner">勝者を選択:</label>
         <select id="winner">
@@ -92,37 +77,47 @@
         <label for="multiplier">倍率を入力:</label>
         <input type="number" id="multiplier" min="1" placeholder="倍率を入力" />
     </div>
-    <button class="button" onclick="applyWinnings()">配当を適用</button>
+    <button class="button" onclick="saveData()">データを追加</button>
+    <button class="button" onclick="sendDataToSpreadsheet()">すべてのデータを送信</button>
 </div>
 
 <script>
-    const SPREADSHEET_WEB_APP_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'; // スプレッドシートのWebアプリURLを記入
+    const SPREADSHEET_WEB_APP_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
 
-    function applyWinnings() {
+    let dataBuffer = [];
+
+    function saveData() {
         const winner = document.getElementById('winner').value;
         const multiplier = document.getElementById('multiplier').value;
 
         if (winner && multiplier >= 1) {
-            // 勝者と倍率の情報をスプレッドシートに送信
+            dataBuffer.push({ winner: winner, multiplier: multiplier });
+            alert("データがバッファに保存されました");
+        } else {
+            alert('勝者と倍率を正しく入力してください');
+        }
+    }
+
+    function sendDataToSpreadsheet() {
+        if (dataBuffer.length > 0) {
             fetch(SPREADSHEET_WEB_APP_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    winner: winner,
-                    multiplier: multiplier
-                })
+                body: JSON.stringify(dataBuffer) // バッファ内のデータを一度に送信
             })
             .then(response => response.text())
             .then(data => {
-                alert("配当が適用されました");
+                console.log("データが送信されました: ", data);
+                dataBuffer = []; // 送信後にバッファをクリア
+                alert("すべてのデータがスプレッドシートに送信されました");
             })
             .catch(error => {
-                console.error("配当適用中にエラーが発生しました: ", error);
+                console.error("データ送信中にエラーが発生しました: ", error);
             });
         } else {
-            alert('勝者と倍率を正しく入力してください');
+            alert('送信するデータがありません');
         }
     }
 </script>
