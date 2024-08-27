@@ -23,6 +23,9 @@
             background-color: #333;
             padding: 1rem;
             text-align: center;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
         }
         header h1 {
             margin: 0;
@@ -34,6 +37,8 @@
             width: 95%;
             max-width: 600px;
             margin: 0 auto;
+            opacity: 0;
+            animation: fadeIn 1s forwards 0.5s;
         }
         input, select, button {
             width: 100%;
@@ -42,6 +47,14 @@
             border: none;
             border-radius: 0.25rem;
             font-size: 1rem;
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
         }
         button {
             background-color: #007BFF;
@@ -57,6 +70,8 @@
             border-radius: 0.25rem;
             margin-top: 1rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            animation: fadeIn 1s forwards 1s;
         }
         .bet-list h2 {
             margin-top: 0;
@@ -71,11 +86,27 @@
             padding: 0.5rem 0;
             border-bottom: 1px solid #444;
         }
+        .button.back-to-home {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background-color: #ffffff;
+            color: #000;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
-<header>
+<header onclick="location.href='index.html'">
     <h1>3D CASINO</h1>
 </header>
 
@@ -85,7 +116,7 @@
     <div class="input-section">
         <input type="text" id="playerId" placeholder="プレイヤーIDを入力" oninput="fetchPlayerName()" />
         <input type="text" id="playerName" placeholder="プレイヤー名" readonly />
-        <input type="number" id="betAmount" placeholder="賭け金を入力" />
+        <input type="number" id="betAmount" placeholder="賭け金を入力 (1000円単位)" min="1000" step="1000" oninput="validateBetAmount()" />
         
         <select id="betOnPlayer">
             <option value="">賭けるプレイヤーを選択</option>
@@ -103,6 +134,8 @@
         <ul id="betList"></ul>
     </div>
 </div>
+
+<button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
 
 <script>
     const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
@@ -132,14 +165,25 @@
         }
     }
 
+    function validateBetAmount() {
+        const betAmountInput = document.getElementById('betAmount');
+        let betAmount = parseInt(betAmountInput.value);
+        if (betAmount < 1000) {
+            betAmount = 1000;
+        }
+        if (betAmount % 1000 !== 0) {
+            betAmount = Math.round(betAmount / 1000) * 1000;
+        }
+        betAmountInput.value = betAmount;
+    }
+
     function saveBet() {
-        const playerId = document.getElementById('playerId').value;
         const playerName = document.getElementById('playerName').value;
         const betAmount = document.getElementById('betAmount').value;
         const betOnPlayer = document.getElementById('betOnPlayer').value;
 
-        if (playerId && playerName && betAmount && betOnPlayer) {
-            bets.push({ playerId, playerName, betAmount, betOnPlayer });
+        if (playerName && betAmount >= 1000 && betOnPlayer) {
+            bets.push({ playerName, betAmount, betOnPlayer });
             displayBets();
             clearInputs();
         } else {
@@ -152,7 +196,7 @@
         betList.innerHTML = '';
         bets.forEach(bet => {
             const li = document.createElement('li');
-            li.textContent = `${bet.playerName} (ID: ${bet.playerId}) が ${bet.betAmount} 円を ${bet.betOnPlayer} に賭けました`;
+            li.textContent = `${bet.playerName} が ${bet.betAmount} 円を ${bet.betOnPlayer} に賭けました`;
             betList.appendChild(li);
         });
     }
@@ -160,10 +204,11 @@
     function clearInputs() {
         document.getElementById('playerId').value = '';
         document.getElementById('playerName').value = '';
-        document.getElementById('betAmount').value = '';
+        document.getElementById('betAmount').value = '1000';
         document.getElementById('betOnPlayer').value = '';
     }
 </script>
 
 </body>
 </html>
+
