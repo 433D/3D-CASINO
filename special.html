@@ -138,9 +138,7 @@
 <button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
 
 <script>
-    const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
-    const SHEET_NAME = 'Sheet1';
-    const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+    const SPREADSHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyDwqb583ESLgnolY7pIrPI83Hp-Pqp_hpEDPON6JvwNh4ETTe9Jz6JatSack__ICwiaQ/exec';
 
     let bets = [];
 
@@ -178,14 +176,21 @@
     }
 
     function saveBet() {
+        const playerId = document.getElementById('playerId').value;
         const playerName = document.getElementById('playerName').value;
         const betAmount = document.getElementById('betAmount').value;
         const betOnPlayer = document.getElementById('betOnPlayer').value;
 
-        if (playerName && betAmount >= 1000 && betOnPlayer) {
-            bets.push({ playerName, betAmount, betOnPlayer });
+        if (playerId && playerName && betAmount >= 1000 && betOnPlayer) {
+            // 賭けデータを一時的に保存
+            bets.push({ playerId, playerName, betAmount, betOnPlayer });
             displayBets();
             clearInputs();
+
+            // 条件を満たしたら一括でスプレッドシートに送信
+            if (bets.length >= 5) { // 例えば5件溜まったら送信
+                sendBetsToSpreadsheet();
+            }
         } else {
             alert('すべてのフィールドを正しく入力してください');
         }
@@ -207,8 +212,32 @@
         document.getElementById('betAmount').value = '1000';
         document.getElementById('betOnPlayer').value = '';
     }
+
+    function sendBetsToSpreadsheet() {
+        fetch(SPREADSHEET_WEB_APP_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bets) // すべての賭けデータを一度に送信
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log("データが送信されました: ", data);
+            bets = []; // 送信後にバッファをクリア
+        })
+        .catch(error => {
+            console.error("データ送信中にエラーが発生しました: ", error);
+        });
+    }
+
+    // 定期的にバッチ送信（例: 30秒ごと）
+    setInterval(function() {
+        if (bets.length > 0) {
+            sendBetsToSpreadsheet();
+        }
+    }, 30000); // 30秒ごとにバッチ送信
 </script>
 
 </body>
 </html>
-
