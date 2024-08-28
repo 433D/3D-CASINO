@@ -1,231 +1,69 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>競馬風ゲーム - 3D CASINO</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Dancing+Script&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            font-size: 16px;
-        }
-        body {
-            font-family: 'Raleway', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #111;
-            color: #fff;
-            text-align: center;
-            font-size: 1rem;
-        }
-        header {
-            background-color: #333;
-            padding: 1rem;
-            text-align: center;
-            cursor: pointer;
-            opacity: 0;
-            animation: fadeIn 1s forwards;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-            font-family: 'Dancing Script', cursive;
-        }
-        .container {
-            padding: 1rem;
-            width: 95%;
-            max-width: 600px;
-            margin: 0 auto;
-            opacity: 0;
-            animation: fadeIn 1s forwards 0.5s;
-        }
-        input, select, button {
-            width: 100%;
-            padding: 0.75rem;
-            margin-bottom: 1rem;
-            border: none;
-            border-radius: 0.25rem;
-            font-size: 1rem;
-        }
-        button {
-            background-color: #007BFF;
-            color: #fff;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .bet-list {
-            background-color: #222;
-            padding: 1rem;
-            border-radius: 0.25rem;
-            margin-top: 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            animation: fadeIn 1s forwards 1s;
-        }
-        .bet-list h2 {
-            margin-top: 0;
-            color: #fff;
-        }
-        .bet-list ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .bet-list li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #444;
-        }
-        .button.back-to-home {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            background-color: #ffffff;
-            color: #000;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1rem;
-            padding: 0.5rem 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            cursor: pointer;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
+  <title>人間競馬 賭け</title>
+  <script>
+    function submitBet() {
+      // プレイヤーID、賭け金額、賭け対象を取得
+      var playerId = document.getElementById("playerId").value;
+      var betAmount = document.getElementById("betAmount").value;
+      var betTarget = document.getElementById("betTarget").value;
+
+      // 入力値のバリデーション
+      if (!playerId || !betAmount || !betTarget) {
+        alert("すべての項目を入力してください。");
+        return;
+      }
+
+      if (betAmount % 1000 !== 0) {
+        alert("賭け金は1000円単位で入力してください。");
+        return;
+      }
+
+      // Google Apps Script の関数を実行
+      google.script.run
+        .withSuccessHandler(showResult)
+        .recordBet(playerId, betAmount, betTarget);
+    }
+
+    function showResult(message) {
+      alert(message);
+      // 結果表示エリアを更新
+      google.script.run.withSuccessHandler(updateResult).getPlayerResult();
+    }
+
+    function updateResult(result) {
+      document.getElementById("result").innerHTML = 
+        "プレイヤー名: " + result.playerName + "<br>" +
+        "獲得金額: " + result.dividend + "円<br>" +
+        "現在の所持金: " + result.currentBalance + "円";
+    }
+
+    // ページ読み込み時にプレイヤー情報と結果を表示
+    function initialize() {
+      var playerId = document.getElementById("playerId").value;
+      if (playerId) {
+        google.script.run.withSuccessHandler(updatePlayerInfo).getPlayerInfo(playerId);
+        google.script.run.withSuccessHandler(updateResult).getPlayerResult();
+      }
+    }
+
+    function updatePlayerInfo(playerInfo) {
+      document.getElementById("playerName").value = playerInfo.playerName;
+      document.getElementById("currentBalance").value = playerInfo.currentBalance;
+    }
+  </script>
 </head>
-<body>
+<body onload="initialize()">
+  <h1>人間競馬 賭け</h1>
+  プレイヤーID: <input type="text" id="playerId" oninput="initialize()"><br>
+  プレイヤー名: <input type="text" id="playerName" readonly><br>
+  現在の所持金: <input type="text" id="currentBalance" readonly><br>
+  賭け金額 (1000円単位): <input type="number" id="betAmount"><br>
+  賭け対象 (A, B, C, D): <input type="text" id="betTarget"><br>
+  <button onclick="submitBet()">賭ける</button>
 
-<header onclick="location.href='index.html'">
-    <h1>3D CASINO</h1>
-</header>
-
-<div class="container">
-    <h2>競馬風ゲーム</h2>
-    
-    <div class="input-section">
-        <input type="text" id="playerId" placeholder="プレイヤーIDを入力" oninput="fetchPlayerName()" />
-        <input type="text" id="playerName" placeholder="プレイヤー名" readonly />
-        <input type="number" id="betAmount" placeholder="賭け金を入力 (1000円単位)" min="1000" step="1000" oninput="validateBetAmount()" />
-        
-        <select id="betOnPlayer">
-            <option value="">賭けるプレイヤーを選択</option>
-            <option value="Aさん">Aさん</option>
-            <option value="Bさん">Bさん</option>
-            <option value="Cさん">Cさん</option>
-            <option value="Dさん">Dさん</option>
-        </select>
-        
-        <button onclick="saveBet()">賭ける</button>
-    </div>
-    
-    <div class="bet-list">
-        <h2>賭け一覧</h2>
-        <ul id="betList"></ul>
-    </div>
-</div>
-
-<button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
-
-<script>
-    // スプレッドシートのA列（プレイヤーID）とB列（プレイヤー名）のデータをオブジェクトとして定義
-    const playerData = {
-        "1001": "田中太郎",
-        "1002": "佐藤花子",
-        "1003": "山田一郎",
-        "1004": "中村二郎"
-        // IDと名前のペアをここに追加
-    };
-
-    let bets = JSON.parse(localStorage.getItem('bets')) || [];
-
-    document.addEventListener('DOMContentLoaded', function() {
-        displayBets(); // ページロード時に保存された賭け一覧を表示
-    });
-
-    function fetchPlayerName() {
-        const playerId = document.getElementById('playerId').value.trim();
-        const playerName = playerData[playerId] || ''; // IDに対応するプレイヤー名を取得
-        document.getElementById('playerName').value = playerName;
-    }
-
-    function validateBetAmount() {
-        const betAmountInput = document.getElementById('betAmount');
-        let betAmount = parseInt(betAmountInput.value);
-        if (betAmount < 1000) {
-            betAmount = 1000;
-        }
-        if (betAmount % 1000 !== 0) {
-            betAmount = Math.round(betAmount / 1000) * 1000;
-        }
-        betAmountInput.value = betAmount;
-    }
-
-    function saveBet() {
-        const playerId = document.getElementById('playerId').value;
-        const playerName = document.getElementById('playerName').value;
-        const betAmount = document.getElementById('betAmount').value;
-        const betOnPlayer = document.getElementById('betOnPlayer').value;
-
-        if (playerId && playerName && betAmount >= 1000 && betOnPlayer) {
-            bets.push({ playerId, playerName, betAmount, betOnPlayer });
-            localStorage.setItem('bets', JSON.stringify(bets));
-            displayBets();
-            clearInputs();
-
-            if (bets.length >= 5) {
-                sendBetsToSpreadsheet();
-            }
-        } else {
-            alert('すべてのフィールドを正しく入力してください');
-        }
-    }
-
-    function displayBets() {
-        const betList = document.getElementById('betList');
-        betList.innerHTML = '';
-        bets.forEach(bet => {
-            const li = document.createElement('li');
-            li.textContent = `${bet.playerName} が ${bet.betAmount} 円を ${bet.betOnPlayer} に賭けました`;
-            betList.appendChild(li);
-        });
-    }
-
-    function clearInputs() {
-        document.getElementById('playerId').value = '';
-        document.getElementById('playerName').value = '';
-        document.getElementById('betAmount').value = '1000';
-        document.getElementById('betOnPlayer').value = '';
-    }
-
-    function sendBetsToSpreadsheet() {
-        fetch(SPREADSHEET_WEB_APP_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(bets)
-        })
-        .then(response => response.text())
-        .then(data => {
-            console.log("データが送信されました: ", data);
-            bets = [];
-            localStorage.removeItem('bets');
-        })
-        .catch(error => {
-            console.error("データ送信中にエラーが発生しました: ", error);
-        });
-    }
-
-    // 定期的にバッチ送信（例: 30秒ごと）
-    setInterval(function() {
-        if (bets.length > 0) {
-            sendBetsToSpreadsheet();
-        }
-    }, 30000); // 30秒ごとにバッチ送信
-</script>
-
+  <h2>結果</h2>
+  <div id="result"></div>
 </body>
 </html>

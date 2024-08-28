@@ -1,126 +1,30 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理者ページ - 3D CASINO</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&display=swap">
-    <style>
-        body {
-            font-family: 'Raleway', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #111;
-            color: #fff;
-            text-align: center;
-        }
-        header {
-            background-color: #333;
-            padding: 20px;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-        .container {
-            padding: 20px;
-        }
-        .button {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px 5px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        input, select {
-            padding: 10px;
-            font-size: 16px;
-            width: 100%;
-            max-width: 400px;
-            margin: 5px 0;
-            border: none;
-            border-radius: 5px;
-        }
-    </style>
+  <title>人間競馬 管理</title>
+  <script>
+    function submitResult() {
+      // 勝者と配当を取得
+      var winner = document.getElementById("winner").value;
+      var dividendRate = document.getElementById("dividendRate").value;
+
+      // 入力値のバリデーション (必要に応じて追加)
+
+      // Google Apps Script の関数を実行
+      google.script.run
+        .withSuccessHandler(showResult)
+        .calculateDividend(winner, dividendRate);
+    }
+
+    function showResult(message) {
+      alert(message);
+    }
+  </script>
 </head>
 <body>
-
-<header>
-    <h1>管理者ページ</h1>
-</header>
-
-<div class="container">
-    <div class="form-group">
-        <label for="winner">勝者を選択:</label>
-        <select id="winner">
-            <option value="">--選択してください--</option>
-            <option value="Aさん">Aさん</option>
-            <option value="Bさん">Bさん</option>
-            <option value="Cさん">Cさん</option>
-            <option value="Dさん">Dさん</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="multiplier">倍率を入力:</label>
-        <input type="number" id="multiplier" min="1" placeholder="倍率を入力" />
-    </div>
-    <button class="button" onclick="saveData()">データを追加</button>
-    <button class="button" onclick="sendDataToSpreadsheet()">すべてのデータを送信</button>
-</div>
-
-<script>
-    const SPREADSHEET_WEB_APP_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
-
-    let dataBuffer = [];
-
-    function saveData() {
-        const winner = document.getElementById('winner').value;
-        const multiplier = document.getElementById('multiplier').value;
-
-        if (winner && multiplier >= 1) {
-            dataBuffer.push({ winner: winner, multiplier: multiplier });
-            alert("データがバッファに保存されました");
-        } else {
-            alert('勝者と倍率を正しく入力してください');
-        }
-    }
-
-    function sendDataToSpreadsheet() {
-        if (dataBuffer.length > 0) {
-            fetch(SPREADSHEET_WEB_APP_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dataBuffer)
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log("データが送信されました: ", data);
-                dataBuffer = [];
-                alert("すべてのデータがスプレッドシートに送信されました");
-            })
-            .catch(error => {
-                console.error("データ送信中にエラーが発生しました: ", error);
-            });
-        } else {
-            alert('送信するデータがありません');
-        }
-    }
-</script>
-
+  <h1>人間競馬 管理</h1>
+  勝者 (A, B, C, D): <input type="text" id="winner"><br>
+  配当倍率: <input type="number" id="dividendRate"><br>
+  <button onclick="submitResult()">結果入力</button>
 </body>
 </html>

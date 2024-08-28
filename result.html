@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>賭け履歴</title>
+  <script>
+    // ページ読み込み時に賭け履歴を表示
+    function initialize() {
+      var playerId = document.getElementById("playerId").value;
+      if (playerId) {
+        google.script.run.withSuccessHandler(updateResult).getBetHistory(playerId);
+      }
+    }
+
+    function updateResult(betHistory) {
+      var resultHtml = "<table><tr><th>日付</th><th>賭け対象</th><th>賭け金額</th><th>配当</th></tr>";
+      for (var i = 0; i < betHistory.length; i++) {
+        resultHtml += "<tr>";
+        resultHtml += "<td>" + betHistory[i].date + "</td>";
+        resultHtml += "<td>" + betHistory[i].betTarget + "</td>";
+        resultHtml += "<td>" + betHistory[i].betAmount + "</td>";
+        resultHtml += "<td>" + betHistory[i].dividend + "</td>";
+        resultHtml += "</tr>";
+      }
+      resultHtml += "</table>";
+      document.getElementById("result").innerHTML = resultHtml;
+    }
+  </script>
+</head>
+<body onload="initialize()">
+  <h1>賭け履歴</h1>
+  プレイヤーID: <input type="text" id="playerId" oninput="initialize()"><br>
+  <div id="result"></div>
+</body>
+</html>
