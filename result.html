@@ -7,7 +7,9 @@
     function initialize() {
       var playerId = document.getElementById("playerId").value;
       if (playerId) {
-        google.script.run.withSuccessHandler(updateResult).getBetHistory(playerId);
+        google.script.run.withSuccessHandler(updateResult)
+          .withFailureHandler(showError) // エラーハンドラを追加
+          .getBetHistory(playerId, 'https://script.google.com/macros/s/AKfycbwZwNeRB9lRxy-fNGXf5gevLHyjNdB1ErpwHoOJFUS-ByI8PkRbmj1dY-ZR0AyBCe-isw/exec'); // URLを追加
       }
     }
 
@@ -23,6 +25,11 @@
       }
       resultHtml += "</table>";
       document.getElementById("result").innerHTML = resultHtml;
+    }
+
+    function showError(error) {
+      console.error("Error:", error);
+      alert("エラーが発生しました: " + error);
     }
   </script>
 </head>

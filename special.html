@@ -23,13 +23,16 @@
       // Google Apps Script の関数を実行
       google.script.run
         .withSuccessHandler(showResult)
-        .recordBet(playerId, betAmount, betTarget);
+        .withFailureHandler(showError) // エラーハンドラを追加
+        .recordBet(playerId, betAmount, betTarget, 'https://script.google.com/macros/s/AKfycbwZwNeRB9lRxy-fNGXf5gevLHyjNdB1ErpwHoOJFUS-ByI8PkRbmj1dY-ZR0AyBCe-isw/exec'); // URLを追加
     }
 
     function showResult(message) {
       alert(message);
       // 結果表示エリアを更新
-      google.script.run.withSuccessHandler(updateResult).getPlayerResult();
+      google.script.run.withSuccessHandler(updateResult)
+        .withFailureHandler(showError) // エラーハンドラを追加
+        .getPlayerResult('https://script.google.com/macros/s/AKfycbwZwNeRB9lRxy-fNGXf5gevLHyjNdB1ErpwHoOJFUS-ByI8PkRbmj1dY-ZR0AyBCe-isw/exec'); // URLを追加
     }
 
     function updateResult(result) {
@@ -43,14 +46,23 @@
     function initialize() {
       var playerId = document.getElementById("playerId").value;
       if (playerId) {
-        google.script.run.withSuccessHandler(updatePlayerInfo).getPlayerInfo(playerId);
-        google.script.run.withSuccessHandler(updateResult).getPlayerResult();
+        google.script.run.withSuccessHandler(updatePlayerInfo)
+          .withFailureHandler(showError) // エラーハンドラを追加
+          .getPlayerInfo(playerId, 'https://script.google.com/macros/s/AKfycbwZwNeRB9lRxy-fNGXf5gevLHyjNdB1ErpwHoOJFUS-ByI8PkRbmj1dY-ZR0AyBCe-isw/exec'); // URLを追加
+        google.script.run.withSuccessHandler(updateResult)
+          .withFailureHandler(showError) // エラーハンドラを追加
+          .getPlayerResult('https://script.google.com/macros/s/AKfycbwZwNeRB9lRxy-fNGXf5gevLHyjNdB1ErpwHoOJFUS-ByI8PkRbmj1dY-ZR0AyBCe-isw/exec'); // URLを追加
       }
     }
 
     function updatePlayerInfo(playerInfo) {
       document.getElementById("playerName").value = playerInfo.playerName;
       document.getElementById("currentBalance").value = playerInfo.currentBalance;
+    }
+
+    function showError(error) {
+      console.error("Error:", error);
+      alert("エラーが発生しました: " + error);
     }
   </script>
 </head>

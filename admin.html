@@ -13,11 +13,17 @@
       // Google Apps Script の関数を実行
       google.script.run
         .withSuccessHandler(showResult)
-        .calculateDividend(winner, dividendRate);
+        .withFailureHandler(showError) // エラーハンドラを追加
+        .calculateDividend(winner, dividendRate, 'https://script.google.com/macros/s/AKfycbwZwNeRB9lRxy-fNGXf5gevLHyjNdB1ErpwHoOJFUS-ByI8PkRbmj1dY-ZR0AyBCe-isw/exec'); // URLを追加
     }
 
     function showResult(message) {
       alert(message);
+    }
+
+    function showError(error) {
+      console.error("Error:", error);
+      alert("エラーが発生しました: " + error);
     }
   </script>
 </head>
