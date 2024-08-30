@@ -1,36 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <title>人間競馬 管理</title>
-  <script>
-    function submitResult() {
-      // 勝者と配当を取得
-      var winner = document.getElementById("winner").value;
-      var dividendRate = document.getElementById("dividendRate").value;
-
-      // 入力値のバリデーション (必要に応じて追加)
-
-      // Google Apps Script の関数を実行
-      google.script.run
-        .withSuccessHandler(showResult)
-        .withFailureHandler(showError) // エラーハンドラを追加
-        .calculateDividend(winner, dividendRate, 'https://script.google.com/macros/s/AKfycbwZwNeRB9lRxy-fNGXf5gevLHyjNdB1ErpwHoOJFUS-ByI8PkRbmj1dY-ZR0AyBCe-isw/exec'); // URLを追加
-    }
-
-    function showResult(message) {
-      alert(message);
-    }
-
-    function showError(error) {
-      console.error("Error:", error);
-      alert("エラーが発生しました: " + error);
-    }
-  </script>
+    <meta charset="UTF-8">
+    <title>運営管理ページ</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        button { margin: 10px 0; padding: 10px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
 </head>
 <body>
-  <h1>人間競馬 管理</h1>
-  勝者 (A, B, C, D): <input type="text" id="winner"><br>
-  配当倍率: <input type="number" id="dividendRate"><br>
-  <button onclick="submitResult()">結果入力</button>
+    <h1>運営管理ページ</h1>
+    <button onclick="copyToClipboard()">データをコピー</button>
+    <table id="betTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>賭け先</th>
+                <th>賭け金額</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        function loadBetData() {
+            const tbody = document.getElementById('betTable').querySelector('tbody');
+            tbody.innerHTML = '';
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('bet_')) {
+                    const bet = JSON.parse(localStorage.getItem(key));
+                    const row = tbody.insertRow();
+                    row.insertCell(0).textContent = bet.id;
+                    row.insertCell(1).textContent = bet.horse;
+                    row.insertCell(2).textContent = bet.amount;
+                }
+            }
+        }
+
+        function copyToClipboard() {
+            const rows = [];
+            document.querySelectorAll('#betTable tbody tr').forEach(row => {
+                const cells = Array.from(row.children).map(cell => cell.textContent);
+                rows.push(cells.join('\t'));
+            });
+
+            const textToCopy = rows.join('\n');
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('データがコピーされました！');
+            }).catch(error => {
+                console.error('Error copying data:', error);
+            });
+        }
+
+        window.onload = loadBetData;
+    </script>
 </body>
 </html>
