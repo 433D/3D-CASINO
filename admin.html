@@ -20,6 +20,8 @@
                 <th>ID</th>
                 <th>賭け先</th>
                 <th>賭け金額</th>
+                <th>配当金額</th> <!-- 配当計算の列 -->
+                <th>更新後の所持金</th> <!-- 所持金更新の列 -->
             </tr>
         </thead>
         <tbody></tbody>
@@ -38,6 +40,10 @@
                     row.insertCell(0).textContent = bet.id;
                     row.insertCell(1).textContent = bet.horse;
                     row.insertCell(2).textContent = bet.amount;
+
+                    // 配当金額と所持金更新のセルは空のままにしておく
+                    row.insertCell(3).textContent = ''; // 配当金額
+                    row.insertCell(4).textContent = ''; // 更新後の所持金
                 }
             }
         }
