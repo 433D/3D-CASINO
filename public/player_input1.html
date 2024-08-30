@@ -1,0 +1,49 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>賭け情報システム</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>賭け情報システム</h1>
+    <ul id="betList"></ul>
+    <form id="betForm">
+        <input type="text" id="player_id" placeholder="プレイヤーID" required>
+        <select id="horse" required>
+            <option value="Aさん">Aさん</option>
+            <option value="Bさん">Bさん</option>
+            <option value="Cさん">Cさん</option>
+            <option value="Dさん">Dさん</option>
+        </select>
+        <input type="number" id="amount" placeholder="賭け金額" step="1000" required>
+        <button type="submit">賭ける</button>
+    </form>
+
+    <script>
+        const socket = io();
+
+        // データの読み込み
+        socket.on('loadData', (bets) => {
+            const betList = document.getElementById('betList');
+            betList.innerHTML = '';
+            bets.forEach((bet) => {
+                const li = document.createElement('li');
+                li.textContent = `${bet.id}が${bet.horse}に${bet.amount}円賭けました`;
+                betList.appendChild(li);
+            });
+        });
+
+        // 賭け情報の送信
+        document.getElementById('betForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const playerId = document.getElementById('player_id').value;
+            const horse = document.getElementById('horse').value;
+            const amount = parseInt(document.getElementById('amount').value);
+            socket.emit('newBet', { id: playerId, horse, amount });
+            event.target.reset();
+        });
+    </script>
+</body>
+</html>
