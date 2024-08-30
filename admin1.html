@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>運営管理ページ</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        button { margin: 10px 0; padding: 10px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>運営管理ページ</h1>
+    <button onclick="loadBetData()">データを更新</button>
+    <table id="betTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>賭け先</th>
+                <th>賭け金額</th>
+                <th>配当金額</th>
+                <th>更新後の所持金</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98/gviz/tq?tqx=out:json&gid=0';
+
+        function loadBetData() {
+            fetch(SPREADSHEET_URL)
+                .then(response => response.text())
+                .then(data => {
+                    const jsonData = JSON.parse(data.substr(47).slice(0, -2));
+                    const rows = jsonData.table.rows;
+                    const tbody = document.getElementById('betTable').querySelector('tbody');
+                    tbody.innerHTML = '';
+
+                    rows.forEach(row => {
+                        const bet = {
+                            id: row.c[0].v,
+                            horse: row.c[1].v,
+                            amount: row.c[2].v
+                        };
+
+                        const rowElement = tbody.insertRow();
+                        rowElement.insertCell(0).textContent = bet.id;
+                        rowElement.insertCell(1).textContent = bet.horse;
+                        rowElement.insertCell(2).textContent = bet.amount;
+                        rowElement.insertCell(3).textContent = ''; // 配当金額
+                        rowElement.insertCell(4).textContent = ''; // 更新後の所持金
+                    });
+                })
+                .catch(error => console.error('Error loading bet data:', error));
+        }
+    </script>
+</body>
+</html>

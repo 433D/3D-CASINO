@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <title>ランキング</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ランキング - 3D CASINO</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Dancing+Script&display=swap" rel="stylesheet">
     <style>
         :root {
-            font-size: 16px; /* 基準となるフォントサイズ */
+            font-size: 16px;
         }
         body {
             font-family: 'Raleway', sans-serif;
@@ -15,248 +17,241 @@
             background-color: #111;
             color: #fff;
             text-align: center;
-            font-size: 1rem; /* 基準フォントサイズ */
+            font-size: 1rem;
         }
         header {
             background-color: #333;
-            padding: 1.25rem; /* 20pxを相対的に */
+            padding: 1rem;
             text-align: center;
-            cursor: pointer;
         }
         header h1 {
             margin: 0;
-            font-size: 2.5rem; /* 大きな見出し */
+            font-size: 2rem;
             font-family: 'Dancing Script', cursive;
         }
         .container {
-            padding: 1.25rem; /* 20pxを相対的に */
+            padding: 1rem;
+            width: 95%;
+            max-width: 600px;
+            margin: 0 auto;
         }
         .button {
             background-color: #007BFF;
             color: #fff;
             border: none;
-            padding: 1rem 2rem; /* ボタンを大きく */
+            padding: 0.75rem;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 1.5rem; /* ボタンのテキストも大きく */
-            margin: 0.625rem 0.3125rem; /* 10px 5pxを相対的に */
+            font-size: 1rem;
             cursor: pointer;
-            border-radius: 0.3125rem; /* 5pxを相対的に */
+            border-radius: 0.25rem;
+            transition: background-color 0.3s;
+            margin: 0.25rem;
+            width: calc(50% - 0.5rem);
         }
         .button:hover {
             background-color: #0056b3;
         }
         .button-group {
-            margin-bottom: 1.25rem; /* 20pxを相対的に */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 1rem;
         }
         .button.active {
-            background-color: #fff;
-            color: #007BFF;
+            background-color: #007BFF;
         }
         .button.inactive {
-            background-color: #ccc;
-            color: #666;
+            background-color: #555;
+        }
+        .score-section {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1rem;
         }
         .score-section input {
-            padding: 1rem; /* 入力欄を大きく */
-            margin: 0.625rem 0; /* 10pxを相対的に */
-            font-size: 1.5rem; /* 入力欄のフォントサイズも大きく */
-            width: 80%; /* スマホでの操作を考慮 */
-            max-width: 400px;
-        }
-        .score-section button {
-            padding: 1rem 2rem; /* ボタンを大きく */
-            font-size: 1.5rem; /* ボタンのテキストも大きく */
-            background-color: #007BFF;
-            color: #fff;
+            padding: 0.75rem;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
             border: none;
-            border-radius: 0.3125rem; /* 5pxを相対的に */
-            cursor: pointer;
-            margin: 0.3125rem; /* 5pxを相対的に */
+            border-radius: 0.25rem;
         }
-        .score-section button:hover {
-            background-color: #0056b3;
+        .score-section-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .score-section-buttons button {
+            width: calc(50% - 0.25rem);
         }
         table {
-            width: 80%;
-            margin: 1.25rem auto; /* 20pxを相対的に */
+            width: 100%;
+            margin: 1rem 0;
             border-collapse: collapse;
-            font-family: 'Arial', sans-serif; /* 数字のフォントをゴシック体に変更 */
+            font-size: 0.9rem;
         }
         th, td {
-            border: 1px solid #ddd;
-            padding: 0.5rem; /* 8pxを相対的に */
+            border: 1px solid #444;
+            padding: 0.5rem;
             text-align: left;
-            font-size: 1.25rem; /* 1.2emで相対的に */
         }
         th {
             background-color: #333;
         }
-        .gold {
-            background-color: gold;
-        }
-        .silver {
-            background-color: silver;
-        }
-        .bronze {
-            background-color: #cd7f32;
-        }
+        .gold { background-color: rgba(255, 215, 0, 0.2); }
+        .silver { background-color: rgba(192, 192, 192, 0.2); }
+        .bronze { background-color: rgba(205, 127, 50, 0.2); }
         .player-score {
-            background-color: #007BFF;
-            padding: 0.625rem; /* 10pxを相対的に */
-            border-radius: 0.3125rem; /* 5pxを相対的に */
-            margin-top: 1.25rem; /* 20pxを相対的に */
-            width: 80%;
-            margin: 1.25rem auto; /* 20pxを相対的に */
+            background-color: #222;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .player-score h3 {
             margin-top: 0;
             color: #fff;
         }
-        .player-score table {
-            width: 100%;
-            background-color: #222;
-            color: #fff;
-        }
         .fade-in {
-            animation: fadeIn 2s;
+            animation: fadeIn 0.5s;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        #summaryTable {
-            width: 80%;
-            margin: 1.25rem auto; /* 20pxを相対的に */
-            border-collapse: collapse;
-        }
-        #summaryTable th, #summaryTable td {
-            border: 1px solid #ddd;
-            padding: 0.5rem; /* 8pxを相対的に */
-            text-align: left;
-            font-size: 1.25rem; /* 1.2emで相対的に */
-        }
-        #summaryTable th {
-            background-color: #333;
-        }
         #loading-text {
             opacity: 0;
-            animation: fadeInOut 2s 2;
+            animation: fadeInOut 2s infinite;
         }
         .loading #loading-text {
             opacity: 1;
         }
         @keyframes fadeInOut {
-            0% { opacity: 0; }
+            0%, 100% { opacity: 0; }
             50% { opacity: 1; }
-            100% { opacity: 0; }
         }
         .pagination {
-            margin: 1.25rem; /* 20pxを相対的に */
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         .pagination button {
-            padding: 1rem 2rem; /* ボタンを大きく */
-            font-size: 1.5rem; /* ボタンのテキストも大きく */
-            margin: 0.3125rem; /* 5pxを相対的に */
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            margin: 0.25rem;
             cursor: pointer;
-            border-radius: 0.3125rem; /* 5pxを相対的に */
+            border-radius: 0.25rem;
             background-color: #007BFF;
             color: #fff;
             border: none;
+            transition: background-color 0.3s;
         }
         .pagination button:hover {
             background-color: #0056b3;
         }
         .button.back-to-home {
             position: fixed;
-            bottom: 1.25rem; /* 20pxを相対的に */
-            right: 1.25rem; /* 20pxを相対的に */
+            bottom: 1rem;
+            right: 1rem;
             background-color: #ffffff;
             color: #000;
             font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem; /* 大きなフォントサイズ */
-            padding: 1rem 2rem; /* 大きなボタンに */
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 <body class="loading">
 
-<header onclick="location.href='index.html'">
+<header>
     <h1>3D CASINO</h1>
 </header>
 
 <div class="container">
     <h2>ランキング</h2>
-    <p class="fade-in">ランキングを確認しましょう</p>
-    <button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
 
     <div class="button-group">
         <button class="button active" id="top10Button" onclick="showTop10()">TOP10</button>
         <button class="button inactive" id="allButton" onclick="showAll()">全体</button>
     </div>
 
-    <div class="score-section">
+    <div class="button-group">
+        <button class="button active" id="idSearchButton" onclick="selectIdSearch()">ID検索</button>
+        <button class="button inactive" id="nameSearchButton" onclick="selectNameSearch()">プレイヤー名検索</button>
+    </div>
+
+    <div id="idSearchSection" class="score-section">
         <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
-        <button onclick="fetchPlayerData()">ID検索</button>
-        <button onclick="clearPlayerData()">クリア</button>
+        <div class="score-section-buttons">
+            <button class="button" onclick="fetchPlayerById()">ID検索</button>
+            <button class="button" onclick="clearPlayerData()">クリア</button>
+        </div>
+    </div>
+
+    <div id="nameSearchSection" class="score-section" style="display:none;">
+        <input type="text" id="playerName" placeholder="プレイヤー名を入力">
+        <div class="score-section-buttons">
+            <button class="button" onclick="fetchPlayerByName()">プレイヤー名検索</button>
+            <button class="button" onclick="clearPlayerData()">クリア</button>
+        </div>
     </div>
 
     <div id="playerScore" class="player-score" style="display:none;">
-        <h3>あなたのスコア</h3>
+        <h3>検索結果</h3>
         <table>
             <thead>
-            <tr>
-                <th>ランク</th>
-                <th>プレイヤー</th>
-                <th>スコア</th>
-                <th>偏差値</th>
-            </tr>
+                <tr>
+                    <th>ランク</th>
+                    <th>プレイヤー</th>
+                    <th>スコア</th>
+                    <th>偏差値</th>
+                </tr>
             </thead>
             <tbody>
-            <tr>
-                <td id="playerRank"></td>
-                <td id="playerName"></td>
-                <td id="playerScoreValue"></td>
-                <td id="playerStandardScore"></td>
-            </tr>
+                <!-- 検索結果がここに挿入されます -->
             </tbody>
         </table>
     </div>
 
     <table id="summaryTable">
         <thead>
-        <tr>
-            <th>参加人数</th>
-            <th>平均スコア</th>
-        </tr>
+            <tr>
+                <th>参加人数</th>
+                <th>平均スコア</th>
+            </tr>
         </thead>
         <tbody>
-        <tr>
-            <td id="totalPlayers"></td>
-            <td id="averageScore"></td>
-        </tr>
+            <tr>
+                <td id="totalPlayers"></td>
+                <td id="averageScore"></td>
+            </tr>
         </tbody>
     </table>
 
     <table id="rankingTable">
         <thead>
-        <tr>
-            <th>ランク</th>
-            <th>プレイヤー</th>
-            <th>スコア</th>
-            <th>偏差値</th>
-        </tr>
+            <tr>
+                <th>ランク</th>
+                <th>プレイヤー</th>
+                <th>スコア</th>
+                <th>偏差値</th>
+            </tr>
         </thead>
         <tbody>
-        <!-- プレイヤーデータがここに挿入されます -->
+            <!-- プレイヤーデータがここに挿入されます -->
         </tbody>
     </table>
     <div class="pagination" id="pagination"></div>
 </div>
 
+<button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
+
+<p id="loading-text">データを取得しています</p>
+
 <script>
-    const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
+        const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
     const SHEET_NAME = 'Sheet1';
     const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
@@ -271,8 +266,9 @@
                 const jsonData = JSON.parse(data.substr(47).slice(0, -2));
                 const rows = jsonData.table.rows;
                 allPlayers = rows.map(row => ({
-                    name: row.c[0].v,
-                    score: parseInt(row.c[1].v)
+                    id: Number(row.c[0].v), // A列（ID）
+                    name: row.c[1].v, // B列（プレイヤー名）
+                    score: parseInt(row.c[2].v) // C列（スコア）
                 }));
                 allPlayers.sort((a, b) => b.score - a.score);
                 showTop10();
@@ -282,36 +278,76 @@
             .catch(error => console.error('Error fetching data:', error));
     }
 
-    function fetchPlayerData() {
-        const playerId = document.getElementById('playerId').value;
-        fetch(URL)
-            .then(response => response.text())
-            .then(data => {
-                const jsonData = JSON.parse(data.substr(47).slice(0, -2));
-                const rows = jsonData.table.rows;
-                let players = rows.map(row => ({
-                    name: row.c[0].v,
-                    score: parseInt(row.c[1].v)
-                }));
-                players.sort((a, b) => b.score - a.score);
-                const player = players.find(p => p.name === playerId);
-                if (player) {
-                    const playerRank = players.findIndex(p => p.name === playerId) + 1;
-                    document.getElementById('playerRank').textContent = playerRank;
-                    document.getElementById('playerName').textContent = player.name;
-                    document.getElementById('playerScoreValue').textContent = player.score;
-                    document.getElementById('playerStandardScore').textContent = calculateStandardScore(player.score, players);
-                    document.getElementById('playerScore').style.display = 'block';
-                } else {
-                    alert('プレイヤーが見つかりません');
-                }
-            })
-            .catch(error => console.error('Error fetching data:', error));
+    function selectIdSearch() {
+        document.getElementById('idSearchButton').classList.add('active');
+        document.getElementById('idSearchButton').classList.remove('inactive');
+        document.getElementById('nameSearchButton').classList.add('inactive');
+        document.getElementById('nameSearchButton').classList.remove('active');
+
+        document.getElementById('idSearchSection').style.display = 'block';
+        document.getElementById('nameSearchSection').style.display = 'none';
+    }
+
+    function selectNameSearch() {
+        document.getElementById('nameSearchButton').classList.add('active');
+        document.getElementById('nameSearchButton').classList.remove('inactive');
+        document.getElementById('idSearchButton').classList.add('inactive');
+        document.getElementById('idSearchButton').classList.remove('active');
+
+        document.getElementById('idSearchSection').style.display = 'none';
+        document.getElementById('nameSearchSection').style.display = 'block';
+    }
+
+    function fetchPlayerById() {
+        const searchId = Number(document.getElementById('playerId').value.trim());
+        if (isNaN(searchId)) {
+            alert('有効な数値IDを入力してください');
+            return;
+        }
+        const matchedPlayers = allPlayers.filter(p => p.id === searchId);
+
+        if (matchedPlayers.length > 0) {
+            displayMatchedPlayers(matchedPlayers, allPlayers);
+        } else {
+            alert('プレイヤーが見つかりません');
+        }
+    }
+
+    function fetchPlayerByName() {
+        const searchName = document.getElementById('playerName').value.trim().toLowerCase();
+        if (searchName === "") {
+            alert('プレイヤー名を入力してください');
+            return;
+        }
+        const matchedPlayers = allPlayers.filter(p => p.name.toLowerCase().includes(searchName));
+
+        if (matchedPlayers.length > 0) {
+            displayMatchedPlayers(matchedPlayers, allPlayers);
+        } else {
+            alert('プレイヤーが見つかりません');
+        }
+    }
+
+    function displayMatchedPlayers(matchedPlayers, allPlayers) {
+        const playerScoreTable = document.getElementById('playerScore').getElementsByTagName('tbody')[0];
+        playerScoreTable.innerHTML = '';
+        
+        matchedPlayers.forEach(player => {
+            const playerRank = allPlayers.findIndex(p => p.id === player.id) + 1;
+            let row = playerScoreTable.insertRow();
+            row.insertCell(0).textContent = playerRank;
+            row.insertCell(1).textContent = player.name;
+            row.insertCell(2).textContent = player.score;
+            row.insertCell(3).textContent = calculateStandardScore(player.score, allPlayers);
+        });
+
+        document.getElementById('playerScore').style.display = 'block';
     }
 
     function clearPlayerData() {
         document.getElementById('playerScore').style.display = 'none';
-        document.getElementById('playerId').value = ''; // プレイヤーIDの入力欄をクリア
+        document.getElementById('playerId').value = ''; 
+        document.getElementById('playerName').value = ''; 
     }
 
     function displayPlayers(players, page = 1) {
@@ -405,6 +441,5 @@
         document.body.classList.remove('loading');
     };
 </script>
-<p id="loading-text">データを取得しています</p>
 </body>
 </html>
