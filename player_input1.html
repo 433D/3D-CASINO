@@ -1,82 +1,96 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>プレイヤー入力ページ</title>
-    <!-- Supabaseライブラリの読み込み -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <style>
-        /* スタイル設定（変更なし） */
-    </style>
+<title>賭けフォーム</title>
+<script>
+  function fetchPlayerData() {
+    const id = document.getElementById('playerId').value;
+    // スプレッドシートの公開URL
+    const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98/edit#gid=594208543';
+    const sheetName = 'Sheet1';
+    const url = `${spreadsheetUrl}/gviz/tq?tqx=out:json&sheet=${sheetName}&tq=select B,C where A = ${id}`;
+
+    fetch(url)
+      .then(response => response.text())
+      .then(data => {
+        const jsonData = JSON.parse(data.substring(47).slice(0, -2));
+        if (jsonData.table.rows.length > 0) {
+          const playerName = jsonData.table.rows[0].c[0].v;
+          const balance = jsonData.table.rows[0].c[1].v;
+          document.getElementById('playerName').textContent = playerName;
+          document.getElementById('balance').textContent = balance;
+          document.getElementById('betAmount').max = balance - 1000; // 賭け金は所持金未満
+        } else {
+          document.getElementById('playerName').textContent = 'IDが見つかりません';
+          document.getElementById('balance').textContent = '';
+          document.getElementById('betAmount').max = 0;
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        document.getElementById('playerName').textContent = 'エラーが発生しました';
+        document.getElementById('balance').textContent = '';
+        document.getElementById('betAmount').max = 0;
+      });
+  }
+
+  function submitData() {
+    const id = document.getElementById('playerId').value;
+    const betTarget = document.getElementById('betTarget').value;
+    const betAmount = document.getElementById('betAmount').value;
+
+    // 入力チェック
+    if (id === '' || betTarget === '' || betAmount === '') {
+      alert('すべての項目を入力してください。');
+      return;
+    }
+
+    if (betAmount % 1000 !== 0) {
+      alert('賭け金は1000の倍数で入力してください。');
+      return;
+    }
+
+    // Google Apps ScriptのWebアプリケーションURLに置き換える
+    const url = 'YOUR_WEB_APP_URL'; // デプロイ後に置き換える
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `id=${id}&betTarget=${betTarget}&betAmount=${betAmount}`,
+    })
+    .then(response => response.text())
+    .then(result => {
+      alert(result);
+    })
+    .catch(error => {
+      console.error('Error submitting data:', error);
+      alert('エラーが発生しました');
+    });
+  }
+</script>
 </head>
 <body>
-    <h1>賭け情報入力</h1>
-    <form id="betForm">
-        <label for="playerId">プレイヤーID:</label>
-        <input type="text" id="playerId" required>
+  <h1>賭けフォーム</h1>
+  <label for="playerId">プレイヤーID (4桁):</label>
+  <input type="number" id="playerId" min="1000" max="9999" oninput="fetchPlayerData()">
 
-        <label for="betTarget">賭けの対象:</label>
-        <select id="betTarget" required>
-            <option value="">選択してください</option>
-            <option value="Aさん">Aさん</option>
-            <option value="Bさん">Bさん</option>
-            <option value="Cさん">Cさん</option>
-            <option value="Dさん">Dさん</option>
-        </select>
+  <p>プレイヤー名: <span id="playerName"></span></p>
+  <p>所持金: <span id="balance"></span></p>
 
-        <label for="betAmount">賭け金額:</label>
-        <input type="number" id="betAmount" required min="1">
+  <label for="betTarget">誰に賭けるか:</label>
+  <select id="betTarget">
+    <option value="">選択してください</option>
+    <option value="Aさん">Aさん</option>
+    <option value="Bさん">Bさん</option>
+    <option value="Cさん">Cさん</option>
+    <option value="Dさん">Dさん</option>
+  </select>
 
-        <button type="submit">送信</button>
-    </form>
+  <label for="betAmount">賭ける額 (1000円単位):</label>
+  <input type="number" id="betAmount" min="1000" max="0" step="1000">
 
-    <div id="message"></div>
-
-    <script>
-        // SupabaseのURLとAPIキーを設定します
-        const supabaseUrl = 'https://nvxdgqdxyzjpotxjuwhx.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52eGRncWR4eXpqcG90eGp1d2h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUwNzczNDMsImV4cCI6MjA0MDY1MzM0M30.3iyzaavXPkN0mGhfA4vJC9t1oijI3Qe-nVGMfPzjS-s';
-
-        // Supabaseクライアントの初期化
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-        // Supabaseクライアントの確認
-        console.log(supabase); // 初期化の確認用
-
-        // フォームの送信処理
-        document.getElementById('betForm').addEventListener('submit', async function(e) {
-            e.preventDefault(); // デフォルトのフォーム送信を防止
-            const messageDiv = document.getElementById('message');
-            messageDiv.innerHTML = '';
-            messageDiv.className = '';
-
-            // 入力値の取得
-            const playerId = document.getElementById('playerId').value;
-            const betTarget = document.getElementById('betTarget').value;
-            const betAmount = parseInt(document.getElementById('betAmount').value);
-
-            try {
-                // データの挿入
-                const { data, error } = await supabase
-                    .from('bets')
-                    .insert([
-                        { player_id: playerId, bet_target: betTarget, bet_amount: betAmount }
-                    ]);
-
-                // エラーハンドリング
-                if (error) throw error;
-
-                // 成功メッセージの表示
-                messageDiv.textContent = '賭け情報が正常に送信されました！';
-                messageDiv.className = 'success';
-                this.reset(); // フォームのリセット
-            } catch (error) {
-                console.error('Error inserting data:', error);
-                messageDiv.textContent = 'エラーが発生しました。もう一度お試しください。';
-                messageDiv.className = 'error';
-            }
-        });
-    </script>
+  <button onclick="submitData()">送信</button>
 </body>
 </html>
