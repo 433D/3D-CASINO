@@ -36,12 +36,8 @@
         <button type="submit">賭ける</button>
     </form>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
         const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98/gviz/tq?tqx=out:json&gid=0';
-        const SUPABASE_URL = 'https://nvxdgqdxyzjpothjuwhx.supabase.co'; // SupabaseのURL
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52eGRncWR4eXpqcG90eGp1d2h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUwNzczNDMsImV4cCI6MjA0MDY1MzM0M30.3iyzaavXPkN0mGhfA4vJC9t1oijI3Qe-nVGMfPzjS-s';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // プレイヤー情報の取得
         document.getElementById('player_id').addEventListener('input', function() {
@@ -63,8 +59,8 @@
                 .catch(error => console.error('Error fetching player data:', error));
         });
 
-        // 賭け情報の送信
-        document.getElementById('betForm').addEventListener('submit', async function(event) {
+        // 賭け情報の保存
+        document.getElementById('betForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
             const playerId = document.getElementById('player_id').value;
@@ -78,24 +74,10 @@
                 return;
             }
 
-            try {
-                // Supabaseに賭け情報を送信
-                const { data, error } = await supabase
-                    .from('bets') // 使用するテーブル名を確認してください
-                    .insert([{ player_id: playerId, bet_target: horse, bet_amount: amount }]);
+            const betData = { id: playerId, horse: horse, amount: amount };
+            localStorage.setItem('bet_' + playerId, JSON.stringify(betData));
 
-                if (error) {
-                    console.error('Error sending bet data:', error);
-                    alert('賭け情報の送信中にエラーが発生しました。');
-                } else {
-                    alert('賭け情報がSupabaseに正常に送信されました！');
-                    // フォームをリセット
-                    document.getElementById('betForm').reset();
-                }
-            } catch (error) {
-                console.error('Unexpected error:', error);
-                alert('予期しないエラーが発生しました。');
-            }
+            alert('賭け情報が保存されました！');
         });
     </script>
 </body>
