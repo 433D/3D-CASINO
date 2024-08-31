@@ -1,20 +1,13 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>賭け情報一覧</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        tr:hover { background-color: #f5f5f5; }
-    </style>
+    <title>管理者ページ - 賭けデータ一覧</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
-    <h1>賭け情報一覧</h1>
-    <table>
+    <h1>賭けデータ一覧</h1>
+    <table id="betTable" border="1">
         <thead>
             <tr>
                 <th>ID</th>
@@ -24,51 +17,47 @@
                 <th>タイムスタンプ</th>
             </tr>
         </thead>
-        <tbody id="betTableBody">
-            <!-- データがここに挿入されます -->
+        <tbody>
+            <!-- データはここに挿入されます -->
         </tbody>
     </table>
 
     <script>
-        const SUPABASE_URL = 'https://nvxdgqdxyzjpothjuwhx.supabase.co'; // SupabaseのURL
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52eGRncWR4eXpqcG90eGp1d2h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUwNzczNDMsImV4cCI6MjA0MDY1MzM0M30.3iyzaavXPkN0mGhfA4vJC9t1oijI3Qe-nVGMfPzjS-s';
+        // SupabaseのURLとAPIキーを設定します
+        const SUPABASE_URL = 'https://nvxdgqdxyzjpothjuwhx.supabase.co'; // あなたのSupabaseプロジェクトURL
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52eGRncWR4eXpqcG90eGp1d2h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUwNzczNDMsImV4cCI6MjA0MDY1MzM0M30.3iyzaavXPkN0mGhfA4vJC9t1oijI3Qe-nVGMfPzjS-s'; // あなたのSupabase anonキー
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // 賭けデータを取得して表示する関数
-        async function fetchBetData() {
-            try {
-                const { data, error } = await supabase
-                    .from('bets') // Supabaseのテーブル名
-                    .select('*')
-                    .order('timestamp', { ascending: true });
+        // Supabaseからデータを取得して表に表示する関数
+        async function fetchBets() {
+            const { data, error } = await supabase
+                .from('bets') // 作成したテーブル名
+                .select('*')
+                .order('timestamp', { ascending: true }); // タイムスタンプ順にソート
 
-                if (error) {
-                    console.error('Error fetching bet data:', error);
-                    alert('賭け情報の取得中にエラーが発生しました。');
-                } else {
-                    const tableBody = document.getElementById('betTableBody');
-                    tableBody.innerHTML = ''; // 既存のデータをクリア
-
-                    data.forEach(row => {
-                        const newRow = document.createElement('tr');
-                        newRow.innerHTML = `
-                            <td>${row.id}</td>
-                            <td>${row.player_id}</td>
-                            <td>${row.bet_target}</td>
-                            <td>${row.bet_amount}</td>
-                            <td>${new Date(row.timestamp).toLocaleString()}</td>
-                        `;
-                        tableBody.appendChild(newRow);
-                    });
-                }
-            } catch (error) {
-                console.error('Unexpected error:', error);
-                alert('予期しないエラーが発生しました。');
+            if (error) {
+                console.error('データ取得エラー:', error);
+                return;
             }
+
+            const tableBody = document.getElementById('betTable').querySelector('tbody');
+            tableBody.innerHTML = ''; // 既存の内容をクリア
+
+            // データを表に挿入
+            data.forEach(row => {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${row.id}</td>
+                    <td>${row.player_id}</td>
+                    <td>${row.bet_target}</td>
+                    <td>${row.bet_amount}</td>
+                    <td>${new Date(row.timestamp).toLocaleString()}</td>`;
+                tableBody.appendChild(newRow);
+            });
         }
 
-        // ページが読み込まれた時にデータを取得して表示
-        fetchBetData();
+        // ページが読み込まれたときにデータを取得
+        fetchBets();
     </script>
 </body>
 </html>
