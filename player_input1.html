@@ -13,6 +13,7 @@
 
         <label for="betTarget">賭けの対象:</label>
         <select id="betTarget" name="betTarget" required>
+            <option value="" disabled selected>選択してください</option>
             <option value="Aさん">Aさん</option>
             <option value="Bさん">Bさん</option>
             <option value="Cさん">Cさん</option>
@@ -22,7 +23,7 @@
         <label for="betAmount">賭け金額:</label>
         <input type="number" id="betAmount" name="betAmount" min="1" required><br><br>
 
-        <button type="button" onclick="submitBet()">送信</button>
+        <button type="button" id="submitButton">送信</button>
     </form>
 
     <script>
@@ -37,22 +38,32 @@
             const betTarget = document.getElementById('betTarget').value; // 賭けの対象
             const betAmount = parseInt(document.getElementById('betAmount').value); // 賭け金額
 
-            const { data, error } = await supabase
-                .from('bets') // テーブル名 'bets'
-                .insert([{ 
-                    player_id: playerId,  // プレイヤーIDを player_id カラムに送信
-                    bet_target: betTarget,  // 賭けの対象を bet_target カラムに送信
-                    bet_amount: betAmount  // 賭け金額を bet_amount カラムに送信
-                }]);
+            console.log('送信データ:', { playerId, betTarget, betAmount }); // デバッグ用ログ
 
-            if (error) {
-                console.error('エラー:', error);
-                alert('データの送信中にエラーが発生しました');
-            } else {
-                alert('賭けが送信されました');
-                document.getElementById('betForm').reset(); // フォームをリセット
+            try {
+                const { data, error } = await supabase
+                    .from('bets') // テーブル名 'bets'
+                    .insert([{ 
+                        player_id: playerId,  // プレイヤーIDを player_id カラムに送信
+                        bet_target: betTarget,  // 賭けの対象を bet_target カラムに送信
+                        bet_amount: betAmount  // 賭け金額を bet_amount カラムに送信
+                    }]);
+
+                if (error) {
+                    console.error('エラー:', error);
+                    alert('データの送信中にエラーが発生しました');
+                } else {
+                    alert('賭けが送信されました');
+                    document.getElementById('betForm').reset(); // フォームをリセット
+                }
+            } catch (err) {
+                console.error('予期しないエラー:', err);
+                alert('予期しないエラーが発生しました。コンソールを確認してください。');
             }
         }
+
+        // 送信ボタンのクリックイベントリスナーを設定
+        document.getElementById('submitButton').addEventListener('click', submitBet);
     </script>
 </body>
 </html>
