@@ -30,6 +30,8 @@
         // SupabaseのURLとAPIキーを設定します
         const SUPABASE_URL = 'https://nvxdgqdxyzjpotxjuwhx.supabase.co'; // SupabaseのプロジェクトURL
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52eGRncWR4eXpqcG90eGp1d2h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUwNzczNDMsImV4cCI6MjA0MDY1MzM0M30.3iyzaavXPkN0mGhfA4vJC9t1oijI3Qe-nVGMfPzjS-s'; // Supabaseのanonキー
+        
+        // Supabaseクライアントの初期化
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // データを送信する関数
