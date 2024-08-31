@@ -4,49 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>プレイヤー入力ページ</title>
+    <!-- Supabaseライブラリの読み込み -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            margin-top: 10px;
-        }
-        input, select {
-            margin-bottom: 10px;
-            padding: 5px;
-        }
-        button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #message {
-            margin-top: 20px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
+        /* スタイル設定（変更なし） */
     </style>
 </head>
 <body>
@@ -79,6 +40,9 @@
 
         // Supabaseクライアントの初期化
         const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Supabaseクライアントの確認
+        console.log(supabase); // 初期化の確認用
 
         // フォームの送信処理
         document.getElementById('betForm').addEventListener('submit', async function(e) {
