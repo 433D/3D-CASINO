@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>プレイヤー入力フォーム</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+    <h1>プレイヤー入力フォーム</h1>
+    <form id="playerForm">
+        <label for="playerId">プレイヤーID:</label>
+        <input type="text" id="playerId" name="playerId" placeholder="プレイヤーIDを入力" required>
+        <br>
+        <label for="betTarget">賭けの対象:</label>
+        <input type="text" id="betTarget" name="betTarget" placeholder="賭けの対象を入力" required>
+        <br>
+        <label for="betAmount">賭け金額:</label>
+        <input type="number" id="betAmount" name="betAmount" placeholder="賭け金額を入力" required>
+        <br>
+        <button type="button" onclick="submitBet()">賭けを送信</button>
+    </form>
+
+    <script>
+        // SupabaseのURLとAPIキーを設定します
+        const SUPABASE_URL = 'https://nvxdgqdxyzjpothjuwhx.supabase.co'; // ここにあなたのSupabaseのプロジェクトURLを入力
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52eGRncWR4eXpqcG90eGp1d2h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUwNzczNDMsImV4cCI6MjA0MDY1MzM0M30.3iyzaavXPkN0mGhfA4vJC9t1oijI3Qe-nVGMfPzjS-s';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // 賭けデータを送信する関数
+        async function submitBet() {
+            const playerId = document.getElementById('playerId').value;
+            const betTarget = document.getElementById('betTarget').value;
+            const betAmount = parseInt(document.getElementById('betAmount').value);
+
+            // Supabaseにデータを送信
+            const { data, error } = await supabase
+                .from('bets') // 使用するテーブル名を確認してください
+                .insert([{ player_id: playerId, bet_target: betTarget, bet_amount: betAmount }]);
+
+            if (error) {
+                console.error('Error:', error);
+                alert('データの送信中にエラーが発生しました。');
+            } else {
+                alert('賭けが正常に送信されました。');
+                // フォームをリセット
+                document.getElementById('playerForm').reset();
+            }
+        }
+    </script>
+</body>
+</html>
