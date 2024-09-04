@@ -6,22 +6,36 @@
     <title>ID検索システム</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Raleway', sans-serif;
             background-color: #f0f0f0;
             color: #333;
             text-align: center;
             margin: 0;
-            padding: 0;
+            padding: 20px;
         }
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         input, button {
             padding: 10px;
             margin: 10px;
             font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
         table {
             width: 100%;
@@ -34,6 +48,9 @@
         }
         th {
             background-color: #f4f4f4;
+        }
+        .highlight {
+            background-color: rgba(0, 123, 255, 0.1);
         }
     </style>
 </head>
@@ -48,75 +65,81 @@
     </div>
 
     <script>
-        const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
+        const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID';
         const SHEET_NAME_PLAYER = 'Sheet1';
         const SHEET_NAMES_BETS = ['Bets1', 'Bets2', 'Bets3'];
 
         function searchPlayer() {
             const playerId = document.getElementById('playerId').value.trim();
             if (!playerId) {
-                alert('プレイヤーIDを入力してください');
+                alert('IDを入力してください。');
                 return;
             }
 
-            // プレイヤー情報の取得
-            fetchPlayerInfo(playerId).then(playerInfo => {
+            getPlayerDetails(playerId).then(playerInfo => {
                 if (playerInfo) {
                     document.getElementById('playerInfo').innerHTML = `
                         <h3>プレイヤー情報</h3>
-                        <p>プレイヤー名: ${playerInfo.name}</p>
-                        <p>所持額: ${playerInfo.amount}</p>
+                        <p>名前: ${playerInfo.name || '未設定'}</p>
+                        <p>所持金: ${playerInfo.amount || '未設定'}</p>
                     `;
-                    // 賭け情報の取得
-                    fetchBetsInfo(playerId);
+                    getBettingDetails(playerId);
                 } else {
-                    document.getElementById('playerInfo').innerHTML = 'プレイヤーが見つかりません';
+                    document.getElementById('playerInfo').innerHTML = '該当するプレイヤーが見つかりませんでした。';
                     document.getElementById('betsInfo').innerHTML = '';
                 }
             });
         }
 
-        async function fetchPlayerInfo(playerId) {
+        async function getPlayerDetails(playerId) {
             const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME_PLAYER}`;
-            const response = await fetch(url);
-            const text = await response.text();
-            const json = JSON.parse(text.substring(47).slice(0, -2));
-            const rows = json.table.rows;
-
-            for (const row of rows) {
-                if (row.c[0].v == playerId) {
-                    return {
-                        name: row.c[1].v,
-                        amount: row.c[2].v
-                    };
-                }
-            }
-            return null;
-        }
-
-        async function fetchBetsInfo(playerId) {
-            let betsInfoHtml = '<h3>現在の賭け状況</h3><table><thead><tr><th>賭け先</th><th>賭けた額</th><th>賭けの状態</th><th>勝敗</th><th>結果</th></tr></thead><tbody>';
-
-            for (const sheetName of SHEET_NAMES_BETS) {
-                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+            try {
                 const response = await fetch(url);
                 const text = await response.text();
                 const json = JSON.parse(text.substring(47).slice(0, -2));
                 const rows = json.table.rows;
 
-                rows.forEach(row => {
+                for (const row of rows) {
                     if (row.c[0].v == playerId) {
-                        betsInfoHtml += `
-                            <tr>
-                                <td>${row.c[2].v}</td>
-                                <td>${row.c[3].v}</td>
-                                <td>${row.c[4].v}</td>
-                                <td>${row.c[6].v}</td>
-                                <td>${row.c[7].v}</td>
-                            </tr>
-                        `;
+                        return {
+                            name: row.c[1]?.v || '未設定',
+                            amount: row.c[2]?.v || '未設定'
+                        };
                     }
-                });
+                }
+            } catch (error) {
+                console.error('データの取得中にエラーが発生しました:', error);
+            }
+            return null;
+        }
+
+        async function getBettingDetails(playerId) {
+            let betsInfoHtml = '<h3>ステータス</h3><table><thead><tr><th>賭け先</th><th>賭けた額</th><th>状態</th><th>勝敗</th><th>結果</th></tr></thead><tbody>';
+
+            for (const sheetName of SHEET_NAMES_BETS) {
+                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+                try {
+                    const response = await fetch(url);
+                    const text = await response.text();
+                    const json = JSON.parse(text.substring(47).slice(0, -2));
+                    const rows = json.table.rows;
+
+                    rows.forEach(row => {
+                        if (row.c[0].v == playerId) {
+                            betsInfoHtml += `
+                                <tr class="highlight">
+                                    <td>${row.c[2]?.v || '未設定'}</td>
+                                    <td>${row.c[3]?.v || '未設定'}</td>
+                                    <td>${row.c[4]?.v || '未設定'}</td>
+                                    <td>${row.c[6]?.v || '未設定'}</td>
+                                    <td>${row.c[7]?.v || '未設定'}</td>
+                                </tr>
+                            `;
+                        }
+                    });
+                } catch (error) {
+                    console.error('賭け情報の取得中にエラーが発生しました:', error);
+                }
             }
 
             betsInfoHtml += '</tbody></table>';
