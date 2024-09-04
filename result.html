@@ -41,10 +41,12 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            overflow-x: auto; /* 横スクロールを許可 */
         }
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
+            text-align: center;
         }
         th {
             background-color: #f4f4f4;
@@ -77,6 +79,7 @@
             display: none;
             margin-top: 20px;
             height: 80vh; /* フォーム全体を表示するための高さ調整 */
+            overflow-y: auto; /* フォーム内でのスクロールを改善 */
         }
         .tab-content.active {
             display: block;
@@ -101,9 +104,6 @@
 
         <div id="playerInfo"></div>
         <div id="betsInfo"></div>
-
-        <!-- 入力ステータスを表示するためのエリア -->
-        <div id="inputStatus"></div>
 
         <!-- タブ形式のGoogleフォーム埋め込み -->
         <div class="tabs">
@@ -173,8 +173,8 @@
         }
 
         async function getBettingDetails(playerId) {
-            let betsInfoHtml = '<h3>ステータス</h3><table><thead><tr><th>賭け先</th><th>賭けた額</th><th>状態</th><th>勝敗</th><th>結果</th><th>アクション</th></tr></thead><tbody>';
-            let inputStatusHtml = '';
+            let betsInfoHtml = '<h3>ステータス</h3><table><thead><tr><th>賭け先</th><th>賭けた額</th><th>状態</th><th>勝敗</th><th>結果</th></tr></thead><tbody>';
+            let inputStatus = false; // 未入力かどうかを追跡
 
             for (const sheetName of SHEET_NAMES_BETS) {
                 const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
@@ -195,16 +195,18 @@
                                     <td>${row.c[4]?.v || '未設定'}</td>
                                     <td>${row.c[6]?.v || '未設定'}</td>
                                     <td>${row.c[7]?.v || '未設定'}</td>
-                                    <td><button onclick="scrollToTab('${sheetName.toLowerCase()}')">入力する</button></td>
                                 </tr>
                             `;
                         }
                     });
 
                     if (isEmpty) {
-                        inputStatusHtml += `<p>${sheetName}: 未入力 <button onclick="scrollToTab('${sheetName.toLowerCase()}')">入力する</button></p>`;
-                    } else {
-                        inputStatusHtml += `<p>${sheetName}: 入力済み</p>`;
+                        inputStatus = true; // 未入力状態を検出
+                        betsInfoHtml += `
+                            <tr>
+                                <td colspan="5"><button onclick="scrollToTab('${sheetName.toLowerCase()}')" style="width: 100%;">${sheetName} 未入力 - 入力する</button></td>
+                            </tr>
+                        `;
                     }
 
                 } catch (error) {
@@ -214,7 +216,6 @@
 
             betsInfoHtml += '</tbody></table>';
             document.getElementById('betsInfo').innerHTML = betsInfoHtml;
-            document.getElementById('inputStatus').innerHTML = inputStatusHtml;
         }
 
         function showTab(tabId) {
