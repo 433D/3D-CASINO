@@ -4,19 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ID検索システム</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
 </head>
 <body>
-    <h1>ID検索システム</h1>
-    <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
-    <button onclick="searchPlayer()">検索</button>
-    <div id="playerInfo"></div>
-    <div id="betsInfo"></div>
+    <div class="container">
+        <h1>ID検索システム</h1>
+        <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
+        <button onclick="searchPlayer()">検索</button>
+
+        <div id="playerInfo"></div>
+        <div id="betsInfo"></div>
+    </div>
 
     <script>
-        const SPREADSHEET_ID = 'YOUR_SPREAD1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98SHEET_ID';
+        const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
         const SHEET_NAME_PLAYER = 'Sheet1';
         const SHEET_NAMES_BETS = ['Bets1', 'Bets2', 'Bets3'];
-        
+
         function searchPlayer() {
             const playerId = document.getElementById('playerId').value.trim();
             if (!playerId) {
@@ -32,7 +67,6 @@
                         <p>プレイヤー名: ${playerInfo.name}</p>
                         <p>所持額: ${playerInfo.amount}</p>
                     `;
-                    
                     // 賭け情報の取得
                     fetchBetsInfo(playerId);
                 } else {
@@ -61,7 +95,7 @@
         }
 
         async function fetchBetsInfo(playerId) {
-            let betsInfoHtml = '<h3>現在の賭け状況</h3>';
+            let betsInfoHtml = '<h3>現在の賭け状況</h3><table><thead><tr><th>賭け先</th><th>賭けた額</th><th>賭けの状態</th><th>勝敗</th><th>結果</th></tr></thead><tbody>';
 
             for (const sheetName of SHEET_NAMES_BETS) {
                 const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
@@ -69,22 +103,24 @@
                 const text = await response.text();
                 const json = JSON.parse(text.substring(47).slice(0, -2));
                 const rows = json.table.rows;
-                
+
                 rows.forEach(row => {
                     if (row.c[0].v == playerId) {
                         betsInfoHtml += `
-                            <p>賭け先: ${row.c[2].v}</p>
-                            <p>賭けた額: ${row.c[3].v}</p>
-                            <p>賭けの状態: ${row.c[4].v}</p>
-                            <p>勝敗: ${row.c[6].v}</p>
-                            <p>結果: ${row.c[7].v}</p>
-                            <hr>
+                            <tr>
+                                <td>${row.c[2].v}</td>
+                                <td>${row.c[3].v}</td>
+                                <td>${row.c[4].v}</td>
+                                <td>${row.c[6].v}</td>
+                                <td>${row.c[7].v}</td>
+                            </tr>
                         `;
                     }
                 });
             }
-            
-            document.getElementById('betsInfo').innerHTML = betsInfoHtml || '賭け情報が見つかりません';
+
+            betsInfoHtml += '</tbody></table>';
+            document.getElementById('betsInfo').innerHTML = betsInfoHtml;
         }
     </script>
 </body>
