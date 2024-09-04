@@ -41,7 +41,6 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            overflow-x: auto; /* 横スクロールを許可 */
         }
         th, td {
             border: 1px solid #ddd;
@@ -78,8 +77,8 @@
         .tab-content {
             display: none;
             margin-top: 20px;
-            height: 80vh; /* フォーム全体を表示するための高さ調整 */
-            overflow-y: auto; /* フォーム内でのスクロールを改善 */
+            height: 600px; /* 固定のピクセル数で高さを設定 */
+            overflow-y: hidden; /* 縦スクロールを無効化 */
         }
         .tab-content.active {
             display: block;
@@ -87,12 +86,6 @@
         .input-status {
             margin-top: 20px;
             text-align: left;
-        }
-        @media (max-width: 600px) {
-            .tab-button {
-                padding: 8px;
-                font-size: 12px;
-            }
         }
     </style>
 </head>
@@ -113,13 +106,13 @@
         </div>
 
         <div id="bets1" class="tab-content active">
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScQGcLyPqR1zkk2ivlqI83qsMLL3_OIwCPHt2TISy6FAvZQRw/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" style="border: none;">読み込んでいます…</iframe>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScQGcLyPqR1zkk2ivlqI83qsMLL3_OIwCPHt2TISy6FAvZQRw/viewform?embedded=true" width="100%" height="100%" frameborder="0" style="border: none;">読み込んでいます…</iframe>
         </div>
         <div id="bets2" class="tab-content">
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSejbwWwo-BgCoiWD4Qt_M8sci6c7VjNiSw48zHsGZ6J76VhnQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" style="border: none;">読み込んでいます…</iframe>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSejbwWwo-BgCoiWD4Qt_M8sci6c7VjNiSw48zHsGZ6J76VhnQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" style="border: none;">読み込んでいます…</iframe>
         </div>
         <div id="bets3" class="tab-content">
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfjmu1WQev79M2JcrrvX9oyAlCSFq2PIjP77wUdx-Ta_YzTeQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" style="border: none;">読み込んでいます…</iframe>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfjmu1WQev79M2JcrrvX9oyAlCSFq2PIjP77wUdx-Ta_YzTeQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" style="border: none;">読み込んでいます…</iframe>
         </div>
     </div>
 
