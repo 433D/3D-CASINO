@@ -78,7 +78,20 @@
             display: none;
             margin-top: 20px;
             height: 600px; /* 固定のピクセル数で高さを設定 */
-            overflow-y: hidden; /* 縦スクロールを無効化 */
+            overflow-y: auto; /* 縦スクロールを有効にする */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #007BFF #f4f4f4; /* Firefox */
+        }
+        .tab-content::-webkit-scrollbar {
+            width: 12px; /* スクロールバーの幅 */
+        }
+        .tab-content::-webkit-scrollbar-track {
+            background: #f4f4f4; /* スクロールバーのトラックの色 */
+        }
+        .tab-content::-webkit-scrollbar-thumb {
+            background-color: #007BFF; /* スクロールバーのつまみの色 */
+            border-radius: 6px; /* つまみの角を丸く */
+            border: 3px solid #f4f4f4; /* つまみの内側のスペース */
         }
         .tab-content.active {
             display: block;
