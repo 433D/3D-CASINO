@@ -56,6 +56,7 @@
             display: flex;
             justify-content: center;
             margin: 20px 0;
+            gap: 10px;
         }
         .tab-button {
             padding: 10px 20px;
@@ -65,6 +66,8 @@
             background-color: #ddd;
             border-radius: 5px;
             transition: background-color 0.3s;
+            flex: 1;
+            text-align: center;
         }
         .tab-button.active {
             background-color: #007BFF;
@@ -73,6 +76,8 @@
         .tab-content {
             display: none;
             margin-top: 20px;
+            height: 100vh;
+            overflow: auto;
         }
         .tab-content.active {
             display: block;
@@ -92,12 +97,8 @@
         <div id="playerInfo"></div>
         <div id="betsInfo"></div>
 
-        <!-- 入力ステータス -->
-        <div class="input-status">
-            <p id="statusBets1">Bets1: 未入力 <button onclick="scrollToTab('bets1')">入力する</button></p>
-            <p id="statusBets2">Bets2: 未入力 <button onclick="scrollToTab('bets2')">入力する</button></p>
-            <p id="statusBets3">Bets3: 未入力 <button onclick="scrollToTab('bets3')">入力する</button></p>
-        </div>
+        <!-- 入力ステータスを表示するためのエリア -->
+        <div id="inputStatus"></div>
 
         <!-- タブ形式のGoogleフォーム埋め込み -->
         <div class="tabs">
@@ -107,11 +108,14 @@
         </div>
 
         <div id="bets1" class="tab-content active">
-          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScQGcLyPqR1zkk2ivlqI83qsMLL3_OIwCPHt2TISy6FAvZQRw/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>        </div>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScQGcLyPqR1zkk2ivlqI83qsMLL3_OIwCPHt2TISy6FAvZQRw/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+        </div>
         <div id="bets2" class="tab-content">
-          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSejbwWwo-BgCoiWD4Qt_M8sci6c7VjNiSw48zHsGZ6J76VhnQ/viewform?embedded=true" width="100%" height="1000" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>        </div>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSejbwWwo-BgCoiWD4Qt_M8sci6c7VjNiSw48zHsGZ6J76VhnQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+        </div>
         <div id="bets3" class="tab-content">
-          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfjmu1WQev79M2JcrrvX9oyAlCSFq2PIjP77wUdx-Ta_YzTeQ/viewform?embedded=true" width="100%" height="80%" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>        </div>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfjmu1WQev79M2JcrrvX9oyAlCSFq2PIjP77wUdx-Ta_YzTeQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+        </div>
     </div>
 
     <script>
@@ -164,7 +168,8 @@
         }
 
         async function getBettingDetails(playerId) {
-            let betsInfoHtml = '<h3>ステータス</h3><table><thead><tr><th>賭け先</th><th>賭けた額</th><th>状態</th><th>勝敗</th><th>結果</th></tr></thead><tbody>';
+            let betsInfoHtml = '<h3>ステータス</h3><table><thead><tr><th>賭け先</th><th>賭けた額</th><th>状態</th><th>勝敗</th><th>結果</th><th>アクション</th></tr></thead><tbody>';
+            let inputStatusHtml = '';
 
             for (const sheetName of SHEET_NAMES_BETS) {
                 const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
@@ -173,9 +178,11 @@
                     const text = await response.text();
                     const json = JSON.parse(text.substring(47).slice(0, -2));
                     const rows = json.table.rows;
+                    let isEmpty = true;
 
                     rows.forEach(row => {
                         if (row.c[0].v == playerId) {
+                            isEmpty = false;
                             betsInfoHtml += `
                                 <tr class="highlight">
                                     <td>${row.c[2]?.v || '未設定'}</td>
@@ -183,10 +190,18 @@
                                     <td>${row.c[4]?.v || '未設定'}</td>
                                     <td>${row.c[6]?.v || '未設定'}</td>
                                     <td>${row.c[7]?.v || '未設定'}</td>
+                                    <td><button onclick="scrollToTab('${sheetName.toLowerCase()}')">入力する</button></td>
                                 </tr>
                             `;
                         }
                     });
+
+                    if (isEmpty) {
+                        inputStatusHtml += `<p>${sheetName}: 未入力 <button onclick="scrollToTab('${sheetName.toLowerCase()}')">入力する</button></p>`;
+                    } else {
+                        inputStatusHtml += `<p>${sheetName}: 入力済み</p>`;
+                    }
+
                 } catch (error) {
                     console.error('賭け情報の取得中にエラーが発生しました:', error);
                 }
@@ -194,15 +209,7 @@
 
             betsInfoHtml += '</tbody></table>';
             document.getElementById('betsInfo').innerHTML = betsInfoHtml;
-        }
-
-        function updateInputStatus(elementId, isEmpty) {
-            const element = document.getElementById(elementId);
-            if (isEmpty) {
-                element.innerHTML = `${element.textContent.split(':')[0]}: 未入力 <button onclick="scrollToTab('${elementId.replace('status', '').toLowerCase()}')">入力する</button>`;
-            } else {
-                element.innerHTML = `${element.textContent.split(':')[0]}: 入力済み`;
-            }
+            document.getElementById('inputStatus').innerHTML = inputStatusHtml;
         }
 
         function showTab(tabId) {
