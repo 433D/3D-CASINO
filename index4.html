@@ -43,40 +43,42 @@
         .menu-icon:hover {
             color: gold;
         }
-        .header-menu {
-            display: flex;
-            gap: 1rem;
-        }
-        .header-menu a {
-            color: silver;
-            font-family: 'Stardos Stencil', cursive;
-            font-size: 1.5rem;
-            text-decoration: none;
-            transition: color 0.3s;
-            white-space: nowrap;
-        }
-        .header-menu a:hover {
-            color: gold;
-        }
         .menu {
             display: none;
             position: fixed;
-            top: 60px;
-            left: 10px;
-            background-color: #444;
-            padding: 1rem;
-            border-radius: 0.5rem;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
             z-index: 1001;
-            animation: fadeIn 0.3s ease-in-out;
+            padding: 2rem;
+            box-sizing: border-box;
+            overflow-y: auto;
+            animation: slideDown 0.4s ease-in-out;
         }
         .menu a {
             display: block;
             color: silver;
-            padding: 0.5rem 0;
+            padding: 0.75rem 0;
             text-decoration: none;
             font-family: 'Stardos Stencil', cursive;
+            font-size: 1.5rem;
+            transition: color 0.3s;
         }
         .menu a:hover {
+            color: gold;
+        }
+        .menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: silver;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .menu-close:hover {
             color: gold;
         }
         .container {
@@ -87,6 +89,9 @@
             margin-bottom: 2rem;
             font-family: 'Stardos Stencil', cursive;
             color: #aaa;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlideUp 1s ease-out forwards;
         }
         .introduction .welcome-to {
             font-size: 2.5rem;
@@ -98,25 +103,21 @@
             color: #fff;
             margin: 0;
         }
-        .jump-buttons {
+        .jump-links {
             margin-top: 1rem;
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 2rem;
         }
-        .jump-buttons a {
-            background-color: #444;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
+        .jump-links a {
             color: silver;
+            text-decoration: none;
             font-family: 'Stardos Stencil', cursive;
             font-size: 1.2rem;
-            transition: background-color 0.3s;
+            transition: color 0.3s;
         }
-        .jump-buttons a:hover {
-            background-color: gold;
-            color: #111;
+        .jump-links a:hover {
+            color: gold;
         }
         .section-title {
             font-family: 'Stardos Stencil', cursive;
@@ -135,9 +136,19 @@
             display: inline-block;
             margin-left: 1rem;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes fadeInSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideDown {
+            from { top: -100%; }
+            to { top: 0; }
         }
         .game-section {
             display: flex;
@@ -211,34 +222,21 @@
                 observer.observe(title);
             });
 
-            document.querySelectorAll('.header-menu a').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-                    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
-                });
-            });
-
-            document.querySelector('header h1').addEventListener('click', function() {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-
             const menuIcon = document.querySelector('.menu-icon');
             const menu = document.querySelector('.menu');
+            const menuClose = document.querySelector('.menu-close');
+            
             menuIcon.addEventListener('click', function() {
-                if (menu.style.display === 'block') {
-                    menu.style.display = 'none';
-                } else {
-                    menu.style.display = 'block';
-                    menu.style.top = `${window.scrollY + 60}px`; // 現在のスクロール位置にメニューを表示
-                    menu.style.animation = 'fadeIn 0.3s ease-in-out';
-                }
+                menu.style.display = 'block';
             });
 
-            // ページのスクロールに応じてメニューを隠す
+            menuClose.addEventListener('click', function() {
+                menu.style.display = 'none';
+            });
+
             window.addEventListener('scroll', () => {
                 if (menu.style.display === 'block') {
-                    menu.style.top = `${window.scrollY + 60}px`; // スクロールに追従する
+                    menu.style.top = `${window.scrollY}px`; // スクロールに追従する
                 }
             });
         });
@@ -249,14 +247,10 @@
 <header>
     <div class="menu-icon">&#9776;</div> <!-- 3本線のメニューアイコン -->
     <h1>3D CASINO</h1>
-    <div class="header-menu">
-        <a href="#games">Games</a>
-        <a href="#rankings">Rankings</a>
-        <a href="#promotions">Promotions</a>
-    </div>
 </header>
 
 <div class="menu">
+    <span class="menu-close">&times;</span>
     <a href="#">3D CASINO</a>
     <a href="#games">ゲーム</a>
     <a href="#rankings">ランキング</a>
@@ -272,7 +266,7 @@
         <h2 class="casino-name">3D CASINO</h2>
     </section>
 
-    <div class="jump-buttons">
+    <div class="jump-links">
         <a href="#games">Games</a>
         <a href="#rankings">Rankings</a>
         <a href="#promotions">Promotions</a>
