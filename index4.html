@@ -17,7 +17,7 @@
         }
         header {
             background-color: #333;
-            padding: 0.75rem 1rem; /* ヘッダーのパディングを減らして高さを縮小 */
+            padding: 0.75rem 1rem;
             position: fixed;
             top: 0;
             left: 0;
@@ -25,23 +25,23 @@
             z-index: 1000;
             display: flex;
             align-items: center;
-            justify-content: center; /* 中央揃え */
+            justify-content: center;
             cursor: pointer;
         }
         header h1 {
             margin: 0;
-            font-size: 2.2rem; /* 少しサイズを小さくして全体のバランスを取る */
+            font-size: 2.2rem;
             font-family: 'Stardos Stencil', cursive;
             color: silver;
             text-align: center;
         }
         .menu-icon {
-            font-size: 1.8rem; /* メニューボタンのサイズ調整 */
+            font-size: 1.8rem;
             cursor: pointer;
             padding: 0.5rem;
             color: silver;
             position: absolute;
-            left: 20px; /* メニューボタンを左に固定 */
+            left: 20px;
             transition: color 0.3s;
         }
         .menu-icon:hover {
@@ -73,6 +73,13 @@
         .menu a:hover {
             color: gold;
         }
+        .submenu {
+            display: none;
+            margin-left: 20px;
+        }
+        .submenu a {
+            font-size: 1.2rem;
+        }
         .menu-close {
             position: absolute;
             top: 20px;
@@ -85,8 +92,18 @@
         .menu-close:hover {
             color: gold;
         }
+        .toggle-button {
+            font-size: 1.2rem;
+            margin-left: 10px;
+            cursor: pointer;
+            color: silver;
+            transition: color 0.3s;
+        }
+        .toggle-button:hover {
+            color: gold;
+        }
         .container {
-            padding: 6rem 1.25rem 1.25rem; /* ヘッダーの高さに合わせて調整 */
+            padding: 6rem 1.25rem 1.25rem;
             text-align: center;
         }
         .introduction h2 {
@@ -208,41 +225,47 @@
         }
     </style>
     <script>
-        // ページが読み込まれた際に最上部にスクロール
         window.onload = function() {
             window.scrollTo(0, 0);
         };
 
         document.addEventListener('DOMContentLoaded', function () {
-            const sectionTitles = document.querySelectorAll('.section-title');
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            sectionTitles.forEach(title => {
-                title.style.opacity = '0';
-                title.style.transform = 'translateY(20px)';
-                observer.observe(title);
-            });
-
             const menuIcon = document.querySelector('.menu-icon');
             const menu = document.querySelector('.menu');
             const menuClose = document.querySelector('.menu-close');
+            const promotionToggle = document.getElementById('promotion-toggle');
+            const promotionSubMenu = document.getElementById('promotion-submenu');
+            const gameToggle = document.getElementById('game-toggle');
+            const gameSubMenu = document.getElementById('game-submenu');
             
             menuIcon.addEventListener('click', function() {
                 menu.style.display = 'block';
-                menu.style.position = 'fixed'; // メニューが固定されるように設定
+                menu.style.position = 'fixed';
                 menu.style.top = '0';
             });
 
             menuClose.addEventListener('click', function() {
                 menu.style.display = 'none';
+            });
+
+            promotionToggle.addEventListener('click', function() {
+                if (promotionSubMenu.style.display === 'block') {
+                    promotionSubMenu.style.display = 'none';
+                    promotionToggle.textContent = '🔽';
+                } else {
+                    promotionSubMenu.style.display = 'block';
+                    promotionToggle.textContent = '🔼';
+                }
+            });
+
+            gameToggle.addEventListener('click', function() {
+                if (gameSubMenu.style.display === 'block') {
+                    gameSubMenu.style.display = 'none';
+                    gameToggle.textContent = '🔽';
+                } else {
+                    gameSubMenu.style.display = 'block';
+                    gameToggle.textContent = '🔼';
+                }
             });
         });
     </script>
@@ -256,13 +279,21 @@
 
 <div class="menu">
     <span class="menu-close">&times;</span>
-    <a href="#">3D CASINO</a>
-    <a href="#games">ゲーム</a>
-    <a href="#rankings">ランキング</a>
-    <a href="#promotions">プロモーション</a>
-    <a href="mypage.html">マイページ</a>
-    <a href="site.html">このサイトについて</a>
-    <p>開催場所: 2階 講義室1</p>
+    <a href="ranking.html">ランキング</a>
+
+    <a href="javascript:void(0);" id="promotion-toggle">プロモーション 🔽</a>
+    <div class="submenu" id="promotion-submenu">
+        <a href="youtube.html">YouTube</a>
+        <a href="instagram.html">Instagram</a>
+    </div>
+
+    <a href="javascript:void(0);" id="game-toggle">ゲーム 🔽</a>
+    <div class="submenu" id="game-submenu">
+        <a href="special.html">スペシャルカジノ</a>
+        <a href="roulette_rules.html">ルーレット</a>
+        <a href="card_games_rules.html">トランプゲーム</a>
+        <a href="dice_games_rules.html">ダイスゲーム</a>
+    </div>
 </div>
 
 <div class="container">
