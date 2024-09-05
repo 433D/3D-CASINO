@@ -13,100 +13,154 @@
             padding: 0;
             background-color: #111;
             color: #fff;
+            overflow-x: hidden;
         }
         header {
             background-color: #333;
-            padding: 1.25rem;
-            text-align: center;
+            padding: 0.5rem 1rem;
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
             z-index: 1000;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             cursor: pointer;
         }
         header h1 {
             margin: 0;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-family: 'Stardos Stencil', cursive;
-            color: gold;
+            color: silver;
+            text-align: center;
         }
         .menu-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             cursor: pointer;
-        }
-        .header-menu {
-            display: flex;
-            gap: 1rem;
-        }
-        .header-menu a {
-            color: gold;
-            font-family: 'Stardos Stencil', cursive;
-            font-size: 1.5rem;
-            text-decoration: none;
+            padding: 0.5rem;
+            color: silver;
+            position: absolute;
+            left: 20px;
             transition: color 0.3s;
         }
-        .header-menu a:hover {
-            color: #fff;
+        .menu-icon:hover {
+            color: gold;
         }
         .menu {
             display: none;
-            position: absolute;
-            top: 60px;
-            left: 10px;
-            background-color: #444;
-            padding: 1rem;
-            border-radius: 0.5rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
             z-index: 1001;
+            padding: 2rem;
+            box-sizing: border-box;
+            overflow-y: auto;
+            animation: slideDown 0.4s ease-in-out;
         }
         .menu a {
             display: block;
-            color: gold;
-            padding: 0.5rem 0;
+            color: silver;
+            padding: 0.75rem 0;
             text-decoration: none;
             font-family: 'Stardos Stencil', cursive;
+            font-size: 1.5rem;
+            transition: color 0.3s;
         }
         .menu a:hover {
-            color: #fff;
+            color: gold;
+        }
+        .submenu {
+            display: none;
+            margin-left: 20px;
+            transition: max-height 0.3s ease-in-out;
+        }
+        .submenu a {
+            font-size: 1.2rem;
+        }
+        .menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: silver;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .menu-close:hover {
+            color: gold;
         }
         .container {
-            padding: 5rem 1.25rem 1.25rem;
+            padding: 6rem 1.25rem 1.25rem;
             text-align: center;
+        }
+        .introduction h2 {
+            margin-bottom: 2rem;
+            font-family: 'Stardos Stencil', cursive;
+            color: #aaa;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlideUp 1s ease-out forwards;
+        }
+        .introduction .welcome-to {
+            font-size: 2.5rem;
+            color: #aaa;
+            margin: 0;
+        }
+        .introduction .casino-name {
+            font-size: 3.5rem;
+            color: #fff;
+            margin: 0;
+        }
+        .jump-links {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        .jump-links a {
+            color: silver;
+            text-decoration: none;
+            font-family: 'Stardos Stencil', cursive;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        .jump-links a:hover {
+            color: gold;
         }
         .section-title {
             font-family: 'Stardos Stencil', cursive;
             color: gold;
-            font-size: 4rem;
-            margin: 2rem 0;
-            opacity: 0;
+            font-size: 2.5rem;
+            margin: 1rem 0;
             transition: opacity 2s ease-in-out, transform 2s ease-in-out;
             text-align: left;
             padding-left: 1rem;
             display: inline-block;
         }
         .caption {
-            font-family: 'Stardos Stencil', cursive;
+            font-family: 'Gloock', serif;
             color: #bbb;
-            font-size: 3rem;
-            opacity: 0;
+            font-size: 1.5rem;
             display: inline-block;
-            vertical-align: bottom;
             margin-left: 1rem;
-            animation: slideInCaption 2s forwards 2s;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes fadeInSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideInCaption {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
+        @keyframes slideDown {
+            from { top: -100%; }
+            to { top: 0; }
         }
         .game-section {
             display: flex;
@@ -132,6 +186,7 @@
             width: 100%;
             height: auto;
             border-radius: 0.625rem;
+            loading: lazy; /* 遅延読み込みを適用 */
         }
         .game h3 {
             margin-top: 0.625rem;
@@ -160,44 +215,59 @@
         .ranking-button:hover {
             transform: scale(1.05);
         }
+        /* レスポンシブデザインのためのメディアクエリ */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+            .menu a {
+                font-size: 1.2rem;
+            }
+            .jump-links a {
+                font-size: 1rem;
+            }
+        }
     </style>
     <script>
+        window.onload = function() {
+            window.scrollTo(0, 0);
+        };
+
         document.addEventListener('DOMContentLoaded', function () {
-            const sectionTitles = document.querySelectorAll('.section-title');
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
+            const menuIcon = document.querySelector('.menu-icon');
+            const menu = document.querySelector('.menu');
+            const menuClose = document.querySelector('.menu-close');
+            const promotionToggle = document.getElementById('promotion-toggle');
+            const promotionSubMenu = document.getElementById('promotion-submenu');
+            const gameToggle = document.getElementById('game-toggle');
+            const gameSubMenu = document.getElementById('game-submenu');
 
-            sectionTitles.forEach(title => {
-                title.style.opacity = '0';
-                title.style.transform = 'translateY(20px)';
-                observer.observe(title);
-            });
-
-            // ヘッダーメニューのリンクにセクションのスクロールを対応
-            document.querySelectorAll('.header-menu a').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
+            // スムーズスクロール
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
                     e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-                    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
                 });
             });
-
-            // ヘッダーのタイトルをクリックしたらページトップにスクロール
-            document.querySelector('header h1').addEventListener('click', function() {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            menuIcon.addEventListener('click', function() {
+                menu.style.display = 'block';
+                menu.style.position = 'fixed';
+                menu.style.top = '0';
             });
 
-            // メニューアイコンのクリックイベント
-            document.querySelector('.menu-icon').addEventListener('click', function() {
-                const menu = document.querySelector('.menu');
-                menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+            menuClose.addEventListener('click', function() {
+                menu.style.display = 'none';
+            });
+
+            promotionToggle.addEventListener('click', function() {
+                promotionSubMenu.style.display = promotionSubMenu.style.display === 'block' ? 'none' : 'block';
+            });
+
+            gameToggle.addEventListener('click', function() {
+                gameSubMenu.style.display = gameSubMenu.style.display === 'block' ? 'none' : 'block';
             });
         });
     </script>
@@ -207,27 +277,43 @@
 <header>
     <div class="menu-icon">&#9776;</div> <!-- 3本線のメニューアイコン -->
     <h1>3D CASINO</h1>
-    <div class="header-menu">
-        <a href="#games">Games</a>
-        <a href="#rankings">Rankings</a>
-        <a href="#promotions">Promotions</a>
-    </div>
 </header>
 
 <div class="menu">
-    <a href="#">3D CASINO</a>
-    <a href="#games">ゲーム</a>
-    <a href="#rankings">ランキング</a>
-    <a href="#promotions">プロモーション</a>
-    <a href="mypage.html">マイページ</a>
-    <a href="site.html">このサイトについて</a>
-    <p>開催場所: 2階 講義室1</p>
+    <span class="menu-close" aria-label="Close Menu">&times;</span>
+    <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
+
+    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu">ゲーム</a>
+    <div class="submenu" id="game-submenu">
+        <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
+        <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
+        <a href="card_games_rules.html" aria-label="Go to Card Games Rules">トランプゲーム</a>
+        <a href="dice_games_rules.html" aria-label="Go to Dice Games Rules">ダイスゲーム</a>
+    </div>
+
+    <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
+
+    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu">プロモーション</a>
+    <div class="submenu" id="promotion-submenu">
+        <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
+        <a href="instagram.html" aria-label="Go to Instagram">Instagram</a>
+    </div>
+
+    <a href="mypage.html" aria-label="Go to My Page">マイページ</a>
+    <a href="site.html" aria-label="About This Site">このサイトについて</a>
 </div>
 
 <div class="container">
     <section class="introduction">
-        <h2><span>Welcome to</span> <span>3D CASINO</span></h2>
+        <h2 class="welcome-to">Welcome to</h2>
+        <h2 class="casino-name">3D CASINO</h2>
     </section>
+
+    <div class="jump-links">
+        <a href="#games">Games</a>
+        <a href="#rankings">Rankings</a>
+        <a href="#promotions">Promotions</a>
+    </div>
 
     <section id="games" class="game-section">
         <h2 class="section-title">Games<span class="caption">— Explore the excitement</span></h2>
