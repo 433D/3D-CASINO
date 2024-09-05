@@ -31,6 +31,7 @@
             font-size: 2.5rem;
             font-family: 'Stardos Stencil', cursive;
             color: silver;
+            white-space: nowrap;
         }
         .menu-icon {
             font-size: 2rem;
@@ -52,13 +53,14 @@
             font-size: 1.5rem;
             text-decoration: none;
             transition: color 0.3s;
+            white-space: nowrap;
         }
         .header-menu a:hover {
             color: gold;
         }
         .menu {
             display: none;
-            position: absolute;
+            position: fixed;
             top: 60px;
             left: 10px;
             background-color: #444;
@@ -82,10 +84,39 @@
             text-align: center;
         }
         .introduction h2 {
-            font-size: 3rem;
             margin-bottom: 2rem;
             font-family: 'Stardos Stencil', cursive;
             color: #aaa;
+        }
+        .introduction .welcome-to {
+            font-size: 2.5rem;
+            color: #aaa;
+            margin: 0;
+        }
+        .introduction .casino-name {
+            font-size: 3.5rem;
+            color: #fff;
+            margin: 0;
+        }
+        .jump-buttons {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .jump-buttons a {
+            background-color: #444;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: silver;
+            font-family: 'Stardos Stencil', cursive;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+        }
+        .jump-buttons a:hover {
+            background-color: gold;
+            color: #111;
         }
         .section-title {
             font-family: 'Stardos Stencil', cursive;
@@ -195,8 +226,20 @@
             const menuIcon = document.querySelector('.menu-icon');
             const menu = document.querySelector('.menu');
             menuIcon.addEventListener('click', function() {
-                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-                menu.style.animation = menu.style.display === 'block' ? 'fadeIn 0.3s ease-in-out' : '';
+                if (menu.style.display === 'block') {
+                    menu.style.display = 'none';
+                } else {
+                    menu.style.display = 'block';
+                    menu.style.top = `${window.scrollY + 60}px`; // 現在のスクロール位置にメニューを表示
+                    menu.style.animation = 'fadeIn 0.3s ease-in-out';
+                }
+            });
+
+            // ページのスクロールに応じてメニューを隠す
+            window.addEventListener('scroll', () => {
+                if (menu.style.display === 'block') {
+                    menu.style.top = `${window.scrollY + 60}px`; // スクロールに追従する
+                }
             });
         });
     </script>
@@ -225,8 +268,15 @@
 
 <div class="container">
     <section class="introduction">
-        <h2><span>Welcome to</span> <span>3D CASINO</span></h2>
+        <h2 class="welcome-to">Welcome to</h2>
+        <h2 class="casino-name">3D CASINO</h2>
     </section>
+
+    <div class="jump-buttons">
+        <a href="#games">Games</a>
+        <a href="#rankings">Rankings</a>
+        <a href="#promotions">Promotions</a>
+    </div>
 
     <section id="games" class="game-section">
         <h2 class="section-title">Games<span class="caption">— Explore the excitement</span></h2>
