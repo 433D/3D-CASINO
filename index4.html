@@ -13,17 +13,19 @@
             padding: 0;
             background-color: #111;
             color: #fff;
+            overflow-x: hidden;
         }
         header {
             background-color: #333;
             padding: 1.25rem;
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
             z-index: 1000;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center; /* 中央揃え */
             cursor: pointer;
         }
         header h1 {
@@ -31,13 +33,15 @@
             font-size: 2.5rem;
             font-family: 'Stardos Stencil', cursive;
             color: silver;
-            white-space: nowrap;
+            text-align: center;
         }
         .menu-icon {
             font-size: 2rem;
             cursor: pointer;
             padding: 0.5rem;
             color: silver;
+            position: absolute;
+            left: 20px; /* メニューボタンを左に固定 */
             transition: color 0.3s;
         }
         .menu-icon:hover {
@@ -204,6 +208,11 @@
         }
     </style>
     <script>
+        // ページが読み込まれた際に最上部にスクロール
+        window.onload = function() {
+            window.scrollTo(0, 0);
+        };
+
         document.addEventListener('DOMContentLoaded', function () {
             const sectionTitles = document.querySelectorAll('.section-title');
             const observer = new IntersectionObserver((entries, observer) => {
@@ -228,16 +237,12 @@
             
             menuIcon.addEventListener('click', function() {
                 menu.style.display = 'block';
+                menu.style.position = 'fixed'; // メニューが固定されるように設定
+                menu.style.top = '0';
             });
 
             menuClose.addEventListener('click', function() {
                 menu.style.display = 'none';
-            });
-
-            window.addEventListener('scroll', () => {
-                if (menu.style.display === 'block') {
-                    menu.style.top = `${window.scrollY}px`; // スクロールに追従する
-                }
             });
         });
     </script>
