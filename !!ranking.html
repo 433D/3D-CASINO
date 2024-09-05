@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <title>ランキング</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ランキング - 3D CASINO</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Dancing+Script&display=swap" rel="stylesheet">
     <style>
@@ -19,282 +21,234 @@
         }
         header {
             background-color: #333;
-            padding: 1.25rem;
+            padding: 1rem;
             text-align: center;
-            cursor: pointer;
         }
         header h1 {
             margin: 0;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-family: 'Dancing Script', cursive;
         }
         .container {
-            padding: 1.25rem;
+            padding: 1rem;
+            width: 95%;
+            max-width: 600px;
+            margin: 0 auto;
         }
         .button {
             background-color: #007BFF;
             color: #fff;
             border: none;
-            padding: 1rem;
+            padding: 0.75rem;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 1.5rem;
+            font-size: 1rem;
             cursor: pointer;
-            border-radius: 0.3125rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.3s;
+            margin: 0.25rem;
+            width: calc(50% - 0.5rem);
         }
         .button:hover {
             background-color: #0056b3;
         }
         .button-group {
             display: flex;
-            justify-content: center;
-            margin-bottom: 1.25rem;
-        }
-        .button-group .button {
-            flex: 0 0 20%;  /* 幅を20%に調整 */
-            margin: 0.25rem; /* マージンを小さくする */
-            text-align: center;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 1rem;
         }
         .button.active {
             background-color: #007BFF;
-            color: #fff;
         }
         .button.inactive {
-            background-color: #ccc;
-            color: #666;
+            background-color: #555;
         }
-
-        /* 検索タイプを選択するボタン */
-        .search-type-buttons {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1.25rem;
-        }
-        .search-type-buttons .button {
-            flex: 0 0 20%;  /* 幅を20%に調整 */
-            margin: 0.25rem; /* マージンを小さくする */
-            text-align: center;
-        }
-
-        /* プレイヤー名・ID入力欄とボタンの配置調整 */
         .score-section {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.3125rem;
-            flex-wrap: wrap; /* これでボタンが小さい画面でも1行に収まる */
+            flex-direction: column;
+            margin-bottom: 1rem;
         }
         .score-section input {
-            flex: 1; /* 入力欄が利用可能なスペースを最大限使用 */
-            min-width: 200px; /* 最小幅を設定して、狭い画面での崩れを防止 */
-        }
-        .score-section button {
-            flex: 0 0 auto;
-            width: 30%; /* ボタンの幅を30%に設定 */
-            min-width: 80px; /* 最小幅を設定 */
-            padding: 1rem;
-            font-size: 1.5rem;
-            background-color: #007BFF;
-            color: #fff;
+            padding: 0.75rem;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
             border: none;
-            border-radius: 0.3125rem;
-            cursor: pointer;
-            margin: 0.3125rem;
+            border-radius: 0.25rem;
         }
-
+        .score-section-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .score-section-buttons button {
+            width: calc(50% - 0.25rem);
+        }
         table {
-            width: 80%;
-            margin: 1.25rem auto;
+            width: 100%;
+            margin: 1rem 0;
             border-collapse: collapse;
-            font-family: 'Arial', sans-serif;
+            font-size: 0.9rem;
         }
         th, td {
-            border: 1px solid #ddd;
+            border: 1px solid #444;
             padding: 0.5rem;
             text-align: left;
-            font-size: 1.25rem;
         }
         th {
             background-color: #333;
         }
-        .gold {
-            background-color: gold;
-        }
-        .silver {
-            background-color: silver;
-        }
-        .bronze {
-            background-color: #cd7f32;
-        }
+        .gold { background-color: rgba(255, 215, 0, 0.2); }
+        .silver { background-color: rgba(192, 192, 192, 0.2); }
+        .bronze { background-color: rgba(205, 127, 50, 0.2); }
         .player-score {
-            background-color: #007BFF;
-            padding: 0.625rem;
-            border-radius: 0.3125rem;
-            margin-top: 1.25rem;
-            width: 80%;
-            margin: 1.25rem auto;
+            background-color: #222;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .player-score h3 {
             margin-top: 0;
             color: #fff;
         }
-        .player-score table {
-            width: 100%;
-            background-color: #222;
-            color: #fff;
-        }
         .fade-in {
-            animation: fadeIn 2s;
+            animation: fadeIn 0.5s;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        #summaryTable {
-            width: 80%;
-            margin: 1.25rem auto;
-            border-collapse: collapse;
-        }
-        #summaryTable th, #summaryTable td {
-            border: 1px solid #ddd;
-            padding: 0.5rem;
-            text-align: left;
-            font-size: 1.25rem;
-        }
-        #summaryTable th {
-            background-color: #333;
-        }
         #loading-text {
             opacity: 0;
-            animation: fadeInOut 2s 2;
+            animation: fadeInOut 2s infinite;
         }
         .loading #loading-text {
             opacity: 1;
         }
         @keyframes fadeInOut {
-            0% { opacity: 0; }
+            0%, 100% { opacity: 0; }
             50% { opacity: 1; }
-            100% { opacity: 0; }
         }
         .pagination {
-            margin: 1.25rem;
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         .pagination button {
-            padding: 1rem;
-            font-size: 1.5rem;
-            margin: 0.3125rem;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            margin: 0.25rem;
             cursor: pointer;
-            border-radius: 0.3125rem;
+            border-radius: 0.25rem;
             background-color: #007BFF;
             color: #fff;
             border: none;
+            transition: background-color 0.3s;
         }
         .pagination button:hover {
             background-color: #0056b3;
         }
-
-        /* Back to Homeボタンのスタイルを元に戻す */
         .button.back-to-home {
             position: fixed;
-            bottom: 1.25rem;
-            right: 1.25rem;
+            bottom: 1rem;
+            right: 1rem;
             background-color: #ffffff;
             color: #000;
             font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
-            padding: 1rem 2rem;
-            text-align: center;
-            border: none;
-            border-radius: 0.3125rem;
-            cursor: pointer;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-
     </style>
 </head>
 <body class="loading">
 
-<header onclick="location.href='index.html'">
+<header>
     <h1>3D CASINO</h1>
 </header>
 
 <div class="container">
     <h2>ランキング</h2>
-    <button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
 
     <div class="button-group">
         <button class="button active" id="top10Button" onclick="showTop10()">TOP10</button>
         <button class="button inactive" id="allButton" onclick="showAll()">全体</button>
     </div>
 
-    <!-- 検索タイプを選択するボタン -->
-    <div class="search-type-buttons">
+    <div class="button-group">
         <button class="button active" id="idSearchButton" onclick="selectIdSearch()">ID検索</button>
         <button class="button inactive" id="nameSearchButton" onclick="selectNameSearch()">プレイヤー名検索</button>
     </div>
 
-    <!-- ID検索用の入力欄 -->
     <div id="idSearchSection" class="score-section">
         <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
-        <button onclick="fetchPlayerById()">ID検索</button>
-        <button onclick="clearPlayerData()">クリア</button>
+        <div class="score-section-buttons">
+            <button class="button" onclick="fetchPlayerById()">ID検索</button>
+            <button class="button" onclick="clearPlayerData()">クリア</button>
+        </div>
     </div>
 
-    <!-- プレイヤー名検索用の入力欄 -->
     <div id="nameSearchSection" class="score-section" style="display:none;">
         <input type="text" id="playerName" placeholder="プレイヤー名を入力">
-        <button onclick="fetchPlayerByName()">名前検索</button>
-        <button onclick="clearPlayerData()">クリア</button>
+        <div class="score-section-buttons">
+            <button class="button" onclick="fetchPlayerByName()">プレイヤー名検索</button>
+            <button class="button" onclick="clearPlayerData()">クリア</button>
+        </div>
     </div>
 
     <div id="playerScore" class="player-score" style="display:none;">
         <h3>検索結果</h3>
         <table>
             <thead>
-            <tr>
-                <th>ランク</th>
-                <th>プレイヤー</th>
-                <th>スコア</th>
-                <th>偏差値</th>
-            </tr>
+                <tr>
+                    <th>ランク</th>
+                    <th>プレイヤー</th>
+                    <th>スコア</th>
+                    <th>偏差値</th>
+                </tr>
             </thead>
             <tbody>
-            <!-- 検索結果がここに挿入されます -->
+                <!-- 検索結果がここに挿入されます -->
             </tbody>
         </table>
     </div>
 
     <table id="summaryTable">
         <thead>
-        <tr>
-            <th>参加人数</th>
-            <th>平均スコア</th>
-        </tr>
+            <tr>
+                <th>参加人数</th>
+                <th>平均スコア</th>
+            </tr>
         </thead>
         <tbody>
-        <tr>
-            <td id="totalPlayers"></td>
-            <td id="averageScore"></td>
-        </tr>
+            <tr>
+                <td id="totalPlayers"></td>
+                <td id="averageScore"></td>
+            </tr>
         </tbody>
     </table>
 
     <table id="rankingTable">
         <thead>
-        <tr>
-            <th>ランク</th>
-            <th>プレイヤー</th>
-            <th>スコア</th>
-            <th>偏差値</th>
-        </tr>
+            <tr>
+                <th>ランク</th>
+                <th>プレイヤー</th>
+                <th>スコア</th>
+                <th>偏差値</th>
+            </tr>
         </thead>
         <tbody>
-        <!-- プレイヤーデータがここに挿入されます -->
+            <!-- プレイヤーデータがここに挿入されます -->
         </tbody>
     </table>
     <div class="pagination" id="pagination"></div>
 </div>
+
+<button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
+
+<p id="loading-text">データを取得しています</p>
 
 <script>
     const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
@@ -311,11 +265,14 @@
             .then(data => {
                 const jsonData = JSON.parse(data.substr(47).slice(0, -2));
                 const rows = jsonData.table.rows;
-                allPlayers = rows.map(row => ({
-                    id: Number(row.c[0].v), // A列（ID）
-                    name: row.c[1].v, // B列（プレイヤー名）
-                    score: parseInt(row.c[2].v) // C列（スコア）
-                }));
+                // スコアが存在するデータのみをフィルタリング
+                allPlayers = rows
+                    .filter(row => row.c[2] && row.c[2].v) // C列（スコア）が存在する場合にのみ処理
+                    .map(row => ({
+                        id: Number(row.c[0].v), // A列（ID）
+                        name: row.c[1]?.v || '匿名', // B列（プレイヤー名）。値がない場合は匿名と表示
+                        score: parseInt(row.c[2].v) // C列（スコア）
+                    }));
                 allPlayers.sort((a, b) => b.score - a.score);
                 showTop10();
                 displaySummary(allPlayers);
@@ -487,6 +444,5 @@
         document.body.classList.remove('loading');
     };
 </script>
-<p id="loading-text">データを取得しています</p>
 </body>
 </html>
