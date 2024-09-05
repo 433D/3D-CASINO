@@ -76,6 +76,7 @@
         .submenu {
             display: none;
             margin-left: 20px;
+            transition: max-height 0.3s ease-in-out;
         }
         .submenu a {
             font-size: 1.2rem;
@@ -90,16 +91,6 @@
             transition: color 0.3s;
         }
         .menu-close:hover {
-            color: gold;
-        }
-        .toggle-button {
-            font-size: 1.2rem;
-            margin-left: 10px;
-            cursor: pointer;
-            color: silver;
-            transition: color 0.3s;
-        }
-        .toggle-button:hover {
             color: gold;
         }
         .container {
@@ -251,20 +242,16 @@
             promotionToggle.addEventListener('click', function() {
                 if (promotionSubMenu.style.display === 'block') {
                     promotionSubMenu.style.display = 'none';
-                    promotionToggle.textContent = '🔽';
                 } else {
                     promotionSubMenu.style.display = 'block';
-                    promotionToggle.textContent = '🔼';
                 }
             });
 
             gameToggle.addEventListener('click', function() {
                 if (gameSubMenu.style.display === 'block') {
                     gameSubMenu.style.display = 'none';
-                    gameToggle.textContent = '🔽';
                 } else {
                     gameSubMenu.style.display = 'block';
-                    gameToggle.textContent = '🔼';
                 }
             });
         });
@@ -281,19 +268,22 @@
     <span class="menu-close">&times;</span>
     <a href="ranking.html">ランキング</a>
 
-    <a href="javascript:void(0);" id="promotion-toggle">プロモーション 🔽</a>
+    <a href="javascript:void(0);" id="promotion-toggle">プロモーション</a>
     <div class="submenu" id="promotion-submenu">
         <a href="youtube.html">YouTube</a>
         <a href="instagram.html">Instagram</a>
     </div>
 
-    <a href="javascript:void(0);" id="game-toggle">ゲーム 🔽</a>
+    <a href="javascript:void(0);" id="game-toggle">ゲーム</a>
     <div class="submenu" id="game-submenu">
         <a href="special.html">スペシャルカジノ</a>
         <a href="roulette_rules.html">ルーレット</a>
         <a href="card_games_rules.html">トランプゲーム</a>
         <a href="dice_games_rules.html">ダイスゲーム</a>
     </div>
+
+    <a href="site.html">このサイトについて</a>
+    <a href="mypage.html">マイページ</a>
 </div>
 
 <div class="container">
