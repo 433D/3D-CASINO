@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ランダムな数字とフォント</title>
+  <style>
+    body {
+      font-family: sans-serif; /* デフォルトフォント */
+      text-align: center;
+    }
+
+    #randomNumber {
+      font-size: 100px;
+      margin-bottom: 10px;
+    }
+
+    #font-name {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <button id="generateButton">新しい数字とフォントを生成</button>
+  <div id="randomNumber"></div>
+  <div id="font-name"></div>
+
+  <script>
+    const generateButton = document.getElementById("generateButton");
+    const randomNumberDiv = document.getElementById("randomNumber");
+    const fontNameDiv = document.getElementById("font-name");
+
+    generateButton.addEventListener("click", () => {
+      // 1から100までのランダムな整数を生成
+      const randomNumber = Math.floor(Math.random() * 100) + 1;
+      randomNumberDiv.textContent = randomNumber;
+
+      // Google Fonts APIからランダムなフォントを取得
+      fetch('https://www.googleapis.com/webfonts/v1/webfonts?key=YOUR_API_KEY&sort=popularity&family=serif')
+        .then(response => response.json())
+        .then(data => {
+          // ランダムなフォントを選択
+          const randomFontIndex = Math.floor(Math.random() * data.items.length);
+          const randomFont = data.items[randomFontIndex].family;
+
+          // フォント名をdivに設定
+          fontNameDiv.textContent = randomFont;
+
+          // 数字のフォントを更新
+          randomNumberDiv.style.fontFamily = randomFont;
+        })
+        .catch(error => {
+          console.error("フォント取得エラー:", error);
+        });
+    });
+  </script>
+</body>
+</html>
