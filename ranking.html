@@ -410,10 +410,9 @@
 
                 allPlayers = rows
                     .slice(2) // 3行目からデータを取得
-                    .filter(row => (row.c[1]?.v !== '' || parseInt(row.c[2]?.v) !== 0)) // スコアが0でない、または名前が空欄でないプレイヤーをフィルタリング
                     .map((row, index) => {
                         const playerId = Number(row.c[0].v);
-                        const playerName = row.c[1]?.v || `プレイヤー${playerId}`; // プレイヤー名がない場合は自動で付与
+                        const playerName = row.c[1]?.v || `プレイヤー${playerId}`; // プレイヤー名がない場合は「プレイヤー{ID}」を設定
                         const playerScore = parseInt(row.c[2].v);
 
                         return {
@@ -422,7 +421,7 @@
                             score: playerScore
                         };
                     })
-                    .sort((a, b) => b.score - a.score); 
+                    .sort((a, b) => b.score - a.score); // スコアでソート
 
                 showTop10();
                 displaySummary(allPlayers);
@@ -430,6 +429,8 @@
             })
             .catch(error => console.error('Error fetching data:', error));
     }
+
+
 
     function selectIdSearch() {
         document.getElementById('idSearchButton').classList.add('active');
@@ -484,7 +485,7 @@
     function displayMatchedPlayers(matchedPlayers, allPlayers) {
         const playerScoreTable = document.getElementById('playerScore').getElementsByTagName('tbody')[0];
         playerScoreTable.innerHTML = '';
-
+        
         matchedPlayers.forEach(player => {
             const playerRank = allPlayers.findIndex(p => p.id === player.id) + 1;
             let row = playerScoreTable.insertRow();
@@ -499,8 +500,8 @@
 
     function clearPlayerData() {
         document.getElementById('playerScore').style.display = 'none';
-        document.getElementById('playerId').value = '';
-        document.getElementById('playerName').value = '';
+        document.getElementById('playerId').value = ''; 
+        document.getElementById('playerName').value = ''; 
     }
 
     function displayPlayers(players, page = 1) {
@@ -593,16 +594,6 @@
     window.onload = function() {
         document.body.classList.remove('loading');
     };
-
-    function toggleMenu() {
-        const menu = document.querySelector('.menu');
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function toggleSubMenu(submenuId) {
-        const submenu = document.getElementById(submenuId);
-        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-    }
 </script>
 </body>
 </html>
