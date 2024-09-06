@@ -25,26 +25,45 @@
             z-index: 1000;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             cursor: pointer;
+            height: 3rem;
         }
         header h1 {
             margin: 0;
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-family: 'Stardos Stencil', cursive;
             color: silver;
             text-align: center;
+            flex-grow: 1;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .menu-icon {
-            font-size: 1.8rem;
+            font-size: 2.5rem;
             cursor: pointer;
             padding: 0.5rem;
             color: silver;
-            position: absolute;
-            left: 20px;
             transition: color 0.3s;
+            display: flex;
+            align-items: center;
         }
         .menu-icon:hover {
+            color: gold;
+        }
+        .mypage-link {
+            font-size: 0.9rem;
+            color: silver;
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 0.5rem;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .mypage-link:hover {
             color: gold;
         }
         .menu {
@@ -85,7 +104,7 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            font-size: 2rem;
+            font-size: 3rem;
             color: silver;
             cursor: pointer;
             transition: color 0.3s;
@@ -140,62 +159,45 @@
             max-width: 640px;
             border: none;
         }
+        .button {
+            background-color: #ffffff;
+            color: #000;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.3rem;
+            margin: 20px 5px;
+            cursor: pointer;
+            border-radius: 0.3125rem;
+            position: fixed;
+            bottom: 1.25rem;
+            right: 1.25rem;
+            font-family: 'Stardos Stencil', cursive;
+        }
+        .button:hover {
+            background-color: #e0e0e0;
+        }
+        @keyframes slideDown {
+            from { top: -100%; }
+            to { top: 0; }
+        }
     </style>
-    <script>
-        window.onload = function() {
-            window.scrollTo(0, 0);
-        };
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const menuIcon = document.querySelector('.menu-icon');
-            const menu = document.querySelector('.menu');
-            const menuClose = document.querySelector('.menu-close');
-            const playerNameLink = document.getElementById('player-name-link');
-            const bankLink = document.getElementById('bank-link');
-            const playerNameForm = document.getElementById('player-name-form');
-            const bankForm = document.getElementById('bank-form');
-
-            menuIcon.addEventListener('click', function() {
-                menu.style.display = 'block';
-                menu.style.position = 'fixed';
-                menu.style.top = '0';
-            });
-
-            menuClose.addEventListener('click', function() {
-                menu.style.display = 'none';
-            });
-
-            playerNameLink.addEventListener('click', function() {
-                toggleVisibility(playerNameForm);
-            });
-
-            bankLink.addEventListener('click', function() {
-                toggleVisibility(bankForm);
-            });
-
-            function toggleVisibility(element) {
-                element.classList.toggle('open');
-                if (element.classList.contains('open')) {
-                    element.style.maxHeight = element.scrollHeight + 'px';
-                } else {
-                    element.style.maxHeight = '0';
-                }
-            }
-        });
-    </script>
 </head>
 <body>
 
 <header>
-    <div class="menu-icon">&#9776;</div> <!-- 3本線のメニューアイコン -->
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div> <!-- メニューアイコン -->
     <h1>3D CASINO</h1>
+    <a href="mypage.html" class="mypage-link">マイページ</a>
 </header>
 
 <div class="menu">
-    <span class="menu-close" aria-label="Close Menu">&times;</span>
+    <span class="menu-close" aria-label="Close Menu" onclick="toggleMenu()">&times;</span>
     <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
 
-    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu">ゲーム</a>
+    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu" onclick="toggleSubMenu('game-submenu')">ゲーム</a>
     <div class="submenu" id="game-submenu">
         <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
         <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
@@ -205,7 +207,7 @@
 
     <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
 
-    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu">プロモーション</a>
+    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu" onclick="toggleSubMenu('promotion-submenu')">プロモーション</a>
     <div class="submenu" id="promotion-submenu">
         <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
         <a href="instagram.html" aria-label="Go to Instagram">Instagram</a>
@@ -232,6 +234,49 @@
         </div>
     </div>
 </div>
+
+<button class="button" onclick="location.href='index.html'">Back</button>
+
+<script>
+    function toggleMenu() {
+        const menu = document.querySelector('.menu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleSubMenu(id) {
+        const submenu = document.getElementById(id);
+        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // ページが読み込まれたときにスクロール位置をトップに戻す
+    window.onload = function() {
+        window.scrollTo(0, 0);
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const playerNameLink = document.getElementById('player-name-link');
+        const bankLink = document.getElementById('bank-link');
+        const playerNameForm = document.getElementById('player-name-form');
+        const bankForm = document.getElementById('bank-form');
+
+        playerNameLink.addEventListener('click', function() {
+            toggleVisibility(playerNameForm);
+        });
+
+        bankLink.addEventListener('click', function() {
+            toggleVisibility(bankForm);
+        });
+
+        function toggleVisibility(element) {
+            element.classList.toggle('open');
+            if (element.classList.contains('open')) {
+                element.style.maxHeight = element.scrollHeight + 'px';
+            } else {
+                element.style.maxHeight = '0';
+            }
+        }
+    });
+</script>
 
 </body>
 </html>
