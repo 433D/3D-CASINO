@@ -228,4 +228,132 @@
 </div>
 
 <script>
-    const SPREADSHEET_ID = '1Tq-nGqM-PhpX
+    const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
+    const SHEET_NAME_PLAYER = 'Sheet1';
+    const SHEET_NAMES_BETS = ['Bets1', 'Bets2', 'Bets3'];
+
+    function searchPlayer() {
+        const playerId = document.getElementById('playerId').value.trim();
+        if (!playerId) {
+            alert('IDを入力してください。');
+            return;
+        }
+
+        getPlayerDetails(playerId).then(playerInfo => {
+            if (playerInfo) {
+                document.getElementById('playerInfo').innerHTML = `
+                    <h3>プレイヤー情報</h3>
+                    <p>名前: ${playerInfo.name || '未設定'}</p>
+                    <p>所持金: ${playerInfo.amount || '未設定'}</p>
+                `;
+                getBettingDetails(playerId);
+            } else {
+                document.getElementById('playerInfo').innerHTML = '該当するプレイヤーが見つかりませんでした。';
+                document.getElementById('betsInfo').innerHTML = '';
+            }
+        });
+    }
+
+    async function getPlayerDetails(playerId) {
+        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME_PLAYER}`;
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const json = JSON.parse(text.substring(47).slice(0, -2));
+            const rows = json.table.rows;
+
+            for (const row of rows) {
+                if (row.c[0].v == playerId) {
+                    return {
+                        name: row.c[1]?.v || '未設定',
+                        amount: row.c[2]?.v || '未設定'
+                    };
+                }
+            }
+        } catch (error) {
+            console.error('データの取得中にエラーが発生しました:', error);
+        }
+        return null;
+    }
+
+    async function getBettingDetails(playerId) {
+        let betsInfoHtml = '<h3>ステータス</h3><table><thead><tr><th>賭け先</th><th>賭けた額</th><th>状態</th><th>勝敗</th><th>結果</th></tr></thead><tbody>';
+        let inputStatus = false;
+
+        for (const sheetName of SHEET_NAMES_BETS) {
+            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                const json = JSON.parse(text.substring(47).slice(0, -2));
+                const rows = json.table.rows;
+                let isEmpty = true;
+
+                rows.forEach(row => {
+                    if (row.c[0].v == playerId) {
+                        isEmpty = false;
+                        betsInfoHtml += `
+                            <tr class="highlight">
+                                <td>${row.c[2]?.v || '未設定'}</td>
+                                <td>${row.c[3]?.v || '未設定'}</td>
+                                <td>${row.c[4]?.v || '未設定'}</td>
+                                <td>${row.c[6]?.v || '未設定'}</td>
+                                <td>${row.c[7]?.v || '未設定'}</td>
+                            </tr>
+                        `;
+                    }
+                });
+
+                if (isEmpty) {
+                    inputStatus = true;
+                    betsInfoHtml += `
+                        <tr>
+                            <td colspan="5"><button onclick="scrollToTab('${sheetName.toLowerCase()}')" style="width: 100%;">${sheetName} 未入力 - 入力する</button></td>
+                        </tr>
+                    `;
+                }
+
+            } catch (error) {
+                console.error('賭け情報の取得中にエラーが発生しました:', error);
+            }
+        }
+
+        betsInfoHtml += '</tbody></table>';
+        document.getElementById('betsInfo').innerHTML = betsInfoHtml;
+    }
+
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.classList.remove('active');
+        });
+        document.getElementById(tabId).classList.add('active');
+        document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
+    }
+
+    function scrollToTab(tabId) {
+        showTab(tabId);
+        document.getElementById(tabId).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuIcon = document.querySelector('.menu-icon');
+        const menu = document.querySelector('.menu');
+        const menuClose = document.querySelector('.menu-close');
+
+        menuIcon.addEventListener('click', function() {
+            menu.style.display = 'block';
+            menu.style.position = 'fixed';
+            menu.style.top = '0';
+        });
+
+        menuClose.addEventListener('click', function() {
+            menu.style.display = 'none';
+        });
+    });
+</script>
+
+</body>
+</html>
