@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D CASINO - Roulette Rules</title>
+    <title>ポーカーとブラックジャックのルール</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Stardos+Stencil&family=Gloock&display=swap">
     <link rel="icon" href="favicon.ico">
     <style>
@@ -127,37 +127,33 @@
             right: 1.25rem;
             font-family: 'Stardos Stencil', cursive;
         }
-
         .button:hover {
             background-color: #e0e0e0;
         }
         table {
             border-collapse: collapse;
-            width: 100%;
-            margin: 1.25rem auto;
+            width: 80%;
+            margin: 1.25rem auto; /* 20pxを相対的に */
             border-radius: 8px;
             overflow: hidden;
+            font-family: 'Arial', sans-serif;
         }
         th, td {
             border: 2px solid #fff; /* 枠線を濃く */
-            padding: 8px;
-            text-align: center;
+            padding: 0.5rem; /* 8pxを相対的に */
+            text-align: left;
+            font-size: 1.25rem; /* テーブルのフォントサイズも相対的に */
         }
         th {
             background-color: #444;
             color: #fff;
         }
-        .expandable {
-            cursor: pointer;
-            color: silver;
-            text-decoration: underline;
+        .fade-in {
+            animation: fadeIn 2s;
         }
-        .description {
-            display: none;
-            margin-top: 0.5rem;
-            padding: 0.75rem;
-            background-color: #333;
-            border-radius: 8px;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         @keyframes slideDown {
             from { top: -100%; }
@@ -194,95 +190,114 @@
 </div>
 
 <div class="container">
-    <p class="fade-in">当店ではルーレットが遊べます</p>
+    <p class="fade-in">当店ではポーカーとブラックジャックが遊べます</p>
+    
+    <div class="switch-description">ポーカーとブラックジャックのルールを切り替えるには、以下のスイッチを使用してください。</div>
+
+    <div class="switch-container">
+        <span class="switch">ポーカー</span>
+        <div class="slider" onclick="toggleContent()"></div>
+        <span class="switch">ブラックジャック</span>
+    </div>
+
     <button class="button" onclick="location.href='index.html'">Back</button>
 
-    <div id="roulette" class="content active">
-        <h2>ルーレット</h2>
-        <p>ルーレットは、回転する円盤にボールを投げ入れ、そのボールがどの数字のポケットに入るかを予想して賭けるゲームです。</p>
-
+    <div id="poker" class="content active">
+        <h2>ポーカー</h2>
+        <p>ポーカーは、手札のカードの組み合わせの強さを競うゲームです。</p>
         <h3>ゲームの流れ</h3>
         <ol>
-            <li>プレイヤーは、賭けたい場所にチップを置きます。</li>
-            <li>ディーラーがルーレットを回し、ボールを投げ入れます。</li>
-            <li>ボールがポケットに入ると、その数字と色が結果となります。</li>
-            <li>賭けが当たったプレイヤーは、配当を受け取ります。</li>
+            <li>最初に、各プレイヤーは参加費1000を出します</li>
+            <li>プレイヤーは、配られたカードを見て、賭け金を出し合います。</li>
+            <li>最後に、全員で手札を公開し、一番強い役の人が勝ちとなります。</li>
         </ol>
-
-        <h3>賭けの種類</h3>
+        <h3>役の強さ</h3>
         <table>
             <thead>
                 <tr>
-                    <th>賭け方</th>
+                    <th>役</th>
                     <th>説明</th>
-                    <th>配当</th>
-                    <th>賭け位置</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>ストレートアップ</td>
-                    <td>特定の数字1つに賭ける</td>
-                    <td>36倍</td>
-                    <td>任意の1つの数字上に直接チップを置く</td>
+                    <td>ロイヤルストレートフラッシュ</td>
+                    <td>同じマークの10、J、Q、K、A</td>
                 </tr>
                 <tr>
-                    <td>スプリット</td>
-                    <td>隣り合った2つの数字に賭ける</td>
-                    <td>18倍</td>
-                    <td>2つの数字の間の線上にチップを置く</td>
+                    <td>ストレートフラッシュ</td>
+                    <td>同じマークの連続した5枚</td>
                 </tr>
                 <tr>
-                    <td>ストリート</td>
-                    <td>横1列の3つの数字に賭ける</td>
-                    <td>12倍</td>
-                    <td>横並びの3つの数字の端にチップを置く</td>
+                    <td>フォーカード</td>
+                    <td>同じ数字のカードが4枚</td>
                 </tr>
                 <tr>
-                    <td>コーナー</td>
-                    <td>4つの数字が交わる角に賭ける</td>
-                    <td>9倍</td>
-                    <td>4つの数字が交わる角にチップを置く</td>
+                    <td>フルハウス</td>
+                    <td>スリーカードとワンペア</td>
                 </tr>
                 <tr>
-                    <td>ライン</td>
-                    <td>縦2列の6つの数字に賭ける</td>
-                    <td>6倍</td>
-                    <td>2列の数字の端にまたがる位置にチップを置く</td>
+                    <td>フラッシュ</td>
+                    <td>同じマークの5枚</td>
                 </tr>
                 <tr>
-                    <td>コラム</td>
-                    <td>縦1列の12個の数字に賭ける</td>
-                    <td>3倍</td>
-                    <td>1-34の縦列(34の下),2-35の縦列(35の下),3-36の縦列(36の下)にチップを置く</td>
+                    <td>ストレート</td>
+                    <td>連続した数字の5枚</td>
                 </tr>
                 <tr>
-                    <td>ダズン</td>
-                    <td>12個ずつの数字のグループ（1-12, 13-24, 25-36）に賭ける</td>
-                    <td>3倍</td>
-                    <td>1-12(12P), 13-24(12M), 25-36(12D)のボックスにチップを置く</td>
+                    <td>スリーカード</td>
+                    <td>同じ数字のカードが3枚</td>
                 </tr>
                 <tr>
-                    <td>赤/黒</td>
-                    <td>赤または黒の数字に賭ける</td>
-                    <td>2倍</td>
-                    <td>赤(◇)または黒(◇)のマスにチップを置く</td>
+                    <td>ツーペア</td>
+                    <td>2組のペア</td>
                 </tr>
                 <tr>
-                    <td>奇数/偶数</td>
-                    <td>奇数または偶数の数字に賭ける</td>
-                    <td>2倍</td>
-                    <td>奇数(IMPAIR)または偶数(PAIR)のボックスにチップを置く</td>
+                    <td>ワンペア</td>
+                    <td>同じ数字のカードが2枚</td>
                 </tr>
                 <tr>
-                    <td>ハイ/ロー</td>
-                    <td>1-18（ロー）または19-36（ハイ）の数字に賭ける</td>
-                    <td>2倍</td>
-                    <td>1-18（MANQUE）または19-36（PASSE）のボックスにチップを置く</td>
+                    <td>ハイカード</td>
+                    <td>上記以外の役がない場合、一番数字の大きいカード</td>
                 </tr>
             </tbody>
         </table>
+        <p>詳しくは、当日スタッフにお尋ねください。</p>
+    </div>
 
+    <div id="blackjack" class="content">
+        <h2>ブラックジャック</h2>
+        <p>ブラックジャックは、手札のカードの合計が21に近い方が勝ちとなるゲームです。ただし、21を超えると負けとなります。</p>
+        <h3>ゲームの流れ</h3>
+        <ol>
+            <li>最初に、プレイヤーとディーラーにそれぞれ2枚のカードが配られます。</li>
+            <li>プレイヤーは、手札の合計を見ながら、カードを追加で引くか、そのままにするかを選びます。</li>
+            <li>プレイヤーがカードを引かなくなったら、ディーラーがカードを引きます。ディーラーは、手札の合計が17以上になるまでカードを引かなければなりません。</li>
+            <li>最後に、プレイヤーとディーラーの手札の合計を比較し、21により近い方が勝ちとなります。</li>
+        </ol>
+        <h3>カードの点数</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>カード</th>
+                    <th>点数</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2～10</td>
+                    <td>数字通りの点数</td>
+                </tr>
+                <tr>
+                    <td>J、Q、K</td>
+                    <td>10点</td>
+                </tr>
+                <tr>
+                    <td>A</td>
+                    <td>1点または11点（状況によって有利な方を選べます）</td>
+                </tr>
+            </tbody>
+        </table>
         <p>詳しくは、当日スタッフにお尋ねください。</p>
     </div>
 </div>
@@ -296,6 +311,22 @@
     function toggleSubMenu(subMenuId) {
         const subMenu = document.getElementById(subMenuId);
         subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleContent() {
+        var slider = document.querySelector('.slider');
+        var pokerContent = document.getElementById('poker');
+        var blackjackContent = document.getElementById('blackjack');
+        
+        slider.classList.toggle('active');
+        
+        if (slider.classList.contains('active')) {
+            pokerContent.classList.remove('active');
+            blackjackContent.classList.add('active');
+        } else {
+            blackjackContent.classList.remove('active');
+            pokerContent.classList.add('active');
+        }
     }
 </script>
 
