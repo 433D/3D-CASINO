@@ -265,13 +265,13 @@
         .then(data => {
             const jsonData = JSON.parse(data.substr(47).slice(0, -2));
             const rows = jsonData.table.rows;
-            // スコアが存在するデータのみをフィルタリング
+            // スコアが存在するデータをフィルタリング（スコアがnullや未定義でなければ含める）
             allPlayers = rows
-                .filter(row => row.c[2] && row.c[2].v) // C列（スコア）が存在する場合にのみ処理
+                .filter(row => row.c[2] && row.c[2].v !== null) // C列（スコア）が存在すれば処理
                 .map(row => {
                     const playerId = Number(row.c[0].v); // A列（ID）
                     const playerName = row.c[1]?.v || `プレイヤー${playerId}`; // B列（プレイヤー名）が空なら「プレイヤーID」
-                    const playerScore = parseInt(row.c[2].v); // C列（スコア）
+                    const playerScore = parseInt(row.c[2].v) || 0; // C列（スコア）。存在しない場合は0とする
 
                     return {
                         id: playerId,
@@ -286,6 +286,7 @@
         })
         .catch(error => console.error('Error fetching data:', error));
 }
+
 
 
     function selectIdSearch() {
