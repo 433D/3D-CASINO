@@ -27,8 +27,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            cursor: pointer;
             height: 3rem;
+            color: silver;
         }
         header h1 {
             margin: 0;
@@ -130,6 +130,29 @@
         .button:hover {
             background-color: #e0e0e0;
         }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            background-color: #444;
+            color: silver;
+            border-radius: 0.3125rem;
+            margin: 0 0.5rem;
+        }
+        .tab.active {
+            background-color: gold;
+            color: #000;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
         table {
             border-collapse: collapse;
             width: 80%;
@@ -148,13 +171,6 @@
             background-color: #444;
             color: #fff;
         }
-        .fade-in {
-            animation: fadeIn 2s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
         @keyframes slideDown {
             from { top: -100%; }
             to { top: 0; }
@@ -166,7 +182,7 @@
 <header>
     <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
     <h1>3D CASINO</h1>
-    <a href="mypage.html" class="mypage-link">マイページ</a>
+    <a href="mypage.html" class="mypage-link" style="color: silver; margin-left: auto;">マイページ</a>
 </header>
 
 <div class="menu">
@@ -190,19 +206,12 @@
 </div>
 
 <div class="container">
-    <p class="fade-in">当店ではポーカーとブラックジャックが遊べます</p>
-    
-    <div class="switch-description">ポーカーとブラックジャックのルールを切り替えるには、以下のスイッチを使用してください。</div>
-
-    <div class="switch-container">
-        <span class="switch">ポーカー</span>
-        <div class="slider" onclick="toggleContent()"></div>
-        <span class="switch">ブラックジャック</span>
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('poker')">ポーカー</div>
+        <div class="tab" onclick="showTab('blackjack')">ブラックジャック</div>
     </div>
 
-    <button class="button" onclick="location.href='index.html'">Back</button>
-
-    <div id="poker" class="content active">
+    <div id="poker" class="tab-content active">
         <h2>ポーカー</h2>
         <p>ポーカーは、手札のカードの組み合わせの強さを競うゲームです。</p>
         <h3>ゲームの流れ</h3>
@@ -262,10 +271,9 @@
                 </tr>
             </tbody>
         </table>
-        <p>詳しくは、当日スタッフにお尋ねください。</p>
     </div>
 
-    <div id="blackjack" class="content">
+    <div id="blackjack" class="tab-content">
         <h2>ブラックジャック</h2>
         <p>ブラックジャックは、手札のカードの合計が21に近い方が勝ちとなるゲームです。ただし、21を超えると負けとなります。</p>
         <h3>ゲームの流れ</h3>
@@ -298,8 +306,9 @@
                 </tr>
             </tbody>
         </table>
-        <p>詳しくは、当日スタッフにお尋ねください。</p>
     </div>
+
+    <button class="button" onclick="location.href='index.html'">Back</button>
 </div>
 
 <script>
@@ -313,20 +322,15 @@
         subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
     }
 
-    function toggleContent() {
-        var slider = document.querySelector('.slider');
-        var pokerContent = document.getElementById('poker');
-        var blackjackContent = document.getElementById('blackjack');
-        
-        slider.classList.toggle('active');
-        
-        if (slider.classList.contains('active')) {
-            pokerContent.classList.remove('active');
-            blackjackContent.classList.add('active');
-        } else {
-            blackjackContent.classList.remove('active');
-            pokerContent.classList.add('active');
-        }
+    function showTab(tabId) {
+        const tabs = document.querySelectorAll('.tab');
+        const contents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => tab.classList.remove('active'));
+        contents.forEach(content => content.classList.remove('active'));
+
+        document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+        document.getElementById(tabId).classList.add('active');
     }
 </script>
 
