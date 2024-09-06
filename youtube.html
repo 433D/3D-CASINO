@@ -4,19 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Video</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Stardos+Stencil&family=Gloock&display=swap">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         body {
-            font-family: 'Raleway', sans-serif;
+            font-family: 'Gloock', serif;
             margin: 0;
             padding: 0;
             background-color: #111;
             color: #fff;
             text-align: center;
         }
-        .container {
+        header {
+            background-color: #333;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            height: 3rem;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-family: 'Stardos Stencil', cursive;
+            color: silver;
+            text-align: center;
+            flex-grow: 1;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .menu-icon {
+            font-size: 2.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: silver;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        .menu-icon:hover {
+            color: gold;
+        }
+        .mypage-link {
+            font-size: 0.9rem;
+            color: silver;
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 0.5rem;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .mypage-link:hover {
+            color: gold;
+        }
+        .menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
             padding: 2rem;
+            box-sizing: border-box;
+            overflow-y: auto;
+            animation: slideDown 0.4s ease-in-out;
+        }
+        .menu a {
+            display: block;
+            color: silver;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            font-family: 'Stardos Stencil', cursive;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        .menu a:hover {
+            color: gold;
+        }
+        .submenu {
+            display: none;
+            margin-left: 20px;
+            transition: max-height 0.3s ease-in-out;
+        }
+        .submenu a {
+            font-size: 1.2rem;
+        }
+        .menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3rem;
+            color: silver;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .menu-close:hover {
+            color: gold;
+        }
+        .container {
+            padding: 6rem 1.25rem 1.25rem;
+            text-align: center;
         }
         iframe {
             width: 100%;
@@ -29,31 +127,65 @@
             background-color: #ffffff;
             color: #000;
             border: none;
-            padding: 1rem 2rem; /* ボタンの大きさを相対的に */
+            padding: 0.8rem 1.5rem; /* ボタンのサイズを少し小さく */
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 1.5rem; /* ボタンのフォントサイズも相対的に */
+            font-size: 1.3rem; /* フォントサイズを少し小さく */
             margin: 20px 5px;
             cursor: pointer;
-            border-radius: 0.3125rem; /* 5pxを相対的に */
+            border-radius: 0.3125rem;
             position: fixed;
-            bottom: 1.25rem; /* 20pxを相対的に */
-            right: 1.25rem; /* 20pxを相対的に */
-            font-family: 'Dancing Script', cursive;
+            bottom: 1.25rem;
+            right: 1.25rem;
+            font-family: 'Stardos Stencil', cursive; /* フォントを変更 */
         }
         .button:hover {
             background-color: #e0e0e0;
+        }
+        @keyframes slideDown {
+            from { top: -100%; }
+            to { top: 0; }
         }
     </style>
 </head>
 <body>
 
+<header>
+    <div class="menu-icon">&#9776;</div>
+    <h1>3D CASINO</h1>
+    <a href="mypage.html" class="mypage-link">マイページ</a>
+</header>
+
+<div class="menu">
+    <span class="menu-close" aria-label="Close Menu">&times;</span>
+    <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
+
+    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu">ゲーム</a>
+    <div class="submenu" id="game-submenu">
+        <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
+        <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
+        <a href="card_games_rules.html" aria-label="Go to Card Games Rules">トランプゲーム</a>
+        <a href="dice_games_rules.html" aria-label="Go to Dice Games Rules">ダイスゲーム</a>
+    </div>
+
+    <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
+
+    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu">プロモーション</a>
+    <div class="submenu" id="promotion-submenu">
+        <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
+        <a href="instagram.html" aria-label="Go to Instagram">Instagram</a>
+    </div>
+
+    <a href="mypage.html" aria-label="Go to My Page">マイページ</a>
+    <a href="site.html" aria-label="About This Site">このサイトについて</a>
+</div>
+
 <div class="container">
     <iframe src="https://www.youtube.com/embed/PjUprrxx13I" allowfullscreen></iframe>
 </div>
 
-<button class="button" onclick="location.href='index.html'">Back to Home</button>
+<button class="button" onclick="location.href='index.html'">Back</button>
 
 </body>
 </html>
