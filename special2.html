@@ -11,7 +11,7 @@
             font-size: 16px;
         }
         body {
-            font-family: 'Gloock', sans-serif; 
+            font-family: 'Gloock', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #111;
@@ -30,7 +30,7 @@
             z-index: 1000;
             display: flex;
             align-items: center;
-            justify-content: flex-start; 
+            justify-content: flex-start;
             cursor: pointer;
             height: 3rem;
         }
@@ -41,7 +41,7 @@
             color: silver;
             text-align: center;
             line-height: 1;
-            flex-grow: 1; /* h1を中央に配置するための調整 */
+            flex-grow: 1;
         }
         .menu-icon {
             font-size: 2.5rem;
@@ -82,7 +82,7 @@
             overflow-y: auto;
             animation: slideDown 0.4s ease-in-out;
         }
-        .menu a { /* メニュー項目のスタイル */
+        .menu a { 
             display: block;
             color: silver;
             padding: 0.75rem 0;
@@ -90,19 +90,19 @@
             font-family: 'Stardos Stencil', cursive;
             font-size: 1.5rem;
             transition: color 0.3s;
-            text-align: left; /* メニュー項目を左寄せ */
+            text-align: left;
         }
         .menu a:hover {
             color: gold;
         }
-        .submenu { /* サブメニューのスタイル */
+        .submenu {
             display: none;
             margin-left: 20px;
             transition: max-height 0.3s ease-in-out;
         }
         .submenu a {
             font-size: 1.2rem;
-            text-align: left; /* サブメニュー項目を左寄せ */
+            text-align: left; 
         }
         .menu-close {
             position: absolute;
@@ -389,7 +389,7 @@
     <div class="pagination" id="pagination"></div>
 </div>
 
-<button class="button back-to-home" onclick="location.href='index.html'">Back</button> 
+<button class="button back-to-home" onclick="location.href='index.html'">Back</button>
 
 <p id="loading-text" style="display: none;">データを取得しています</p>
 
@@ -410,11 +410,17 @@
                 const rows = jsonData.table.rows;
 
                 allPlayers = rows
-                    .filter(row => !(row.c[1]?.v === '' && parseInt(row.c[2]?.v) === 0))
+                    .slice(2) // 3行目からデータを取得
+                    .filter(row => !(row.c[1]?.v === '' && parseInt(row.c[2]?.v) === 0)) 
                     .map((row, index) => {
                         const playerId = Number(row.c[0].v);
-                        const playerName = row.c[1]?.v || ''; // プレイヤー名を最初に取得
+                        const playerName = row.c[1]?.v;
                         const playerScore = parseInt(row.c[2].v);
+
+                        // プレイヤー名がない場合は自動で付与
+                        if (playerName === '') {
+                            return null; // 除外
+                        }
 
                         return {
                             id: playerId,
@@ -422,14 +428,9 @@
                             score: playerScore
                         };
                     })
-                    .map((player, index) => { // プレイヤー名がない場合は自動付与
-                        if (player.name === '') {
-                            player.name = `プレイヤー${player.id}`; 
-                        }
-                        return player;
-                    }); 
+                    .filter(player => player !== null) // 除外されたプレイヤーを取り除く
+                    .sort((a, b) => b.score - a.score); 
 
-                allPlayers.sort((a, b) => b.score - a.score);
                 showTop10();
                 displaySummary(allPlayers);
                 createPagination();
@@ -609,22 +610,6 @@
         const submenu = document.getElementById(submenuId);
         submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
     }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const menuIcon = document.querySelector('.menu-icon');
-        const menu = document.querySelector('.menu');
-        const menuClose = document.querySelector('.menu-close');
-
-        menuIcon.addEventListener('click', function() {
-            menu.style.display = 'block';
-            menu.style.position = 'fixed';
-            menu.style.top = '0';
-        });
-
-        menuClose.addEventListener('click', function() {
-            menu.style.display = 'none';
-        });
-    });
 </script>
 </body>
 </html>
