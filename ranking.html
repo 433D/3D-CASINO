@@ -232,8 +232,8 @@
             background-color: #ffffff;
             color: #000;
             font-family: 'Stardos Stencil', cursive;
-            font-size: 1.25rem;
-            padding: 0.5rem 0.75rem;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         @keyframes slideDown {
@@ -271,7 +271,7 @@
 </div>
 
 <div class="container">
-    <h2 style="font-family: 'Abril Fatface', serif; font-size: 2rem;">Rankings</h2>
+    <h2>ランキング</h2>
 
     <div class="button-group">
         <button class="button active" id="top10Button" onclick="showTop10()">TOP10</button>
@@ -347,9 +347,21 @@
     <div class="pagination" id="pagination"></div>
 </div>
 
-<button class="button back-to-home" onclick="location.href='index.html'">Back</button>
+<button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
+
+<p id="loading-text">データを取得しています</p>
 
 <script>
+    function toggleMenu() {
+        const menu = document.querySelector('.menu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleSubMenu(subMenuId) {
+        const subMenu = document.getElementById(subMenuId);
+        subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
+    }
+
     function toggleMenu() {
         const menu = document.querySelector('.menu');
         menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
