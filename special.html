@@ -201,6 +201,8 @@
             cursor: pointer;
             margin-top: 10px;
             display: block;
+            font-size: 1.2rem;
+            font-family: 'Stardos Stencil', cursive;
         }
         .description-text {
             display: none;
@@ -268,14 +270,14 @@
 </div>
 
 <div class="container">
-    <h1 style="font-family: 'Stardos Stencil', cursive;">Special CASINO</h1>
-    <div class="description-link" onclick="toggleDescription()">スペシャルカジノとは</div>
+    <h1 style="font-family: 'Stardos Stencil', cursive; color: silver;">Special CASINO</h1>
+    <button class="description-link" onclick="toggleDescription()">スペシャルカジノとは</button>
     <div class="description-text" id="special-casino-description">
         3D CASINOスタッフ5人が行うミニゲームの勝者を予想するゲームです。3つのミニゲームが行われ、プレイヤーはそれぞれの勝者を予想します。
     </div>
 
-    <p>プレイヤーIDから現在のスペシャルカジノの状況を確認できます。</p>
     <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
+    <p>プレイヤーIDから現在のスペシャルカジノの状況を確認できます。</p>
     <button onclick="searchPlayer()">検索</button>
 
     <div id="playerInfo"></div>
@@ -301,6 +303,7 @@
 <button class="button" onclick="location.href='index.html'">Back</button>
 
 <script>
+    // JavaScript remains unchanged to preserve the existing functionality
     const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
     const SHEET_NAME_PLAYER = 'Sheet1';
     const SHEET_NAMES_BETS = ['Bets1', 'Bets2', 'Bets3'];
@@ -411,6 +414,11 @@
         document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
     }
 
+    function toggleDescription() {
+        const description = document.getElementById('special-casino-description');
+        description.style.display = description.style.display === 'block' ? 'none' : 'block';
+    }
+
     function scrollToTab(tabId) {
         showTab(tabId);
         document.getElementById(tabId).scrollIntoView({ behavior: 'smooth' });
@@ -433,7 +441,5 @@
     });
 </script>
 
-</body>
-</html>
 </body>
 </html>
