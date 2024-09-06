@@ -31,7 +31,7 @@
         }
         header h1 {
             margin: 0;
-            font-size: 2.5rem;
+            font-size: 2.5rem; /* フォントサイズを統一 */
             font-family: 'Stardos Stencil', cursive;
             color: silver;
             text-align: center;
@@ -42,7 +42,7 @@
             justify-content: center;
         }
         .menu-icon {
-            font-size: 2.5rem;
+            font-size: 2.5rem; /* サイズを統一 */
             cursor: pointer;
             padding: 0.5rem;
             color: silver;
@@ -127,18 +127,18 @@
             background-color: #ffffff;
             color: #000;
             border: none;
-            padding: 0.8rem 1.5rem; /* ボタンのサイズを少し小さく */
+            padding: 0.8rem 1.5rem;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 1.3rem; /* フォントサイズを少し小さく */
+            font-size: 1.3rem;
             margin: 20px 5px;
             cursor: pointer;
             border-radius: 0.3125rem;
             position: fixed;
             bottom: 1.25rem;
             right: 1.25rem;
-            font-family: 'Stardos Stencil', cursive; /* フォントを変更 */
+            font-family: 'Stardos Stencil', cursive;
         }
         .button:hover {
             background-color: #e0e0e0;
@@ -152,16 +152,16 @@
 <body>
 
 <header>
-    <div class="menu-icon">&#9776;</div>
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div> <!-- メニューを開く機能を追加 -->
     <h1>3D CASINO</h1>
     <a href="mypage.html" class="mypage-link">マイページ</a>
 </header>
 
 <div class="menu">
-    <span class="menu-close" aria-label="Close Menu">&times;</span>
+    <span class="menu-close" aria-label="Close Menu" onclick="toggleMenu()">&times;</span>
     <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
 
-    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu">ゲーム</a>
+    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu" onclick="toggleSubMenu('game-submenu')">ゲーム</a>
     <div class="submenu" id="game-submenu">
         <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
         <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
@@ -171,7 +171,7 @@
 
     <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
 
-    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu">プロモーション</a>
+    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu" onclick="toggleSubMenu('promotion-submenu')">プロモーション</a>
     <div class="submenu" id="promotion-submenu">
         <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
         <a href="instagram.html" aria-label="Go to Instagram">Instagram</a>
@@ -186,6 +186,18 @@
 </div>
 
 <button class="button" onclick="location.href='index.html'">Back</button>
+
+<script>
+    function toggleMenu() {
+        const menu = document.querySelector('.menu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleSubMenu(id) {
+        const submenu = document.getElementById(id);
+        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+    }
+</script>
 
 </body>
 </html>
