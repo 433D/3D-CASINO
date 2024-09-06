@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>3D CASINO - Roulette Rules</title>
     <link rel="icon" href="favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil&family=Gloock&display=swap" rel="stylesheet">
     <style>
         body {
@@ -144,7 +145,6 @@
             margin-top: 5px;
         }
         .description {
-            display: none;
             margin-top: 10px;
             padding: 10px;
             background-color: #444;
@@ -219,107 +219,130 @@
         <tbody>
             <tr>
                 <td>ストレートアップ</td>
-                <td><span class="detail-link" onclick="toggleDescription('desc1')">詳細</span>
-                    <div id="desc1" class="description">特定の数字1つに賭ける。</div>
+                <td>
+                    特定の数字1つに賭ける。
+                    <span class="detail-link" onclick="toggleDescription('desc1')">詳細</span>
+                    <div id="desc1" class="description">例えば、数字「7」に賭ける。</div>
                 </td>
                 <td>36倍</td>
                 <td>数字「7」に賭ける</td>
             </tr>
             <tr>
                 <td>スプリット</td>
-                <td><span class="detail-link" onclick="toggleDescription('desc2')">詳細</span>
-                    <div id="desc2" class="description">隣り合った2つの数字に賭ける。</div>
+                <td>
+                    隣り合った2つの数字に賭ける。
+                    <span class="detail-link" onclick="toggleDescription('desc2')">詳細</span>
+                    <div id="desc2" class="description">例えば、「14」と「17」の間に賭ける。</div>
                 </td>
                 <td>18倍</td>
                 <td>「14」と「17」の間に賭ける</td>
             </tr>
-            <tr>
-                <td>ストリート</td>
-                <td><span class="detail-link" onclick="toggleDescription('desc3')">詳細</span>
-                    <div id="desc3" class="description">横1列の3つの数字に賭ける。</div>
-                </td>
-                <td>12倍</td>
-                <td>「13」「14」「15」に賭ける</td>
-            </tr>
-            <tr>
-                <td>コーナー</td>
-                <td><span class="detail-link" onclick="toggleDescription('desc4')">詳細</span>
-                    <div id="desc4" class="description">4つの数字が交わる角に賭ける。</div>
-                </td>
-                <td>9倍</td>
-                <td>「7」「8」「10」「11」に賭ける</td>
-            </tr>
-            <tr>
-                <td>ライン</td>
-                <td><span class="detail-link" onclick="toggleDescription('desc5')">詳細</span>
-                    <div id="desc5" class="description">縦2列の6つの数字に賭ける。</div>
-                </td>
-                <td>6倍</td>
-                <td>「1」「2」「3」「4」「5」「6」に賭ける</td>
-            </tr>
-            <tr>
-                <td>コラム</td>
-                <td><span class="detail-link" onclick="toggleDescription('desc6')">詳細</span>
-                    <div id="desc6" class="description">縦1列の12個の数字に賭ける。</div>
-                </td>
-                <td>3倍</td>
-                <td>「1」「4」「7」など縦1列</td>
-            </tr>
-            <tr>
-                <td>ダズン</td>
-                <td><span class="detail-link" onclick="toggleDescription('desc7')">詳細</span>
-                    <div id="desc7" class="description">12個ずつの数字のグループ（1-12, 13-24, 25-36）に賭ける。</div>
-                </td>
-                <td>3倍</td>
-                <td>「1-12」に賭ける</td>
-            </tr>
-            <tr>
-                <td>赤/黒</td>
-                <td><span class="detail-link" onclick="toggleDescription('desc8')">詳細</span>
-                    <div id="desc8" class="description">赤または黒の数字に賭ける。</div>
-                </td>
-                <td>2倍</td>
-                <td>赤の数字に賭ける</td>
-            </tr>
-            <tr>
-                <td>奇数/偶数</td>
-                <td><span class="detail-link" onclick="toggleDescription('desc9')">詳細</span>
-                    <div id="desc9" class="description">奇数または偶数の数字に賭ける。</div>
-                </td>
-                <td>2倍</td>
-                <td>偶数に賭ける</td>
-            </tr>
-            <tr>
-                <td>ハイ/ロー</td>
-                <td><span class="detail-link" onclick="toggleDescription('desc10')">詳細</span>
-                    <div id="desc10" class="description">1-18（ロー）または19-36（ハイ）の数字に賭ける。</div>
-                </td>
-                <td>2倍</td>
-                <td>「1-18」に賭ける</td>
-            </tr>
-        </tbody>
-    </table>
+        </td>
+        <td>18倍</td>
+        <td>「14」と「17」の間に賭ける</td>
+    </tr>
+    <tr>
+        <td>ストリート</td>
+        <td>
+            横1列の3つの数字に賭ける。
+            <span class="detail-link" onclick="toggleDescription('desc3')">詳細</span>
+            <div id="desc3" class="description">例えば、「13」「14」「15」に賭ける。</div>
+        </td>
+        <td>12倍</td>
+        <td>「13」「14」「15」に賭ける</td>
+    </tr>
+    <tr>
+        <td>コーナー</td>
+        <td>
+            4つの数字が交わる角に賭ける。
+            <span class="detail-link" onclick="toggleDescription('desc4')">詳細</span>
+            <div id="desc4" class="description">例えば、「7」「8」「10」「11」に賭ける。</div>
+        </td>
+        <td>9倍</td>
+        <td>「7」「8」「10」「11」に賭ける</td>
+    </tr>
+    <tr>
+        <td>ライン</td>
+        <td>
+            縦2列の6つの数字に賭ける。
+            <span class="detail-link" onclick="toggleDescription('desc5')">詳細</span>
+            <div id="desc5" class="description">例えば、「1」「2」「3」「4」「5」「6」に賭ける。</div>
+        </td>
+        <td>6倍</td>
+        <td>「1」「2」「3」「4」「5」「6」に賭ける</td>
+    </tr>
+    <tr>
+        <td>コラム</td>
+        <td>
+            縦1列の12個の数字に賭ける。
+            <span class="detail-link" onclick="toggleDescription('desc6')">詳細</span>
+            <div id="desc6" class="description">例えば、「1」「4」「7」などの縦1列に賭ける。</div>
+        </td>
+        <td>3倍</td>
+        <td>「1」「4」「7」など縦1列</td>
+    </tr>
+    <tr>
+        <td>ダズン</td>
+        <td>
+            12個ずつの数字のグループに賭ける（1-12, 13-24, 25-36）。
+            <span class="detail-link" onclick="toggleDescription('desc7')">詳細</span>
+            <div id="desc7" class="description">例えば、「1-12」に賭ける。</div>
+        </td>
+        <td>3倍</td>
+        <td>「1-12」に賭ける</td>
+    </tr>
+    <tr>
+        <td>赤/黒</td>
+        <td>
+            赤または黒の数字に賭ける。
+            <span class="detail-link" onclick="toggleDescription('desc8')">詳細</span>
+            <div id="desc8" class="description">例えば、赤の数字に賭ける。</div>
+        </td>
+        <td>2倍</td>
+        <td>赤の数字に賭ける</td>
+    </tr>
+    <tr>
+        <td>奇数/偶数</td>
+        <td>
+            奇数または偶数の数字に賭ける。
+            <span class="detail-link" onclick="toggleDescription('desc9')">詳細</span>
+            <div id="desc9" class="description">例えば、偶数に賭ける。</div>
+        </td>
+        <td>2倍</td>
+        <td>偶数に賭ける</td>
+    </tr>
+    <tr>
+        <td>ハイ/ロー</td>
+        <td>
+            1-18（ロー）または19-36（ハイ）の数字に賭ける。
+            <span class="detail-link" onclick="toggleDescription('desc10')">詳細</span>
+            <div id="desc10" class="description">例えば、「1-18」に賭ける。</div>
+        </td>
+        <td>2倍</td>
+        <td>「1-18」に賭ける</td>
+    </tr>
+</tbody>
+</table>
 </div>
 
 <button class="button" onclick="location.href='index.html'">Back</button>
 
 <script>
-    function toggleMenu() {
-        const menu = document.querySelector('.menu');
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-    }
+function toggleMenu() {
+const menu = document.querySelector('.menu');
+menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
 
-    function toggleSubMenu(subMenuId) {
-        const subMenu = document.getElementById(subMenuId);
-        subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
-    }
+function toggleSubMenu(subMenuId) {
+const subMenu = document.getElementById(subMenuId);
+subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
+}
 
-    function toggleDescription(id) {
-        const desc = document.getElementById(id);
-        desc.style.display = desc.style.display === 'block' ? 'none' : 'block';
-    }
+function toggleDescription(id) {
+const desc = document.getElementById(id);
+desc.style.display = desc.style.display === 'block' ? 'none' : 'block';
+}
 </script>
 
 </body>
 </html>
-
