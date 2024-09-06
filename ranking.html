@@ -3,34 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ランキング - 3D CASINO</title>
+    <title>Rankings - 3D CASINO</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Dancing+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Dancing+Script&family=Stardos+Stencil&family=Gloock&display=swap" rel="stylesheet">
     <style>
         :root {
             font-size: 16px;
         }
         body {
-            font-family: 'Raleway', sans-serif;
+            font-family: 'Gloock', sans-serif; 
             margin: 0;
             padding: 0;
             background-color: #111;
             color: #fff;
             text-align: center;
             font-size: 1rem;
+            overflow-x: hidden;
         }
         header {
             background-color: #333;
-            padding: 1rem;
-            text-align: center;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            cursor: pointer;
+            height: 3rem;
         }
         header h1 {
             margin: 0;
-            font-size: 2rem;
-            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            font-family: 'Stardos Stencil', cursive;
+            color: silver;
+            text-align: center;
+            line-height: 1;
+            flex-grow: 1;
+        }
+        .menu-icon {
+            font-size: 2.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: silver;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        .menu-icon:hover {
+            color: gold;
+        }
+        .mypage-link {
+            font-size: 0.9rem;
+            color: silver;
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 0.5rem;
+            margin-left: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .mypage-link:hover {
+            color: gold;
+        }
+        .menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            padding: 2rem;
+            box-sizing: border-box;
+            overflow-y: auto;
+            animation: slideDown 0.4s ease-in-out;
+        }
+        .menu a {
+            display: block;
+            color: silver;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            font-family: 'Stardos Stencil', cursive;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+            text-align: left;
+        }
+        .menu a:hover {
+            color: gold;
+        }
+        .submenu { 
+            display: none;
+            margin-left: 20px;
+            transition: max-height 0.3s ease-in-out;
+        }
+        .submenu a {
+            font-size: 1.2rem;
+            text-align: left;
+        }
+        .menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3rem;
+            color: silver;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .menu-close:hover {
+            color: gold;
         }
         .container {
-            padding: 1rem;
+            padding: 6rem 1rem 1rem;
             width: 95%;
             max-width: 600px;
             margin: 0 auto;
@@ -151,26 +238,81 @@
             background-color: #0056b3;
         }
         .button.back-to-home {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
             background-color: #ffffff;
             color: #000;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1rem;
-            padding: 0.5rem 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            border: none;
+            padding: 0.8rem 1.5rem; 
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.3rem;
+            cursor: pointer;
+            border-radius: 0.3125rem;
+            position: fixed;
+            bottom: 1.25rem;
+            right: 1.25rem;
+            font-family: 'Stardos Stencil', cursive;
+        }
+        .button.back-to-home:hover {
+            background-color: #e0e0e0;
+        }
+        @keyframes slideDown {
+            from { top: -100%; }
+            to { top: 0; }
+        }
+        /* レスポンシブデザインのためのメディアクエリ */
+        @media (max-width: 768px) {
+            header {
+                padding: 0.5rem;
+                justify-content: space-around; 
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+            .menu a {
+                font-size: 1.2rem;
+            }
+            .mypage-link {
+                font-size: 0.8rem;
+                margin-left: 0.5rem;
+            }
         }
     </style>
 </head>
 <body class="loading">
 
 <header>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
     <h1>3D CASINO</h1>
+    <a href="mypage.html" class="mypage-link">マイページ</a>
 </header>
 
+<div class="menu">
+    <span class="menu-close" aria-label="Close Menu" onclick="toggleMenu()">×</span>
+    <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
+
+    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu" onclick="toggleSubMenu('game-submenu')">ゲーム</a>
+    <div class="submenu" id="game-submenu">
+        <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
+        <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
+        <a href="card_games_rules.html" aria-label="Go to Card Games Rules">トランプゲーム</a>
+        <a href="dice_games_rules.html" aria-label="Go to Dice Games Rules">ダイスゲーム</a>
+    </div>
+
+    <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
+
+    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu" onclick="toggleSubMenu('promotion-submenu')">プロモーション</a>
+    <div class="submenu" id="promotion-submenu">
+        <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
+        <a href="instagram.html" aria-label="Go to Instagram">Instagram</a>
+    </div>
+
+    <a href="mypage.html" aria-label="Go to My Page">マイページ</a>
+    <a href="site.html" aria-label="About This Site">このサイトについて</a>
+</div>
+
 <div class="container">
-    <h2>ランキング</h2>
+    <h2 style="font-family: 'Stardos Stencil', cursive;">Rankings</h2> 
 
     <div class="button-group">
         <button class="button active" id="top10Button" onclick="showTop10()">TOP10</button>
@@ -246,12 +388,12 @@
     <div class="pagination" id="pagination"></div>
 </div>
 
-<button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
+<button class="button back-to-home" onclick="location.href='index.html'">Back</button>
 
-<p id="loading-text">データを取得しています</p>
+<p id="loading-text" style="display: none;">データを取得しています</p>
 
 <script>
-        const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
+    const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
     const SHEET_NAME = 'Sheet1';
     const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
@@ -260,33 +402,34 @@
     const itemsPerPage = 100;
 
     function fetchData() {
-    fetch(URL)
-        .then(response => response.text())
-        .then(data => {
-            const jsonData = JSON.parse(data.substr(47).slice(0, -2));
-            const rows = jsonData.table.rows;
-            // スコアが存在するデータのみをフィルタリング
-            allPlayers = rows
-                .filter(row => row.c[2] && row.c[2].v) // C列（スコア）が存在する場合にのみ処理
-                .map(row => {
-                    const playerId = Number(row.c[0].v); // A列（ID）
-                    const playerName = row.c[1]?.v || `プレイヤー${playerId}`; // B列（プレイヤー名）が空なら「プレイヤーID」
-                    const playerScore = parseInt(row.c[2].v); // C列（スコア）
+        fetch(URL)
+            .then(response => response.text())
+            .then(data => {
+                const jsonData = JSON.parse(data.substr(47).slice(0, -2));
+                const rows = jsonData.table.rows;
 
-                    return {
-                        id: playerId,
-                        name: playerName,
-                        score: playerScore
-                    };
-                });
-            allPlayers.sort((a, b) => b.score - a.score);
-            showTop10();
-            displaySummary(allPlayers);
-            createPagination();
-        })
-        .catch(error => console.error('Error fetching data:', error));
-}
+                allPlayers = rows
+                    .slice(2) // 3行目からデータを取得
+                    .filter(row => (row.c[1]?.v !== '' || parseInt(row.c[2]?.v) !== 0)) // スコアが0でない、または名前が空欄でないプレイヤーをフィルタリング
+                    .map((row, index) => {
+                        const playerId = Number(row.c[0].v);
+                        const playerName = row.c[1]?.v || `プレイヤー${playerId}`; // プレイヤー名がない場合は自動で付与
+                        const playerScore = parseInt(row.c[2].v);
 
+                        return {
+                            id: playerId,
+                            name: playerName,
+                            score: playerScore
+                        };
+                    })
+                    .sort((a, b) => b.score - a.score); 
+
+                showTop10();
+                displaySummary(allPlayers);
+                createPagination();
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
 
     function selectIdSearch() {
         document.getElementById('idSearchButton').classList.add('active');
@@ -341,7 +484,7 @@
     function displayMatchedPlayers(matchedPlayers, allPlayers) {
         const playerScoreTable = document.getElementById('playerScore').getElementsByTagName('tbody')[0];
         playerScoreTable.innerHTML = '';
-        
+
         matchedPlayers.forEach(player => {
             const playerRank = allPlayers.findIndex(p => p.id === player.id) + 1;
             let row = playerScoreTable.insertRow();
@@ -356,8 +499,8 @@
 
     function clearPlayerData() {
         document.getElementById('playerScore').style.display = 'none';
-        document.getElementById('playerId').value = ''; 
-        document.getElementById('playerName').value = ''; 
+        document.getElementById('playerId').value = '';
+        document.getElementById('playerName').value = '';
     }
 
     function displayPlayers(players, page = 1) {
@@ -450,6 +593,16 @@
     window.onload = function() {
         document.body.classList.remove('loading');
     };
+
+    function toggleMenu() {
+        const menu = document.querySelector('.menu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleSubMenu(submenuId) {
+        const submenu = document.getElementById(submenuId);
+        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+    }
 </script>
 </body>
 </html>
