@@ -136,37 +136,6 @@
         .highlight {
             background-color: rgba(0, 123, 255, 0.2);
         }
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            gap: 10px;
-        }
-        .tab-button {
-            flex: 1;
-            padding: 10px;
-            margin: 0 5px;
-            cursor: pointer;
-            border: none;
-            background-color: #444;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            font-size: 14px;
-            color: white;
-        }
-        .tab-button.active {
-            background-color: #007BFF;
-            color: #fff;
-        }
-        .tab-content {
-            display: none;
-            margin-top: 20px;
-            height: 600px;
-            overflow-y: hidden;
-        }
-        .tab-content.active {
-            display: block;
-        }
     </style>
     <script>
         window.onload = function() {
@@ -189,20 +158,26 @@
             });
         });
 
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            document.getElementById(tabId).classList.add('active');
-            document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
-        }
+        function searchPlayer() {
+            const playerId = document.getElementById('playerId').value;
+            const playerInfoDiv = document.getElementById('playerInfo');
+            const betsInfoDiv = document.getElementById('betsInfo');
 
-        function scrollToTab(tabId) {
-            showTab(tabId);
-            document.getElementById(tabId).scrollIntoView({ behavior: 'smooth' });
+            // デモデータベース
+            const playerDatabase = {
+                '12345': { name: 'Alice', balance: 1000 },
+                '67890': { name: 'Bob', balance: 1500 },
+                '11223': { name: 'Charlie', balance: 2000 },
+            };
+
+            if (playerDatabase[playerId]) {
+                const player = playerDatabase[playerId];
+                playerInfoDiv.innerHTML = `<h2>プレイヤー名: ${player.name}</h2><p>所持金: ¥${player.balance}</p>`;
+                betsInfoDiv.innerHTML = ''; // 所持金に関連するデータがあればここに表示
+            } else {
+                playerInfoDiv.innerHTML = '<p>該当するプレイヤーが見つかりませんでした。</p>';
+                betsInfoDiv.innerHTML = '';
+            }
         }
     </script>
 </head>
@@ -244,23 +219,6 @@
 
     <div id="playerInfo"></div>
     <div id="betsInfo"></div>
-
-    <!-- タブ形式のGoogleフォーム埋め込み -->
-    <div class="tabs">
-        <button class="tab-button active" onclick="showTab('bets1')">Bet1</button>
-        <button class="tab-button" onclick="showTab('bets2')">Bet2</button>
-        <button class="tab-button" onclick="showTab('bets3')">Bet3</button>
-    </div>
-
-    <div id="bets1" class="tab-content active">
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScQGcLyPqR1zkk2ivlqI83qsMLL3_OIwCPHt2TISy6FAvZQRw/viewform?embedded=true" width="100%" height="100%" frameborder="0" style="border: none;">読み込んでいます…</iframe>
-    </div>
-    <div id="bets2" class="tab-content">
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSejbwWwo-BgCoiWD4Qt_M8sci6c7VjNiSw48zHsGZ6J76VhnQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" style="border: none;">読み込んでいます…</iframe>
-    </div>
-    <div id="bets3" class="tab-content">
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfjmu1WQev79M2JcrrvX9oyAlCSFq2PIjP77wUdx-Ta_YzTeQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" style="border: none;">読み込んでいます…</iframe>
-    </div>
 </div>
 
 </body>
