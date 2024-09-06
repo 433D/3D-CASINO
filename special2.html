@@ -11,7 +11,7 @@
             font-size: 16px;
         }
         body {
-            font-family: 'Gloock', sans-serif;
+            font-family: 'Gloock', sans-serif; 
             margin: 0;
             padding: 0;
             background-color: #111;
@@ -82,7 +82,7 @@
             overflow-y: auto;
             animation: slideDown 0.4s ease-in-out;
         }
-        .menu a { 
+        .menu a {
             display: block;
             color: silver;
             padding: 0.75rem 0;
@@ -95,14 +95,14 @@
         .menu a:hover {
             color: gold;
         }
-        .submenu {
+        .submenu { 
             display: none;
             margin-left: 20px;
             transition: max-height 0.3s ease-in-out;
         }
         .submenu a {
             font-size: 1.2rem;
-            text-align: left; 
+            text-align: left;
         }
         .menu-close {
             position: absolute;
@@ -241,12 +241,11 @@
             background-color: #ffffff;
             color: #000;
             border: none;
-            padding: 0.8rem 1.5rem;
+            padding: 0.8rem 1.5rem; 
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 1.3rem;
-            margin: 20px 5px;
             cursor: pointer;
             border-radius: 0.3125rem;
             position: fixed;
@@ -265,7 +264,7 @@
         @media (max-width: 768px) {
             header {
                 padding: 0.5rem;
-                justify-content: space-around;
+                justify-content: space-around; 
             }
             header h1 {
                 font-size: 2rem;
@@ -275,7 +274,7 @@
             }
             .mypage-link {
                 font-size: 0.8rem;
-                margin-left: 0.5rem; 
+                margin-left: 0.5rem;
             }
         }
     </style>
@@ -411,16 +410,11 @@
 
                 allPlayers = rows
                     .slice(2) // 3行目からデータを取得
-                    .filter(row => !(row.c[1]?.v === '' && parseInt(row.c[2]?.v) === 0)) 
+                    .filter(row => (row.c[1]?.v !== '' || parseInt(row.c[2]?.v) !== 0)) // スコアが0でない、または名前が空欄でないプレイヤーをフィルタリング
                     .map((row, index) => {
                         const playerId = Number(row.c[0].v);
-                        const playerName = row.c[1]?.v;
+                        const playerName = row.c[1]?.v || `プレイヤー${playerId}`; // プレイヤー名がない場合は自動で付与
                         const playerScore = parseInt(row.c[2].v);
-
-                        // プレイヤー名がない場合は自動で付与
-                        if (playerName === '') {
-                            return null; // 除外
-                        }
 
                         return {
                             id: playerId,
@@ -428,7 +422,6 @@
                             score: playerScore
                         };
                     })
-                    .filter(player => player !== null) // 除外されたプレイヤーを取り除く
                     .sort((a, b) => b.score - a.score); 
 
                 showTop10();
