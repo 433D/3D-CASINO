@@ -25,16 +25,18 @@
             z-index: 1000;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* 左右に配置 */
+            justify-content: space-between;
             cursor: pointer;
+            height: 3rem; /* ヘッダーの高さを固定 */
         }
         header h1 {
             margin: 0;
-            font-size: 2rem;
+            font-size: 2.5rem; /* フォントサイズを大きく設定 */
             font-family: 'Stardos Stencil', cursive;
             color: silver;
             text-align: center;
             flex-grow: 1;
+            line-height: 1; /* 行の高さを調整して枠内に収める */
         }
         .menu-icon {
             font-size: 1.8rem;
@@ -47,12 +49,12 @@
             color: gold;
         }
         .mypage-link {
-            font-size: 0.9rem; /* サイズを小さく設定 */
+            font-size: 0.9rem;
             color: silver;
             text-decoration: none;
             transition: color 0.3s;
-            padding: 0.5rem; /* タップしやすいようにパディング追加 */
-            margin-right: 1rem; /* 右側の余白調整 */
+            padding: 0.5rem;
+            margin-right: 1rem;
         }
         .mypage-link:hover {
             color: gold;
@@ -196,7 +198,7 @@
             width: 100%;
             height: auto;
             border-radius: 0.625rem;
-            loading: lazy; /* 遅延読み込みを適用 */
+            loading: lazy;
         }
         .game h3 {
             margin-top: 0.625rem;
@@ -228,11 +230,11 @@
         /* レスポンシブデザインのためのメディアクエリ */
         @media (max-width: 768px) {
             header {
-                padding: 0.5rem; /* モバイルでの余白調整 */
-                justify-content: space-around; /* スペースのバランスを調整 */
+                padding: 0.5rem;
+                justify-content: space-around;
             }
             header h1 {
-                font-size: 1.5rem;
+                font-size: 2rem; /* スマホ画面でも大きさを維持 */
             }
             .menu a {
                 font-size: 1.2rem;
@@ -241,8 +243,8 @@
                 font-size: 1rem;
             }
             .mypage-link {
-                font-size: 0.8rem; /* 小さな画面でも調整 */
-                margin-right: 0.5rem; /* スペースの調整 */
+                font-size: 0.8rem;
+                margin-right: 0.5rem;
             }
         }
     </style>
