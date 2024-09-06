@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID検索システム</title>
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .highlight {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
+        .tab-button {
+            flex: 1;
+            padding: 10px;
+            margin: 0 5px;
+            cursor: pointer;
+            border: none;
+            background-color: #ddd;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+        .tab-button.active {
+            background-color: #007BFF;
+            color: #fff;
+        }
+        .tab-content {
+            display: none;
+            margin-top: 20px;
+            height: 600px; /* 固定のピクセル数で高さを設定 */
+            overflow-y: hidden; /* 縦スクロールを無効化 */
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .input-status {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ID検索システム</h1>
+        <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
+        <button onclick="searchPlayer()">検索</button>
+
+        <div id="playerInfo"></div>
+        <div id="betsInfo"></div>
+
+        <!-- タブ形式のGoogleフォーム埋め込み -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('bets1')">Bet1</button>
+            <button class="tab-button" onclick="showTab('bets2')">Bet2</button>
+            <button class="tab-button" onclick="showTab('bets3')">Bet3</button>
+        </div>
+
+        <div id="bets1" class="tab-content active">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScQGcLyPqR1zkk2ivlqI83qsMLL3_OIwCPHt2TISy6FAvZQRw/viewform?embedded=true" width="100%" height="100%" frameborder="0" style="border: none;">読み込んでいます…</iframe>
+        </div>
+        <div id="bets2" class="tab-content">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSejbwWwo-BgCoiWD4Qt_M8sci6c7VjNiSw48zHsGZ6J76VhnQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" style="border: none;">読み込んでいます…</iframe>
+        </div>
+        <div id="bets3" class="tab-content">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfjmu1WQev79M2JcrrvX9oyAlCSFq2PIjP77wUdx-Ta_YzTeQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" style="border: none;">読み込んでいます…</iframe>
+        </div>
+    </div>
+
+    <script>
+        const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
+        const SHEET_NAME_PLAYER = 'Sheet1';
+        const SHEET_NAMES_BETS = ['Bets1', 'Bets2', 'Bets3'];
+
+        function searchPlayer() {
+            const playerId = document.getElementById('playerId').value.trim();
+            if (!playerId) {
+                alert('IDを入力してください。');
+                return;
+            }
+
+            getPlayerDetails(playerId).then(playerInfo => {
+                if (playerInfo) {
+                    document.getElementById('playerInfo').innerHTML = `
+                        <h3>プレイヤー情報</h3>
+                        <p>名前: ${playerInfo.name || '未設定'}</p>
+                        <p>所持金: ${playerInfo.amount || '未設定'}</p>
+                    `;
+                    getBettingDetails(playerId);
+                } else {
+                    document.getElementById('playerInfo').innerHTML = '該当するプレイヤーが見つかりませんでした。';
+                    document.getElementById('betsInfo').innerHTML = '';
+                }
+            });
+        }
+
+        async function getPlayerDetails(playerId) {
+            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME_PLAYER}`;
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                const json = JSON.parse(text.substring(47).slice(0, -2));
+                const rows = json.table.rows;
+
+                for (const row of rows) {
+                    if (row.c[0].v == playerId) {
+                        return {
+                            name: row.c[1]?.v || '未設定',
+                            amount: row.c[2]?.v || '未設定'
+                        };
+                    }
+                }
+            } catch (error) {
+                console.error('データの取得中にエラーが発生しました:', error);
+            }
+            return null;
+        }
+
+        async function getBettingDetails(playerId) {
+            let betsInfoHtml = '<h3>ステータス</h3><table><thead><tr><th>賭け先</th><th>賭けた額</th><th>状態</th><th>勝敗</th><th>結果</th></tr></thead><tbody>';
+            let inputStatus = false; // 未入力かどうかを追跡
+
+            for (const sheetName of SHEET_NAMES_BETS) {
+                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+                try {
+                    const response = await fetch(url);
+                    const text = await response.text();
+                    const json = JSON.parse(text.substring(47).slice(0, -2));
+                    const rows = json.table.rows;
+                    let isEmpty = true;
+
+                    rows.forEach(row => {
+                        if (row.c[0].v == playerId) {
+                            isEmpty = false;
+                            betsInfoHtml += `
+                                <tr class="highlight">
+                                    <td>${row.c[2]?.v || '未設定'}</td>
+                                    <td>${row.c[3]?.v || '未設定'}</td>
+                                    <td>${row.c[4]?.v || '未設定'}</td>
+                                    <td>${row.c[6]?.v || '未設定'}</td>
+                                    <td>${row.c[7]?.v || '未設定'}</td>
+                                </tr>
+                            `;
+                        }
+                    });
+
+                    if (isEmpty) {
+                        inputStatus = true; // 未入力状態を検出
+                        betsInfoHtml += `
+                            <tr>
+                                <td colspan="5"><button onclick="scrollToTab('${sheetName.toLowerCase()}')" style="width: 100%;">${sheetName} 未入力 - 入力する</button></td>
+                            </tr>
+                        `;
+                    }
+
+                } catch (error) {
+                    console.error('賭け情報の取得中にエラーが発生しました:', error);
+                }
+            }
+
+            betsInfoHtml += '</tbody></table>';
+            document.getElementById('betsInfo').innerHTML = betsInfoHtml;
+        }
+
+        function showTab(tabId) {
+            // すべてのタブコンテンツを非表示
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            // すべてのタブボタンからアクティブクラスを削除
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            // クリックされたタブとコンテンツにアクティブクラスを追加
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+
+        function scrollToTab(tabId) {
+            // タブを表示してスクロール
+            showTab(tabId);
+            document.getElementById(tabId).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
