@@ -71,7 +71,7 @@
             display: none;
             position: fixed;
             top: 0;
-            left: 0;
+            left: 0; /* 左揃え */
             width: 100%;
             height: 100vh;
             background-color: rgba(0, 0, 0, 0.8);
@@ -80,6 +80,7 @@
             box-sizing: border-box;
             overflow-y: auto;
             animation: slideDown 0.4s ease-in-out;
+            text-align: left; /* 左揃え */
         }
         .menu a {
             display: block;
@@ -142,6 +143,15 @@
         .button:hover {
             background-color: #e0e0e0;
         }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 2px solid #fff; /* 枠線を濃く */
+            padding: 8px;
+            text-align: center;
+        }
         @keyframes slideDown {
             from { top: -100%; }
             to { top: 0; }
@@ -178,8 +188,6 @@
 
 <div class="container">
     <p class="fade-in">当店ではチンチロリンが遊べます</p>
-    <button class="button" onclick="location.href='index.html'">Back to Home</button>
-
     <div id="chinchirorin" class="content active">
         <h2>チンチロリン</h2>
         <p>チンチロリンは、3つのサイコロを振って出た目で親のプレイヤーと勝負する、シンプルなゲームです。</p>
@@ -225,7 +233,7 @@
                 <td>2倍</td>
             </tr>
 
-            <tr></tr>
+            <tr>
                 <td>1,2,3,4,5,6</td>
                 <td>2つの目が同じだったとき、2つと一致しない残り一つの目が強さになります(例：4-4-6なら強さは6になります,1-5-5なら強さは1になります。)</td>
                 <td>数字が大きいほうが強くなります。</td>
@@ -247,11 +255,9 @@
         </tbody>
     </table>
 
-
         <p>詳しくは、当日スタッフにお尋ねください。</p>
     </div>
 </div>
-
 
 <button class="button" onclick="location.href='index.html'">Back</button>
 
