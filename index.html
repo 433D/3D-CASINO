@@ -24,27 +24,46 @@
             width: 100%;
             z-index: 1000;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: center; /* 中央揃え */
+            justify-content: space-between;
             cursor: pointer;
+            height: 3rem; /* ヘッダーの高さを固定 */
         }
         header h1 {
             margin: 0;
-            font-size: 2rem;
+            font-size: 2.5rem; /* フォントサイズを大きく設定 */
             font-family: 'Stardos Stencil', cursive;
             color: silver;
             text-align: center;
+            flex-grow: 1;
+            line-height: 1; /* 行の高さを調整して枠内に収める */
+            display: flex;
+            align-items: center; /* 中央揃え */
+            justify-content: center;
         }
         .menu-icon {
-            font-size: 1.8rem;
+            font-size: 2.5rem; /* サイズを大きく設定 */
             cursor: pointer;
             padding: 0.5rem;
             color: silver;
-            position: absolute;
-            left: 20px;
             transition: color 0.3s;
+            display: flex;
+            align-items: center; /* 中央揃え */
         }
         .menu-icon:hover {
+            color: gold;
+        }
+        .mypage-link {
+            font-size: 0.9rem;
+            color: silver;
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 0.5rem;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center; /* 中央揃え */
+        }
+        .mypage-link:hover {
             color: gold;
         }
         .menu {
@@ -85,7 +104,7 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            font-size: 2rem;
+            font-size: 3rem; /* サイズを大きく設定 */
             color: silver;
             cursor: pointer;
             transition: color 0.3s;
@@ -186,7 +205,7 @@
             width: 100%;
             height: auto;
             border-radius: 0.625rem;
-            loading: lazy; /* 遅延読み込みを適用 */
+            loading: lazy;
         }
         .game h3 {
             margin-top: 0.625rem;
@@ -217,14 +236,22 @@
         }
         /* レスポンシブデザインのためのメディアクエリ */
         @media (max-width: 768px) {
+            header {
+                padding: 0.5rem;
+                justify-content: space-around;
+            }
             header h1 {
-                font-size: 1.5rem;
+                font-size: 2rem;
             }
             .menu a {
                 font-size: 1.2rem;
             }
             .jump-links a {
                 font-size: 1rem;
+            }
+            .mypage-link {
+                font-size: 0.8rem;
+                margin-right: 0.5rem;
             }
         }
     </style>
@@ -277,6 +304,7 @@
 <header>
     <div class="menu-icon">&#9776;</div> <!-- 3本線のメニューアイコン -->
     <h1>3D CASINO</h1>
+    <a href="mypage.html" class="mypage-link">マイページ</a>
 </header>
 
 <div class="menu">
