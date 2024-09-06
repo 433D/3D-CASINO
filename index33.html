@@ -3,365 +3,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D CASINO</title>
+    <title>ランキング - 3D CASINO</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil&family=Gloock&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Dancing+Script&display=swap" rel="stylesheet">
     <style>
+        :root {
+            font-size: 16px;
+        }
         body {
-            font-family: 'Gloock', serif;
+            font-family: 'Raleway', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #111;
             color: #fff;
-            overflow-x: hidden;
+            text-align: center;
+            font-size: 1rem;
         }
         header {
             background-color: #333;
-            padding: 0.5rem 1rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            padding: 1rem;
+            text-align: center;
         }
         header h1 {
             margin: 0;
             font-size: 2rem;
-            font-family: 'Stardos Stencil', cursive;
-            color: silver;
-            text-align: center;
-        }
-        .menu-icon {
-            font-size: 1.8rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            color: silver;
-            position: absolute;
-            left: 20px;
-            transition: color 0.3s;
-        }
-        .menu-icon:hover {
-            color: gold;
-        }
-        .menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1001;
-            padding: 2rem;
-            box-sizing: border-box;
-            overflow-y: auto;
-            animation: slideDown 0.4s ease-in-out;
-        }
-        .menu a {
-            display: block;
-            color: silver;
-            padding: 0.75rem 0;
-            text-decoration: none;
-            font-family: 'Stardos Stencil', cursive;
-            font-size: 1.5rem;
-            transition: color 0.3s;
-        }
-        .menu a:hover {
-            color: gold;
-        }
-        .submenu {
-            display: none;
-            margin-left: 20px;
-            transition: max-height 0.3s ease-in-out;
-        }
-        .submenu a {
-            font-size: 1.2rem;
-        }
-        .menu-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 2rem;
-            color: silver;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        .menu-close:hover {
-            color: gold;
+            font-family: 'Dancing Script', cursive;
         }
         .container {
-            padding: 6rem 1.25rem 1.25rem;
-            text-align: center;
+            padding: 1rem;
+            width: 95%;
+            max-width: 600px;
+            margin: 0 auto;
         }
-        .introduction h2 {
-            margin-bottom: 2rem;
-            font-family: 'Stardos Stencil', cursive;
-            color: #aaa;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInSlideUp 1s ease-out forwards;
-        }
-        .introduction .welcome-to {
-            font-size: 2.5rem;
-            color: #aaa;
-            margin: 0;
-        }
-        .introduction .casino-name {
-            font-size: 3.5rem;
+        .button {
+            background-color: #007BFF;
             color: #fff;
-            margin: 0;
-        }
-        .jump-links {
-            margin-top: 1rem;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-        }
-        .jump-links a {
-            color: silver;
+            border: none;
+            padding: 0.75rem;
+            text-align: center;
             text-decoration: none;
-            font-family: 'Stardos Stencil', cursive;
-            font-size: 1.2rem;
-            transition: color 0.3s;
-        }
-        .jump-links a:hover {
-            color: gold;
-        }
-        .section-title {
-            font-family: 'Stardos Stencil', cursive;
-            color: gold;
-            font-size: 2.5rem;
-            margin: 1rem 0;
-            transition: opacity 2s ease-in-out, transform 2s ease-in-out;
-            text-align: left;
-            padding-left: 1rem;
             display: inline-block;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            transition: background-color 0.3s;
+            margin: 0.25rem;
+            width: calc(50% - 0.5rem);
         }
-        .caption {
-            font-family: 'Gloock', serif;
-            color: #bbb;
-            font-size: 1.5rem;
-            display: inline-block;
-            margin-left: 1rem;
+        .button:hover {
+            background-color: #0056b3;
         }
-        @keyframes fadeInSlideUp {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 1rem;
         }
-        @keyframes slideDown {
-            from { top: -100%; }
-            to { top: 0; }
+        .button.active {
+            background-color: #007BFF;
         }
-        .game-section {
+        .button.inactive {
+            background-color: #555;
+        }
+        .score-section {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            margin: 1.25rem 0;
+            margin-bottom: 1rem;
         }
-        .game {
-            background-color: #222;
-            padding: 1.25rem;
-            border-radius: 0.625rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            flex: 1;
-            min-width: 90%;
-            max-width: 90%;
-            height: auto;
-            color: #fff;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .game img {
-            width: 100%;
-            height: auto;
-            border-radius: 0.625rem;
-            loading: lazy; /* 遅延読み込みを適用 */
-        }
-        .game h3 {
-            margin-top: 0.625rem;
-            font-size: 1.8rem;
-        }
-        .game p {
-            font-size: 1.2rem;
-        }
-        .game:hover {
-            transform: scale(1.05);
-        }
-        .ranking-button {
-            background-color: #fff;
-            color: #000;
+        .score-section input {
+            padding: 0.75rem;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
             border: none;
-            border-radius: 0.625rem;
-            padding: 1.25rem;
-            font-size: 1.5rem;
+            border-radius: 0.25rem;
+        }
+        .score-section-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .score-section-buttons button {
+            width: calc(50% - 0.25rem);
+        }
+        table {
+            width: 100%;
+            margin: 1rem 0;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+        }
+        .gold { background-color: rgba(255, 215, 0, 0.2); }
+        .silver { background-color: rgba(192, 192, 192, 0.2); }
+        .bronze { background-color: rgba(205, 127, 50, 0.2); }
+        .player-score {
+            background-color: #222;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .player-score h3 {
+            margin-top: 0;
+            color: #fff;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        #loading-text {
+            opacity: 0;
+            animation: fadeInOut 2s infinite;
+        }
+        .loading #loading-text {
+            opacity: 1;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        .pagination {
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .pagination button {
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            margin: 0.25rem;
             cursor: pointer;
-            flex: 1;
-            min-width: 90%;
-            max-width: 90%;
-            height: auto;
-            transition: transform 0.3s;
+            border-radius: 0.25rem;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            transition: background-color 0.3s;
         }
-        .ranking-button:hover {
-            transform: scale(1.05);
+        .pagination button:hover {
+            background-color: #0056b3;
         }
-        /* レスポンシブデザインのためのメディアクエリ */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.5rem;
-            }
-            .menu a {
-                font-size: 1.2rem;
-            }
-            .jump-links a {
-                font-size: 1rem;
-            }
+        .button.back-to-home {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background-color: #ffffff;
+            color: #000;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
     </style>
-    <script>
-        window.onload = function() {
-            window.scrollTo(0, 0);
-        };
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const menuIcon = document.querySelector('.menu-icon');
-            const menu = document.querySelector('.menu');
-            const menuClose = document.querySelector('.menu-close');
-            const promotionToggle = document.getElementById('promotion-toggle');
-            const promotionSubMenu = document.getElementById('promotion-submenu');
-            const gameToggle = document.getElementById('game-toggle');
-            const gameSubMenu = document.getElementById('game-submenu');
-
-            // スムーズスクロール
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            });
-            
-            menuIcon.addEventListener('click', function() {
-                menu.style.display = 'block';
-                menu.style.position = 'fixed';
-                menu.style.top = '0';
-            });
-
-            menuClose.addEventListener('click', function() {
-                menu.style.display = 'none';
-            });
-
-            promotionToggle.addEventListener('click', function() {
-                promotionSubMenu.style.display = promotionSubMenu.style.display === 'block' ? 'none' : 'block';
-            });
-
-            gameToggle.addEventListener('click', function() {
-                gameSubMenu.style.display = gameSubMenu.style.display === 'block' ? 'none' : 'block';
-            });
-        });
-    </script>
 </head>
-<body>
+<body class="loading">
 
 <header>
-    <div class="menu-icon">&#9776;</div> <!-- 3本線のメニューアイコン -->
     <h1>3D CASINO</h1>
 </header>
 
-<div class="menu">
-    <span class="menu-close" aria-label="Close Menu">&times;</span>
-    <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
-
-    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu">ゲーム</a>
-    <div class="submenu" id="game-submenu">
-        <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
-        <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
-        <a href="card_games_rules.html" aria-label="Go to Card Games Rules">トランプゲーム</a>
-        <a href="dice_games_rules.html" aria-label="Go to Dice Games Rules">ダイスゲーム</a>
-    </div>
-
-    <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
-
-    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu">プロモーション</a>
-    <div class="submenu" id="promotion-submenu">
-        <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
-        <a href="instagram.html" aria-label="Go to Instagram">Instagram</a>
-    </div>
-
-    <a href="mypage.html" aria-label="Go to My Page">マイページ</a>
-    <a href="site.html" aria-label="About This Site">このサイトについて</a>
-</div>
-
 <div class="container">
-    <section class="introduction">
-        <h2 class="welcome-to">Welcome to</h2>
-        <h2 class="casino-name">3D CASINO</h2>
-    </section>
+    <h2>ランキング</h2>
 
-    <div class="jump-links">
-        <a href="#games">Games</a>
-        <a href="#rankings">Rankings</a>
-        <a href="#promotions">Promotions</a>
+    <div class="button-group">
+        <button class="button active" id="top10Button" onclick="showTop10()">TOP10</button>
+        <button class="button inactive" id="allButton" onclick="showAll()">全体</button>
     </div>
 
-    <section id="games" class="game-section">
-        <h2 class="section-title">Games<span class="caption">— Explore the excitement</span></h2>
-        <div class="game" onclick="location.href='special.html'">
-            <img src="special.png" alt="Special Casino">
-            <h3>スペシャルカジノ</h3>
-            <p>特別なカジノ体験をお楽しみください。</p>
-        </div>
-        <div class="game" onclick="location.href='roulette_rules.html'">
-            <img src="roulette.png" alt="Roulette">
-            <h3>ルーレット</h3>
-            <p>スリリングなルーレットゲームをお楽しみください。</p>
-        </div>
-        <div class="game" onclick="location.href='card_games_rules.html'">
-            <img src="cardgame.png" alt="Card Games">
-            <h3>トランプゲーム</h3>
-            <p>ポーカーやブラックジャックなど、戦略と運を試すトランプゲームで勝利を目指しましょう。</p>
-        </div>
-        <div class="game" onclick="location.href='dice_games_rules.html'">
-            <img src="dice.png" alt="Dice Games">
-            <h3>ダイスゲーム</h3>
-            <p>シンプルで楽しいダイスゲームに挑戦しましょう。</p>
-        </div>
-    </section>
+    <div class="button-group">
+        <button class="button active" id="idSearchButton" onclick="selectIdSearch()">ID検索</button>
+        <button class="button inactive" id="nameSearchButton" onclick="selectNameSearch()">プレイヤー名検索</button>
+    </div>
 
-    <section id="rankings" class="game-section">
-        <h2 class="section-title">Rankings<span class="caption">— See where you stand</span></h2>
-        <div class="game" onclick="location.href='ranking.html'">
-            <img src="king.png" alt="Rankings">
-            <h3>ランキング</h3>
-            <p>ランキングを確認しましょう。</p>
+    <div id="idSearchSection" class="score-section">
+        <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
+        <div class="score-section-buttons">
+            <button class="button" onclick="fetchPlayerById()">ID検索</button>
+            <button class="button" onclick="clearPlayerData()">クリア</button>
         </div>
-    </section>
+    </div>
 
-    <section id="promotions" class="game-section">
-        <h2 class="section-title">Promotions<span class="caption">— Don't miss out</span></h2>
-        <div class="game" onclick="location.href='youtube.html'">
-            <img src="youtube.png" alt="Promotions Video">
-            <h3>プロモーションビデオ</h3>
-            <p>最高に面白いプロモーションビデオです。ご覧ください。</p>
+    <div id="nameSearchSection" class="score-section" style="display:none;">
+        <input type="text" id="playerName" placeholder="プレイヤー名を入力">
+        <div class="score-section-buttons">
+            <button class="button" onclick="fetchPlayerByName()">プレイヤー名検索</button>
+            <button class="button" onclick="clearPlayerData()">クリア</button>
         </div>
-        <div class="game" onclick="location.href='instagram.html'">
-            <img src="instagram.png" alt="Instagram">
-            <h3>Instagram</h3>
-            <p>Instagramで最新情報をゲットしよう！</p>
-        </div>
-    </section>    
+    </div>
+
+    <div id="playerScore" class="player-score" style="display:none;">
+        <h3>検索結果</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ランク</th>
+                    <th>プレイヤー</th>
+                    <th>スコア</th>
+                    <th>偏差値</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 検索結果がここに挿入されます -->
+            </tbody>
+        </table>
+    </div>
+
+    <table id="summaryTable">
+        <thead>
+            <tr>
+                <th>参加人数</th>
+                <th>平均スコア</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="totalPlayers"></td>
+                <td id="averageScore"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table id="rankingTable">
+        <thead>
+            <tr>
+                <th>ランク</th>
+                <th>プレイヤー</th>
+                <th>スコア</th>
+                <th>偏差値</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- プレイヤーデータがここに挿入されます -->
+        </tbody>
+    </table>
+    <div class="pagination" id="pagination"></div>
 </div>
 
+<button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
+
+<p id="loading-text">データを取得しています</p>
+
+<script>
+        const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
+    const SHEET_NAME = 'Sheet1';
+    const URL = https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME};
+
+    let allPlayers = [];
+    let currentPage = 1;
+    const itemsPerPage = 100;
+
+    function fetchData() {
+        fetch(URL)
+            .then(response => response.text())
+            .then(data => {
+                const jsonData = JSON.parse(data.substr(47).slice(0, -2));
+                const rows = jsonData.table.rows;
+                allPlayers = rows.map(row => ({
+                    id: Number(row.c[0].v), // A列（ID）
+                    name: row.c[1].v, // B列（プレイヤー名）
+                    score: parseInt(row.c[2].v) // C列（スコア）
+                }));
+                allPlayers.sort((a, b) => b.score - a.score);
+                showTop10();
+                displaySummary(allPlayers);
+                createPagination();
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    function selectIdSearch() {
+        document.getElementById('idSearchButton').classList.add('active');
+        document.getElementById('idSearchButton').classList.remove('inactive');
+        document.getElementById('nameSearchButton').classList.add('inactive');
+        document.getElementById('nameSearchButton').classList.remove('active');
+
+        document.getElementById('idSearchSection').style.display = 'block';
+        document.getElementById('nameSearchSection').style.display = 'none';
+    }
+
+    function selectNameSearch() {
+        document.getElementById('nameSearchButton').classList.add('active');
+        document.getElementById('nameSearchButton').classList.remove('inactive');
+        document.getElementById('idSearchButton').classList.add('inactive');
+        document.getElementById('idSearchButton').classList.remove('active');
+
+        document.getElementById('idSearchSection').style.display = 'none';
+        document.getElementById('nameSearchSection').style.display = 'block';
+    }
+
+    function fetchPlayerById() {
+        const searchId = Number(document.getElementById('playerId').value.trim());
+        if (isNaN(searchId)) {
+            alert('有効な数値IDを入力してください');
+            return;
+        }
+        const matchedPlayers = allPlayers.filter(p => p.id === searchId);
+
+        if (matchedPlayers.length > 0) {
+            displayMatchedPlayers(matchedPlayers, allPlayers);
+        } else {
+            alert('プレイヤーが見つかりません');
+        }
+    }
+
+    function fetchPlayerByName() {
+        const searchName = document.getElementById('playerName').value.trim().toLowerCase();
+        if (searchName === "") {
+            alert('プレイヤー名を入力してください');
+            return;
+        }
+        const matchedPlayers = allPlayers.filter(p => p.name.toLowerCase().includes(searchName));
+
+        if (matchedPlayers.length > 0) {
+            displayMatchedPlayers(matchedPlayers, allPlayers);
+        } else {
+            alert('プレイヤーが見つかりません');
+        }
+    }
+
+    function displayMatchedPlayers(matchedPlayers, allPlayers) {
+        const playerScoreTable = document.getElementById('playerScore').getElementsByTagName('tbody')[0];
+        playerScoreTable.innerHTML = '';
+        
+        matchedPlayers.forEach(player => {
+            const playerRank = allPlayers.findIndex(p => p.id === player.id) + 1;
+            let row = playerScoreTable.insertRow();
+            row.insertCell(0).textContent = playerRank;
+            row.insertCell(1).textContent = player.name;
+            row.insertCell(2).textContent = player.score;
+            row.insertCell(3).textContent = calculateStandardScore(player.score, allPlayers);
+        });
+
+        document.getElementById('playerScore').style.display = 'block';
+    }
+
+    function clearPlayerData() {
+        document.getElementById('playerScore').style.display = 'none';
+        document.getElementById('playerId').value = ''; 
+        document.getElementById('playerName').value = ''; 
+    }
+
+    function displayPlayers(players, page = 1) {
+        let tbody = document.getElementById('rankingTable').getElementsByTagName('tbody')[0];
+        tbody.innerHTML = '';
+
+        let startIndex = (page - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
+        let currentPlayers = players.slice(startIndex, endIndex);
+
+        let currentRank = startIndex + 1;
+        let previousScore = null;
+
+        currentPlayers.forEach((player, index) => {
+            if (previousScore !== null && player.score !== previousScore) {
+                currentRank = startIndex + index + 1;
+            }
+
+            let row = tbody.insertRow();
+            let rankCell = row.insertCell(0);
+            rankCell.textContent = currentRank;
+
+            if (currentRank === 1) {
+                row.classList.add('gold');
+            } else if (currentRank === 2) {
+                row.classList.add('silver');
+            } else if (currentRank === 3) {
+                row.classList.add('bronze');
+            }
+
+            row.insertCell(1).textContent = player.name;
+            row.insertCell(2).textContent = player.score;
+            row.insertCell(3).textContent = calculateStandardScore(player.score, allPlayers);
+
+            previousScore = player.score;
+        });
+    }
+
+    function calculateStandardScore(score, players) {
+        let mean = players.reduce((acc, player) => acc + player.score, 0) / players.length;
+        let stdDev = Math.sqrt(players.map(player => (player.score - mean) ** 2).reduce((acc, value) => acc + value, 0) / players.length);
+        let standardScore = (score - mean) / stdDev * 10 + 50;
+        return standardScore.toFixed(2);
+    }
+
+    function displaySummary(players) {
+        let totalPlayers = players.length;
+        let averageScore = players.reduce((sum, player) => sum + player.score, 0) / totalPlayers;
+
+        document.getElementById('totalPlayers').textContent = totalPlayers;
+        document.getElementById('averageScore').textContent = averageScore.toFixed(2);
+    }
+
+    function showTop10() {
+        displayPlayers(allPlayers.slice(0, 10));
+        document.getElementById('top10Button').classList.add('active');
+        document.getElementById('top10Button').classList.remove('inactive');
+        document.getElementById('allButton').classList.add('inactive');
+        document.getElementById('allButton').classList.remove('active');
+        document.getElementById('pagination').style.display = 'none';
+    }
+
+    function showAll() {
+        displayPlayers(allPlayers, currentPage);
+        document.getElementById('top10Button').classList.add('inactive');
+        document.getElementById('top10Button').classList.remove('active');
+        document.getElementById('allButton').classList.add('active');
+        document.getElementById('allButton').classList.remove('inactive');
+        document.getElementById('pagination').style.display = 'block';
+    }
+
+    function createPagination() {
+        const totalPages = Math.ceil(allPlayers.length / itemsPerPage);
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            let button = document.createElement('button');
+            button.textContent = i;
+            button.onclick = function() {
+                currentPage = i;
+                displayPlayers(allPlayers, currentPage);
+            };
+            pagination.appendChild(button);
+        }
+    }
+
+    fetchData();
+
+    window.onload = function() {
+        document.body.classList.remove('loading');
+    };
+</script>
 </body>
 </html>
