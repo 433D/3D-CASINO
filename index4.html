@@ -132,8 +132,14 @@
         th {
             background-color: #333;
         }
-        .highlight {
-            background-color: rgba(0, 123, 255, 0.1);
+        .highlight-bet1 {
+            background-color: rgba(186, 85, 211, 0.1); /* 薄紫 */
+        }
+        .highlight-bet2 {
+            background-color: rgba(144, 238, 144, 0.1); /* 薄緑 */
+        }
+        .highlight-bet3 {
+            background-color: rgba(255, 165, 0, 0.1); /* 薄いオレンジ */
         }
         .tabs {
             display: flex;
@@ -280,7 +286,7 @@
         let betsInfoHtml = '<h3>ステータス</h3><table><thead><tr><th>賭け先</th><th>賭けた額</th><th>状態</th><th>勝敗</th><th>結果</th></tr></thead><tbody>';
         let inputStatus = false;
 
-        for (const sheetName of SHEET_NAMES_BETS) {
+        for (const [index, sheetName] of SHEET_NAMES_BETS.entries()) {
             const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
             try {
                 const response = await fetch(url);
@@ -292,8 +298,13 @@
                 rows.forEach(row => {
                     if (row.c[0].v == playerId) {
                         isEmpty = false;
+                        let highlightClass = '';
+                        if (sheetName === 'Bets1') highlightClass = 'highlight-bet1';
+                        else if (sheetName === 'Bets2') highlightClass = 'highlight-bet2';
+                        else if (sheetName === 'Bets3') highlightClass = 'highlight-bet3';
+
                         betsInfoHtml += `
-                            <tr class="highlight">
+                            <tr class="${highlightClass}">
                                 <td>${row.c[2]?.v || '未設定'}</td>
                                 <td>${row.c[3]?.v || '未設定'}</td>
                                 <td>${row.c[4]?.v || '未設定'}</td>
