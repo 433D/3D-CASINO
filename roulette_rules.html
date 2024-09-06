@@ -3,32 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D CASINO</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
+    <title>3D CASINO - Roulette Rules</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Stardos+Stencil&family=Gloock&display=swap">
     <link rel="icon" href="favicon.ico">
     <style>
         body {
-            font-family: 'Raleway', sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: 'Gloock', serif;
             background-color: #111;
             color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
             text-align: center;
-            font-size: 1rem;
         }
         header {
             background-color: #333;
-            padding: 1.25rem;
-            text-align: center;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             cursor: pointer;
+            height: 3rem;
         }
         header h1 {
             margin: 0;
             font-size: 2.5rem;
-            font-family: 'Dancing Script', cursive;
+            font-family: 'Stardos Stencil', cursive;
+            color: silver;
+            text-align: center;
+            flex-grow: 1;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .menu-icon {
+            font-size: 2.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: silver;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        .menu-icon:hover {
+            color: gold;
+        }
+        .menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0; /* 左揃え */
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            padding: 2rem;
+            box-sizing: border-box;
+            overflow-y: auto;
+            animation: slideDown 0.4s ease-in-out;
+            text-align: left; /* 左揃え */
+        }
+        .menu a {
+            display: block;
+            color: silver;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            font-family: 'Stardos Stencil', cursive;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        .menu a:hover {
+            color: gold;
+        }
+        .submenu {
+            display: none;
+            margin-left: 20px;
+            transition: max-height 0.3s ease-in-out;
+        }
+        .submenu a {
+            font-size: 1.2rem;
+        }
+        .menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3rem;
+            color: silver;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .menu-close:hover {
+            color: gold;
         }
         .container {
-            padding: 1.25rem;
+            max-width: 800px;
+            margin: 6rem auto;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            text-align: center;
         }
         .button {
             background-color: #ffffff;
@@ -39,46 +119,32 @@
             text-decoration: none;
             display: inline-block;
             font-size: 1.5rem;
-            margin: 0.625rem 0.3125rem;
+            margin: 20px 5px;
             cursor: pointer;
             border-radius: 0.3125rem;
             position: fixed;
             bottom: 1.25rem;
             right: 1.25rem;
-            font-family: 'Dancing Script', cursive;
+            font-family: 'Stardos Stencil', cursive;
         }
         .button:hover {
             background-color: #e0e0e0;
         }
         table {
+            border-collapse: collapse;
             width: 100%;
             margin: 1.25rem auto;
-            border-collapse: collapse;
-            font-family: 'Arial', sans-serif;
-            background-color: #222;
             border-radius: 8px;
             overflow: hidden;
         }
         th, td {
-            border: 1px solid #333;
-            padding: 0.75rem;
-            text-align: left;
-            font-size: 1rem;
+            border: 2px solid #fff; /* 枠線を濃く */
+            padding: 8px;
+            text-align: center;
         }
         th {
             background-color: #444;
             color: #fff;
-        }
-        tr:nth-child(even) {
-            background-color: #333;
-        }
-        tr:nth-child(odd) {
-            background-color: #222;
-        }
-        td:nth-child(3) {
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-align: center;
         }
         .expandable {
             cursor: pointer;
@@ -92,18 +158,47 @@
             background-color: #333;
             border-radius: 8px;
         }
+        @keyframes slideDown {
+            from { top: -100%; }
+            to { top: 0; }
+        }
     </style>
 </head>
 <body>
-<header onclick="location.href='index.html'">
+
+<header>
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
     <h1>3D CASINO</h1>
+    <a href="mypage.html" class="mypage-link">マイページ</a>
 </header>
+
+<div class="menu">
+    <span class="menu-close" aria-label="Close Menu" onclick="toggleMenu()">&times;</span>
+    <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
+    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu" onclick="toggleSubMenu('game-submenu')">ゲーム</a>
+    <div class="submenu" id="game-submenu">
+        <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
+        <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
+        <a href="card_games_rules.html" aria-label="Go to Card Games Rules">トランプゲーム</a>
+        <a href="dice_games_rules.html" aria-label="Go to Dice Games Rules">ダイスゲーム</a>
+    </div>
+    <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
+    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu" onclick="toggleSubMenu('promotion-submenu')">プロモーション</a>
+    <div class="submenu" id="promotion-submenu">
+        <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
+        <a href="instagram1.html" aria-label="Go to Instagram">Instagram</a>
+    </div>
+    <a href="mypage.html" aria-label="Go to My Page">マイページ</a>
+    <a href="site.html" aria-label="About This Site">このサイトについて</a>
+</div>
+
 <div class="container">
     <p class="fade-in">当店ではルーレットが遊べます</p>
     <button class="button" onclick="location.href='index.html'">Back to Home</button>
+
     <div id="roulette" class="content active">
         <h2>ルーレット</h2>
-        <p>ルーレットは、回転する円盤に投げ入れられたボールがどの数字のポケットに入るかに賭けるゲームです。</p>
+        <p>ルーレットは、カジノの代表的なゲームの一つで、回転する円盤にボールを投げ入れ、そのボールがどの数字のポケットに入るかを予想して賭けるゲームです。ルーレットの盤面には0から36までの番号が赤と黒のポケットに分かれて配置されており、特にヨーロピアンルーレットでは緑の0が1つ、アメリカンルーレットではさらに00が追加されています。このシンプルでスリリングなゲームは、戦略と運を組み合わせた独特の魅力を持ち、世界中で多くの人々に楽しまれています。</p>
 
         <h3>ゲームの流れ</h3>
         <ol>
@@ -120,98 +215,69 @@
                     <th>賭け方</th>
                     <th>説明</th>
                     <th>配当</th>
+                    <th>賭け位置</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>ストレートアップ</td>
-                    <td>
-                        特定の数字1つに賭ける
-                        <span class="expandable" onclick="toggleDescription('desc1')">詳細</span>
-                        <div id="desc1" class="description">この賭け方では、ボールが特定の数字に入った場合に最も高い配当が得られます。</div>
-                    </td>
+                    <td>特定の数字1つに賭ける</td>
                     <td>36倍</td>
+                    <td>任意の1つの数字上に直接チップを置く</td>
                 </tr>
                 <tr>
                     <td>スプリット</td>
-                    <td>
-                        隣り合った2つの数字に賭ける
-                        <span class="expandable" onclick="toggleDescription('desc2')">詳細</span>
-                        <div id="desc2" class="description">スプリットベットは、隣り合った2つの数字に賭け、いずれかの数字にボールが入れば勝利となります。</div>
-                    </td>
+                    <td>隣り合った2つの数字に賭ける</td>
                     <td>18倍</td>
+                    <td>2つの数字の間の線上にチップを置く</td>
                 </tr>
                 <tr>
                     <td>ストリート</td>
-                    <td>
-                        横1列の3つの数字に賭ける
-                        <span class="expandable" onclick="toggleDescription('desc3')">詳細</span>
-                        <div id="desc3" class="description">ストリートベットは、横に並んだ3つの数字に対して賭ける方法です。</div>
-                    </td>
+                    <td>横1列の3つの数字に賭ける</td>
                     <td>12倍</td>
+                    <td>横並びの3つの数字の端にチップを置く</td>
                 </tr>
                 <tr>
                     <td>コーナー</td>
-                    <td>
-                        4つの数字が交わる角に賭ける
-                        <span class="expandable" onclick="toggleDescription('desc4')">詳細</span>
-                        <div id="desc4" class="description">コーナーベットでは、4つの数字に賭けることができ、配当は中程度です。</div>
-                    </td>
+                    <td>4つの数字が交わる角に賭ける</td>
                     <td>9倍</td>
+                    <td>4つの数字が交わる角にチップを置く</td>
                 </tr>
                 <tr>
                     <td>ライン</td>
-                    <td>
-                        縦2列の6つの数字に賭ける
-                        <span class="expandable" onclick="toggleDescription('desc5')">詳細</span>
-                        <div id="desc5" class="description">ラインベットは、2つの横列、合計6つの数字に賭ける方法です。</div>
-                    </td>
+                    <td>縦2列の6つの数字に賭ける</td>
                     <td>6倍</td>
+                    <td>2列の数字の端にまたがる位置にチップを置く</td>
                 </tr>
                 <tr>
                     <td>コラム</td>
-                    <td>
-                        縦1列の12個の数字に賭ける
-                        <span class="expandable" onclick="toggleDescription('desc6')">詳細</span>
-                        <div id="desc6" class="description">コラムベットは、縦の列に並んだ12個の数字のどれかに賭ける方法です。</div>
-                    </td>
+                    <td>縦1列の12個の数字に賭ける</td>
                     <td>3倍</td>
+                    <td>1-34の縦列(34の下),2-35の縦列(35の下),3-36の縦列(36の下)にチップを置く</td>
                 </tr>
                 <tr>
                     <td>ダズン</td>
-                    <td>
-                        12個ずつの数字のグループ（1-12, 13-24, 25-36）に賭ける
-                        <span class="expandable" onclick="toggleDescription('desc7')">詳細</span>
-                        <div id="desc7" class="description">ダズンベットは、12個の数字を含むグループに賭ける方法です。</div>
-                    </td>
+                    <td>12個ずつの数字のグループ（1-12, 13-24, 25-36）に賭ける</td>
                     <td>3倍</td>
+                    <td>1-12(12P), 13-24(12M), 25-36(12D)のボックスにチップを置く</td>
                 </tr>
                 <tr>
                     <td>赤/黒</td>
-                    <td>
-                        赤または黒の数字に賭ける
-                        <span class="expandable" onclick="toggleDescription('desc8')">詳細</span>
-                        <div id="desc8" class="description">赤か黒のどちらかに賭ける簡単なベットです。</div>
-                    </td>
+                    <td>赤または黒の数字に賭ける</td>
                     <td>2倍</td>
+                    <td>赤(◇)または黒(◇)のマスにチップを置く</td>
                 </tr>
                 <tr>
                     <td>奇数/偶数</td>
-                    <td>
-                        奇数または                        偶数の数字に賭ける
-                        <span class="expandable" onclick="toggleDescription('desc9')">詳細</span>
-                        <div id="desc9" class="description">この賭け方は、奇数または偶数のいずれかにボールが入ることを予想するものです。</div>
-                    </td>
+                    <td>奇数または偶数の数字に賭ける</td>
                     <td>2倍</td>
+                    <td>奇数(IMPAIR)または偶数(PAIR)のボックスにチップを置く</td>
                 </tr>
                 <tr>
                     <td>ハイ/ロー</td>
-                    <td>
-                        1-18（ロー）または19-36（ハイ）の数字に賭ける
-                        <span class="expandable" onclick="toggleDescription('desc10')">詳細</span>
-                        <div id="desc10" class="description">ハイ（19-36）かロー（1-18）に賭ける方法で、リスクが低く、初心者向けの賭け方です。</div>
-                    </td>
+                    <td>1-18（ロー）または19-36（ハイ）の数字に賭ける</td>
                     <td>2倍</td>
+                    <td>1-18（MANQUE）または19-36（PASSE）のボックスにチップを置く</td>
                 </tr>
             </tbody>
         </table>
@@ -221,16 +287,16 @@
 </div>
 
 <script>
-    function toggleDescription(id) {
-        const description = document.getElementById(id);
-        if (description.style.display === 'block') {
-            description.style.display = 'none';
-        } else {
-            description.style.display = 'block';
-        }
+    function toggleMenu() {
+        const menu = document.querySelector('.menu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleSubMenu(subMenuId) {
+        const subMenu = document.getElementById(subMenuId);
+        subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
     }
 </script>
 
 </body>
 </html>
-
