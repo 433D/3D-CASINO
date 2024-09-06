@@ -34,6 +34,7 @@
             font-family: 'Stardos Stencil', cursive;
             color: silver;
             text-align: center;
+            flex: 1; /* ヘッダー内での中央寄せ */
         }
         .menu-icon {
             font-size: 1.8rem;
@@ -45,6 +46,17 @@
             transition: color 0.3s;
         }
         .menu-icon:hover {
+            color: gold;
+        }
+        .mypage-link {
+            position: absolute;
+            right: 20px;
+            font-size: 1.2rem;
+            color: silver;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .mypage-link:hover {
             color: gold;
         }
         .menu {
@@ -277,6 +289,7 @@
 <header>
     <div class="menu-icon">&#9776;</div> <!-- 3本線のメニューアイコン -->
     <h1>3D CASINO</h1>
+    <a href="mypage.html" class="mypage-link">マイページ</a>
 </header>
 
 <div class="menu">
@@ -362,6 +375,9 @@
         </div>
     </section>    
 </div>
+
+</body>
+</html>
 
 </body>
 </html>
