@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>チンチロリンのルール</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
+    <link rel="icon" href="favicon.ico">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem; /* 基準フォントサイズ */
+        }
+        header {
+            background-color: #333;
+            padding: 1.25rem; /* 20pxを相対的に */
+            text-align: center;
+            cursor: pointer;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem; /* 大きな見出し */
+            font-family: 'Dancing Script', cursive;
+        }
+        .container {
+            padding: 1.25rem; /* 20pxを相対的に */
+        }
+        .button {
+            background-color: #ffffff;
+            color: #000;
+            border: none;
+            padding: 1rem 2rem; /* ボタンの大きさを相対的に */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.5rem; /* ボタンのフォントサイズも相対的に */
+            margin: 0.625rem 0.3125rem; /* 10px 5pxを相対的に */
+            cursor: pointer;
+            border-radius: 0.3125rem; /* 5pxを相対的に */
+            position: fixed;
+            bottom: 1.25rem; /* 20pxを相対的に */
+            right: 1.25rem; /* 20pxを相対的に */
+            font-family: 'Dancing Script', cursive;
+        }
+        .button:hover {
+            background-color: #e0e0e0;
+        }
+        .content {
+            display: none;
+        }
+        .content.active {
+            display: block;
+        }
+        table {
+            width: 80%;
+            margin: 1.25rem auto; /* 20pxを相対的に */
+            border-collapse: collapse;
+            font-family: 'Arial', sans-serif;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 0.5rem; /* 8pxを相対的に */
+            text-align: left;
+            font-size: 1.25rem; /* テーブルのフォントサイズも相対的に */
+        }
+        th {
+            background-color: #333;
+        }
+        td:nth-child(2) {
+            font-family: 'Arial', sans-serif; /* 数字のフォントをゴシック体に変更 */
+        }
+        .fade-in {
+            animation: fadeIn 2s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<header onclick="location.href='index.html'">
+    <h1>3D CASINO</h1>
+</header>
+
+<div class="container">
+    <p class="fade-in">当店ではチンチロリンが遊べます</p>
+    <button class="button" onclick="location.href='index.html'">Back to Home</button>
+
+    <div id="chinchirorin" class="content active">
+        <h2>チンチロリン</h2>
+        <p>チンチロリンは、3つのサイコロを振って出た目で勝負する、シンプルなゲームです。</p>
+
+    <h3>ゲームの流れ</h3>
+    <ol>
+        <li>親を決めます。(最初はじゃんけんなどで)</li>
+        <li>賭ける額を決定します。</li>
+        <li>親以外のプレイヤーが順番にサイコロを振ります。</li>
+        <li>各プレイヤーは3つのサイコロを振り、出た目を全体に見せて公開します。</li>
+        <li>最後に親がサイコロを振ります。</li>
+        <li>親は3つのサイコロを全体に見せた状態で振り、出た目を確認します。</li>
+        <li>親とプレイヤーのサイコロの出目を比較します。親と同点だった場合は親の勝ちとします。</li>
+        <li>役なしの場合は親が勝ちます。</li>
+    </ol>
+
+    <h3>役と強さ</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>役</th>
+                <th>出目</th>
+                <th>説明</th>
+                <th>配当</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ピンゾロ</td>
+                <td>1-1-1</td>
+                <td>最強の役！無条件で勝ちです。</td>
+                <td>5倍</td>
+            </tr>
+            <tr>
+                <td>ゾロ目(アラシ)</td>
+                <td>1以外の同じ目が3つ (例：2-2-2, 3-3-3など)</td>
+                <td>ピンゾロの次に強い役です。数字が大きくなるほど強くなります。</td>
+                <td>3倍</td>
+            </tr>
+            <tr>
+                <td>4-5-6(シゴロ)</td>
+                <td>4-5-6</td>
+                <td>ゾロ目の次に強い役です。</td>
+                <td>2倍</td>
+            </tr>
+            <tr>
+                <td>役なし</td>
+                <td>それ以外の場合</td>
+                <td>出目の合計が大きい方が勝ちます。同点の場合は親の勝ちです。</td>
+                <td>1倍</td>
+            </tr>
+            <tr>
+                <td>1-2-3(ヒフミ)</td>
+                <td>1-2-3</td>
+                <td>最弱の役です。2倍支払う必要があります。</td>
+                <td>-2倍</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+        <p>詳しくは、当日スタッフにお尋ねください。</p>
+    </div>
+</div>
+
+<script>
+    function showContent(contentId) {
+        var contents = document.querySelectorAll('.content');
+        contents.forEach(function(content) {
+            content.classList.remove('active');
+        });
+        document.getElementById(contentId).classList.add('active');
+    }
+</script>
+
+</body>
+</html>
