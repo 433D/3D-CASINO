@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D CASINO</title>
+    <title>ID検索システム - 3D CASINO</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil&family=Gloock&display=swap" rel="stylesheet">
     <style>
@@ -17,7 +17,7 @@
         }
         header {
             background-color: #333;
-            padding: 0.75rem 1rem;
+            padding: 0.5rem 1rem;
             position: fixed;
             top: 0;
             left: 0;
@@ -30,7 +30,7 @@
         }
         header h1 {
             margin: 0;
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-family: 'Stardos Stencil', cursive;
             color: silver;
             text-align: center;
@@ -94,125 +94,78 @@
             color: gold;
         }
         .container {
-            padding: 6rem 1.25rem 1.25rem;
+            max-width: 800px;
+            margin: 6rem auto 0;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
-        .introduction h2 {
-            margin-bottom: 2rem;
-            font-family: 'Stardos Stencil', cursive;
-            color: #aaa;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInSlideUp 1s ease-out forwards;
-        }
-        .introduction .welcome-to {
-            font-size: 2.5rem;
-            color: #aaa;
-            margin: 0;
-        }
-        .introduction .casino-name {
-            font-size: 3.5rem;
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background-color: #333;
             color: #fff;
-            margin: 0;
+            transition: background-color 0.3s ease;
         }
-        .jump-links {
-            margin-top: 1rem;
+        button {
+            background-color: #007BFF;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: #fff;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #333;
+        }
+        .highlight {
+            background-color: rgba(0, 123, 255, 0.2);
+        }
+        .tabs {
             display: flex;
             justify-content: center;
-            gap: 2rem;
+            margin: 20px 0;
+            gap: 10px;
         }
-        .jump-links a {
-            color: silver;
-            text-decoration: none;
-            font-family: 'Stardos Stencil', cursive;
-            font-size: 1.2rem;
-            transition: color 0.3s;
-        }
-        .jump-links a:hover {
-            color: gold;
-        }
-        .section-title {
-            font-family: 'Stardos Stencil', cursive;
-            color: gold;
-            font-size: 2.5rem;
-            margin: 1rem 0;
-            transition: opacity 2s ease-in-out, transform 2s ease-in-out;
-            text-align: left;
-            padding-left: 1rem;
-            display: inline-block;
-        }
-        .caption {
-            font-family: 'Gloock', serif;
-            color: #bbb;
-            font-size: 1.5rem;
-            display: inline-block;
-            margin-left: 1rem;
-        }
-        @keyframes fadeInSlideUp {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes slideDown {
-            from { top: -100%; }
-            to { top: 0; }
-        }
-        .game-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 1.25rem 0;
-        }
-        .game {
-            background-color: #222;
-            padding: 1.25rem;
-            border-radius: 0.625rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
+        .tab-button {
             flex: 1;
-            min-width: 90%;
-            max-width: 90%;
-            height: auto;
-            color: #fff;
+            padding: 10px;
+            margin: 0 5px;
             cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .game img {
-            width: 100%;
-            height: auto;
-            border-radius: 0.625rem;
-        }
-        .game h3 {
-            margin-top: 0.625rem;
-            font-size: 1.8rem;
-        }
-        .game p {
-            font-size: 1.2rem;
-        }
-        .game:hover {
-            transform: scale(1.05);
-        }
-        .ranking-button {
-            background-color: #fff;
-            color: #000;
             border: none;
-            border-radius: 0.625rem;
-            padding: 1.25rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            flex: 1;
-            min-width: 90%;
-            max-width: 90%;
-            height: auto;
-            transition: transform 0.3s;
+            background-color: #444;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-size: 14px;
+            color: white;
         }
-        .ranking-button:hover {
-            transform: scale(1.05);
+        .tab-button.active {
+            background-color: #007BFF;
+            color: #fff;
+        }
+        .tab-content {
+            display: none;
+            margin-top: 20px;
+            height: 600px;
+            overflow-y: hidden;
+        }
+        .tab-content.active {
+            display: block;
         }
     </style>
     <script>
@@ -224,11 +177,7 @@
             const menuIcon = document.querySelector('.menu-icon');
             const menu = document.querySelector('.menu');
             const menuClose = document.querySelector('.menu-close');
-            const promotionToggle = document.getElementById('promotion-toggle');
-            const promotionSubMenu = document.getElementById('promotion-submenu');
-            const gameToggle = document.getElementById('game-toggle');
-            const gameSubMenu = document.getElementById('game-submenu');
-            
+
             menuIcon.addEventListener('click', function() {
                 menu.style.display = 'block';
                 menu.style.position = 'fixed';
@@ -238,23 +187,23 @@
             menuClose.addEventListener('click', function() {
                 menu.style.display = 'none';
             });
-
-            promotionToggle.addEventListener('click', function() {
-                if (promotionSubMenu.style.display === 'block') {
-                    promotionSubMenu.style.display = 'none';
-                } else {
-                    promotionSubMenu.style.display = 'block';
-                }
-            });
-
-            gameToggle.addEventListener('click', function() {
-                if (gameSubMenu.style.display === 'block') {
-                    gameSubMenu.style.display = 'none';
-                } else {
-                    gameSubMenu.style.display = 'block';
-                }
-            });
         });
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+
+        function scrollToTab(tabId) {
+            showTab(tabId);
+            document.getElementById(tabId).scrollIntoView({ behavior: 'smooth' });
+        }
     </script>
 </head>
 <body>
@@ -265,87 +214,53 @@
 </header>
 
 <div class="menu">
-    <span class="menu-close">&times;</span>
-    <a href="index.html">3D CASINO</a>
+    <span class="menu-close" aria-label="Close Menu">&times;</span>
+    <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
 
-    <a href="javascript:void(0);" id="game-toggle">ゲーム</a>
+    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu">ゲーム</a>
     <div class="submenu" id="game-submenu">
-        <a href="special.html">スペシャルカジノ</a>
-        <a href="roulette_rules.html">ルーレット</a>
-        <a href="card_games_rules.html">トランプゲーム</a>
-        <a href="dice_games_rules.html">ダイスゲーム</a>
+        <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
+        <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
+        <a href="card_games_rules.html" aria-label="Go to Card Games Rules">トランプゲーム</a>
+        <a href="dice_games_rules.html" aria-label="Go to Dice Games Rules">ダイスゲーム</a>
     </div>
 
-    <a href="ranking.html">ランキング</a>
+    <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
 
-    <a href="javascript:void(0);" id="promotion-toggle">プロモーション</a>
+    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu">プロモーション</a>
     <div class="submenu" id="promotion-submenu">
-        <a href="youtube.html">YouTube</a>
-        <a href="instagram.html">Instagram</a>
+        <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
+        <a href="instagram.html" aria-label="Go to Instagram">Instagram</a>
     </div>
 
-    <a href="mypage.html">マイページ</a>
-    <a href="site.html">このサイトについて</a>
+    <a href="mypage.html" aria-label="Go to My Page">マイページ</a>
+    <a href="site.html" aria-label="About This Site">このサイトについて</a>
 </div>
 
 <div class="container">
-    <section class="introduction">
-        <h2 class="welcome-to">Welcome to</h2>
-        <h2 class="casino-name">3D CASINO</h2>
-    </section>
+    <h1>ID検索システム</h1>
+    <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
+    <button onclick="searchPlayer()">検索</button>
 
-    <div class="jump-links">
-        <a href="#games">Games</a>
-        <a href="#rankings">Rankings</a>
-        <a href="#promotions">Promotions</a>
+    <div id="playerInfo"></div>
+    <div id="betsInfo"></div>
+
+    <!-- タブ形式のGoogleフォーム埋め込み -->
+    <div class="tabs">
+        <button class="tab-button active" onclick="showTab('bets1')">Bet1</button>
+        <button class="tab-button" onclick="showTab('bets2')">Bet2</button>
+        <button class="tab-button" onclick="showTab('bets3')">Bet3</button>
     </div>
 
-    <section id="games" class="game-section">
-        <h2 class="section-title">Games<span class="caption">— Explore the excitement</span></h2>
-        <div class="game" onclick="location.href='special.html'">
-            <img src="special.png" alt="Special Casino">
-            <h3>スペシャルカジノ</h3>
-            <p>特別なカジノ体験をお楽しみください。</p>
-        </div>
-        <div class="game" onclick="location.href='roulette_rules.html'">
-            <img src="roulette.png" alt="Roulette">
-            <h3>ルーレット</h3>
-            <p>スリリングなルーレットゲームをお楽しみください。</p>
-        </div>
-        <div class="game" onclick="location.href='card_games_rules.html'">
-            <img src="cardgame.png" alt="Card Games">
-            <h3>トランプゲーム</h3>
-            <p>ポーカーやブラックジャックなど、戦略と運を試すトランプゲームで勝利を目指しましょう。</p>
-        </div>
-        <div class="game" onclick="location.href='dice_games_rules.html'">
-            <img src="dice.png" alt="Dice Games">
-            <h3>ダイスゲーム</h3>
-            <p>シンプルで楽しいダイスゲームに挑戦しましょう。</p>
-        </div>
-    </section>
-
-    <section id="rankings" class="game-section">
-        <h2 class="section-title">Rankings<span class="caption">— See where you stand</span></h2>
-        <div class="game" onclick="location.href='ranking.html'">
-            <img src="king.png" alt="Rankings">
-            <h3>ランキング</h3>
-            <p>ランキングを確認しましょう。</p>
-        </div>
-    </section>
-
-    <section id="promotions" class="game-section">
-        <h2 class="section-title">Promotions<span class="caption">— Don't miss out</span></h2>
-        <div class="game" onclick="location.href='youtube.html'">
-            <img src="youtube.png" alt="Promotions Video">
-            <h3>プロモーションビデオ</h3>
-            <p>最高に面白いプロモーションビデオです。ご覧ください。</p>
-        </div>
-        <div class="game" onclick="location.href='instagram.html'">
-            <img src="instagram.png" alt="Instagram">
-            <h3>Instagram</h3>
-            <p>Instagramで最新情報をゲットしよう！</p>
-        </div>
-    </section>    
+    <div id="bets1" class="tab-content active">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScQGcLyPqR1zkk2ivlqI83qsMLL3_OIwCPHt2TISy6FAvZQRw/viewform?embedded=true" width="100%" height="100%" frameborder="0" style="border: none;">読み込んでいます…</iframe>
+    </div>
+    <div id="bets2" class="tab-content">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSejbwWwo-BgCoiWD4Qt_M8sci6c7VjNiSw48zHsGZ6J76VhnQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" style="border: none;">読み込んでいます…</iframe>
+    </div>
+    <div id="bets3" class="tab-content">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfjmu1WQev79M2JcrrvX9oyAlCSFq2PIjP77wUdx-Ta_YzTeQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" style="border: none;">読み込んでいます…</iframe>
+    </div>
 </div>
 
 </body>
