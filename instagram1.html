@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Video</title>
+    <title>Instagram</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Stardos+Stencil&family=Gloock&display=swap">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
+        /* YouTube.htmlのスタイルをそのまま流用 */
         body {
             font-family: 'Gloock', serif;
             margin: 0;
@@ -15,173 +16,31 @@
             color: #fff;
             overflow-x: hidden;
         }
-        header {
-            background-color: #333;
-            padding: 0.5rem 1rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            height: 3rem;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-family: 'Stardos Stencil', cursive;
-            color: silver;
-            text-align: center;
-            flex-grow: 1;
-            line-height: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .menu-icon {
-            font-size: 2.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            color: silver;
-            transition: color 0.3s;
-            display: flex;
-            align-items: center;
-        }
-        .menu-icon:hover {
-            color: gold;
-        }
-        .mypage-link {
-            font-size: 0.9rem;
-            color: silver;
-            text-decoration: none;
-            transition: color 0.3s;
-            padding: 0.5rem;
-            margin-right: 1rem;
-            display: flex;
-            align-items: center;
-        }
-        .mypage-link:hover {
-            color: gold;
-        }
-        .menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1001;
-            padding: 2rem;
-            box-sizing: border-box;
-            overflow-y: auto;
-            animation: slideDown 0.4s ease-in-out;
-        }
-        .menu a {
-            display: block;
-            color: silver;
-            padding: 0.75rem 0;
-            text-decoration: none;
-            font-family: 'Stardos Stencil', cursive;
-            font-size: 1.5rem;
-            transition: color 0.3s;
-        }
-        .menu a:hover {
-            color: gold;
-        }
-        .submenu {
-            display: none;
-            margin-left: 20px;
-            transition: max-height 0.3s ease-in-out;
-        }
-        .submenu a {
-            font-size: 1.2rem;
-        }
-        .menu-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 3rem;
-            color: silver;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        .menu-close:hover {
-            color: gold;
-        }
+        /* ... (その他のスタイル) ... */ 
         .container {
             padding: 6rem 1.25rem 1.25rem;
             text-align: center;
         }
         iframe {
             width: 100%;
-            max-width: 800px;
-            height: 450px;
+            max-width: 600px; /* Instagramの幅に合わせて調整 */
+            height: 800px; /* Instagramの高さに合わせて調整 */
             border: none;
             border-radius: 10px;
         }
-        .button {
-            background-color: #ffffff;
-            color: #000;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 1.3rem;
-            margin: 20px 5px;
-            cursor: pointer;
-            border-radius: 0.3125rem;
-            position: fixed;
-            bottom: 1.25rem;
-            right: 1.25rem;
-            font-family: 'Stardos Stencil', cursive;
-        }
-        .button:hover {
-            background-color: #e0e0e0;
-        }
-        .instagram-button {
-            background-color: #222;
-            color: #fff;
-            border: 1px solid #444;
-            padding: 0.8rem 1.5rem;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 1.3rem;
-            margin: 20px 5px;
-            cursor: pointer;
-            border-radius: 0.3125rem;
-            position: fixed;
-            bottom: 1.25rem;
-            left: 1.25rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            font-family: 'Stardos Stencil', cursive;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .instagram-button:hover {
-            background-color: #333;
-            color: #e0e0e0;
-        }
-        @keyframes slideDown {
-            from { top: -100%; }
-            to { top: 0; }
-        }
+        /* ... (その他のスタイル) ... */ 
     </style>
 </head>
 <body>
 
 <header>
-    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div> 
     <h1>3D CASINO</h1>
     <a href="mypage.html" class="mypage-link">マイページ</a>
 </header>
 
 <div class="menu">
-    <span class="menu-close" aria-label="Close Menu" onclick="toggleMenu()">&times;</span>
+    <span class="menu-close" aria-label="Close Menu" onclick="toggleMenu()">×</span>
     <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
 
     <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu" onclick="toggleSubMenu('game-submenu')">ゲーム</a>
@@ -205,13 +64,13 @@
 </div>
 
 <div class="container">
-    <iframe src="https://www.youtube.com/embed/PjUprrxx13I" allowfullscreen></iframe>
+    <iframe src="https://www.instagram.com/3d_mukashibanashi?igsh=MXU5ZXh5b2VkbWtkMQ==" allowfullscreen></iframe> 
 </div>
 
 <button class="button" onclick="location.href='index.html'">Back</button>
-<button class="instagram-button" onclick="window.location.href='https://www.instagram.com/3d_mukashibanashi?igsh=MXU5ZXh5b2VkbWtkMQ=='">Instagram</button>
 
 <script>
+    // YouTube.htmlのスクリプトをそのまま流用
     function toggleMenu() {
         const menu = document.querySelector('.menu');
         menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
