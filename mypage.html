@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マイページ - 3D CASINO</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil&family=Gloock&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Gloock', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        header {
+            background-color: #333;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-family: 'Stardos Stencil', cursive;
+            color: silver;
+            text-align: center;
+        }
+        .menu-icon {
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: silver;
+            position: absolute;
+            left: 20px;
+            transition: color 0.3s;
+        }
+        .menu-icon:hover {
+            color: gold;
+        }
+        .menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            padding: 2rem;
+            box-sizing: border-box;
+            overflow-y: auto;
+            animation: slideDown 0.4s ease-in-out;
+        }
+        .menu a {
+            display: block;
+            color: silver;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            font-family: 'Stardos Stencil', cursive;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        .menu a:hover {
+            color: gold;
+        }
+        .submenu {
+            display: none;
+            margin-left: 20px;
+            transition: max-height 0.3s ease-in-out;
+        }
+        .submenu a {
+            font-size: 1.2rem;
+        }
+        .menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: silver;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .menu-close:hover {
+            color: gold;
+        }
+        .container {
+            padding: 6rem 1.25rem 1.25rem;
+            text-align: center;
+        }
+        .section-title {
+            font-family: 'Stardos Stencil', cursive;
+            color: gold;
+            font-size: 2.5rem;
+            margin: 1rem 0;
+            transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+            text-align: center;
+        }
+        .link {
+            color: silver;
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            display: inline-block;
+            transition: color 0.3s;
+        }
+        .link:hover {
+            color: gold;
+        }
+        .iframe-container {
+            display: none;
+            margin-top: 1rem;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        .iframe-container.open {
+            display: block;
+            max-height: 600px;
+        }
+        iframe {
+            width: 100%;
+            max-width: 640px;
+            border: none;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            window.scrollTo(0, 0);
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuIcon = document.querySelector('.menu-icon');
+            const menu = document.querySelector('.menu');
+            const menuClose = document.querySelector('.menu-close');
+            const playerNameLink = document.getElementById('player-name-link');
+            const bankLink = document.getElementById('bank-link');
+            const playerNameForm = document.getElementById('player-name-form');
+            const bankForm = document.getElementById('bank-form');
+
+            menuIcon.addEventListener('click', function() {
+                menu.style.display = 'block';
+                menu.style.position = 'fixed';
+                menu.style.top = '0';
+            });
+
+            menuClose.addEventListener('click', function() {
+                menu.style.display = 'none';
+            });
+
+            playerNameLink.addEventListener('click', function() {
+                toggleVisibility(playerNameForm);
+            });
+
+            bankLink.addEventListener('click', function() {
+                toggleVisibility(bankForm);
+            });
+
+            function toggleVisibility(element) {
+                element.classList.toggle('open');
+                if (element.classList.contains('open')) {
+                    element.style.maxHeight = element.scrollHeight + 'px';
+                } else {
+                    element.style.maxHeight = '0';
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+
+<header>
+    <div class="menu-icon">&#9776;</div> <!-- 3本線のメニューアイコン -->
+    <h1>3D CASINO</h1>
+</header>
+
+<div class="menu">
+    <span class="menu-close" aria-label="Close Menu">&times;</span>
+    <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
+
+    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu">ゲーム</a>
+    <div class="submenu" id="game-submenu">
+        <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
+        <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
+        <a href="card_games_rules.html" aria-label="Go to Card Games Rules">トランプゲーム</a>
+        <a href="dice_games_rules.html" aria-label="Go to Dice Games Rules">ダイスゲーム</a>
+    </div>
+
+    <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
+
+    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu">プロモーション</a>
+    <div class="submenu" id="promotion-submenu">
+        <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
+        <a href="instagram.html" aria-label="Go to Instagram">Instagram</a>
+    </div>
+
+    <a href="mypage.html" aria-label="Go to My Page">マイページ</a>
+    <a href="site.html" aria-label="About This Site">このサイトについて</a>
+</div>
+
+<div class="container">
+    <h2 class="section-title">マイページ</h2>
+
+    <div class="link" id="player-name-link">プレイヤー名登録/変更</div>
+    <div class="iframe-container" id="player-name-form">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScFvOpmpvvFYrMn9akwYQiIrcdAhsG0nY9qzAUPmnl00eISSA/viewform?embedded=true" width="640" height="577" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+    </div>
+
+    <div class="link" id="bank-link">銀行</div>
+    <div class="iframe-container" id="bank-form">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfkKt7TeZXUJDNtfkfUI5IohyEDq0qMrtlNh4ZivrB-9LCgNQ/viewform?embedded=true" width="640" height="552" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+    </div>
+</div>
+
+</body>
+</html>
