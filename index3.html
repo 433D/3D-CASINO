@@ -34,7 +34,7 @@
             font-family: 'Stardos Stencil', cursive;
             color: silver;
             text-align: center;
-            flex: 1; /* ヘッダー内での中央寄せ */
+            flex-grow: 1; /* 中央配置のための調整 */
         }
         .menu-icon {
             font-size: 1.8rem;
@@ -50,11 +50,12 @@
         }
         .mypage-link {
             position: absolute;
-            right: 20px;
-            font-size: 1.2rem;
+            right: 1rem;
+            font-size: 0.9rem; /* サイズを小さく設定 */
             color: silver;
             text-decoration: none;
             transition: color 0.3s;
+            padding: 0.5rem; /* タップしやすいようにパディング追加 */
         }
         .mypage-link:hover {
             color: gold;
@@ -238,6 +239,10 @@
             .jump-links a {
                 font-size: 1rem;
             }
+            .mypage-link {
+                font-size: 0.8rem; /* 小さな画面でも調整 */
+                right: 0.5rem;
+            }
         }
     </style>
     <script>
@@ -375,9 +380,6 @@
         </div>
     </section>    
 </div>
-
-</body>
-</html>
 
 </body>
 </html>
