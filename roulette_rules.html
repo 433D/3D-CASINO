@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D CASINO</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
     <link rel="icon" href="favicon.ico">
@@ -12,73 +14,83 @@
             background-color: #111;
             color: #fff;
             text-align: center;
-            font-size: 1rem; /* 基準フォントサイズ */
+            font-size: 1rem;
         }
         header {
             background-color: #333;
-            padding: 1.25rem; /* 20pxを相対的に */
+            padding: 1.25rem;
             text-align: center;
             cursor: pointer;
         }
         header h1 {
             margin: 0;
-            font-size: 2.5rem; /* 大きな見出し */
+            font-size: 2.5rem;
             font-family: 'Dancing Script', cursive;
         }
         .container {
-            padding: 1.25rem; /* 20pxを相対的に */
+            padding: 1.25rem;
         }
         .button {
             background-color: #ffffff;
             color: #000;
             border: none;
-            padding: 1rem 2rem; /* ボタンの大きさを相対的に */
+            padding: 1rem 2rem;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 1.5rem; /* ボタンのフォントサイズも相対的に */
-            margin: 0.625rem 0.3125rem; /* 10px 5pxを相対的に */
+            font-size: 1.5rem;
+            margin: 0.625rem 0.3125rem;
             cursor: pointer;
-            border-radius: 0.3125rem; /* 5pxを相対的に */
+            border-radius: 0.3125rem;
             position: fixed;
-            bottom: 1.25rem; /* 20pxを相対的に */
-            right: 1.25rem; /* 20pxを相対的に */
+            bottom: 1.25rem;
+            right: 1.25rem;
             font-family: 'Dancing Script', cursive;
         }
         .button:hover {
             background-color: #e0e0e0;
         }
-        .content {
-            display: none;
-        }
-        .content.active {
-            display: block;
-        }
         table {
-            width: 80%;
-            margin: 1.25rem auto; /* 20pxを相対的に */
+            width: 100%;
+            margin: 1.25rem auto;
             border-collapse: collapse;
             font-family: 'Arial', sans-serif;
+            background-color: #222;
+            border-radius: 8px;
+            overflow: hidden;
         }
         th, td {
-            border: 1px solid #ddd;
-            padding: 0.5rem; /* 8pxを相対的に */
+            border: 1px solid #333;
+            padding: 0.75rem;
             text-align: left;
-            font-size: 1.25rem; /* テーブルのフォントサイズも相対的に */
+            font-size: 1rem;
         }
         th {
+            background-color: #444;
+            color: #fff;
+        }
+        tr:nth-child(even) {
             background-color: #333;
         }
+        tr:nth-child(odd) {
+            background-color: #222;
+        }
         td:nth-child(3) {
-            font-weight: bold; /* 配当の部分の数字を強調 */
-            font-size: 1.5rem; /* 数字をさらに強調 */
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
         }
-        .fade-in {
-            animation: fadeIn 2s;
+        .expandable {
+            cursor: pointer;
+            color: #1E90FF;
+            text-decoration: underline;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .description {
+            display: none;
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            background-color: #333;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -113,52 +125,92 @@
             <tbody>
                 <tr>
                     <td>ストレートアップ</td>
-                    <td>特定の数字1つに賭ける</td>
+                    <td>
+                        特定の数字1つに賭ける
+                        <span class="expandable" onclick="toggleDescription('desc1')">詳細</span>
+                        <div id="desc1" class="description">この賭け方では、ボールが特定の数字に入った場合に最も高い配当が得られます。</div>
+                    </td>
                     <td>36倍</td>
                 </tr>
                 <tr>
                     <td>スプリット</td>
-                    <td>隣り合った2つの数字に賭ける</td>
+                    <td>
+                        隣り合った2つの数字に賭ける
+                        <span class="expandable" onclick="toggleDescription('desc2')">詳細</span>
+                        <div id="desc2" class="description">スプリットベットは、隣り合った2つの数字に賭け、いずれかの数字にボールが入れば勝利となります。</div>
+                    </td>
                     <td>18倍</td>
                 </tr>
                 <tr>
                     <td>ストリート</td>
-                    <td>横1列の3つの数字に賭ける</td>
+                    <td>
+                        横1列の3つの数字に賭ける
+                        <span class="expandable" onclick="toggleDescription('desc3')">詳細</span>
+                        <div id="desc3" class="description">ストリートベットは、横に並んだ3つの数字に対して賭ける方法です。</div>
+                    </td>
                     <td>12倍</td>
                 </tr>
                 <tr>
                     <td>コーナー</td>
-                    <td>4つの数字が交わる角に賭ける</td>
+                    <td>
+                        4つの数字が交わる角に賭ける
+                        <span class="expandable" onclick="toggleDescription('desc4')">詳細</span>
+                        <div id="desc4" class="description">コーナーベットでは、4つの数字に賭けることができ、配当は中程度です。</div>
+                    </td>
                     <td>9倍</td>
                 </tr>
                 <tr>
                     <td>ライン</td>
-                    <td>縦2列の6つの数字に賭ける</td>
+                    <td>
+                        縦2列の6つの数字に賭ける
+                        <span class="expandable" onclick="toggleDescription('desc5')">詳細</span>
+                        <div id="desc5" class="description">ラインベットは、2つの横列、合計6つの数字に賭ける方法です。</div>
+                    </td>
                     <td>6倍</td>
                 </tr>
                 <tr>
                     <td>コラム</td>
-                    <td>縦1列の12個の数字に賭ける</td>
+                    <td>
+                        縦1列の12個の数字に賭ける
+                        <span class="expandable" onclick="toggleDescription('desc6')">詳細</span>
+                        <div id="desc6" class="description">コラムベットは、縦の列に並んだ12個の数字のどれかに賭ける方法です。</div>
+                    </td>
                     <td>3倍</td>
                 </tr>
                 <tr>
                     <td>ダズン</td>
-                    <td>12個ずつの数字のグループ（1-12, 13-24, 25-36）に賭ける</td>
+                    <td>
+                        12個ずつの数字のグループ（1-12, 13-24, 25-36）に賭ける
+                        <span class="expandable" onclick="toggleDescription('desc7')">詳細</span>
+                        <div id="desc7" class="description">ダズンベットは、12個の数字を含むグループに賭ける方法です。</div>
+                    </td>
                     <td>3倍</td>
                 </tr>
                 <tr>
                     <td>赤/黒</td>
-                    <td>赤または黒の数字に賭ける</td>
+                    <td>
+                        赤または黒の数字に賭ける
+                        <span class="expandable" onclick="toggleDescription('desc8')">詳細</span>
+                        <div id="desc8" class="description">赤か黒のどちらかに賭ける簡単なベットです。</div>
+                    </td>
                     <td>2倍</td>
                 </tr>
                 <tr>
                     <td>奇数/偶数</td>
-                    <td>奇数または偶数の数字に賭ける</td>
+                    <td>
+                        奇数または                        偶数の数字に賭ける
+                        <span class="expandable" onclick="toggleDescription('desc9')">詳細</span>
+                        <div id="desc9" class="description">この賭け方は、奇数または偶数のいずれかにボールが入ることを予想するものです。</div>
+                    </td>
                     <td>2倍</td>
                 </tr>
                 <tr>
                     <td>ハイ/ロー</td>
-                    <td>1-18（ロー）または19-36（ハイ）の数字に賭ける</td>
+                    <td>
+                        1-18（ロー）または19-36（ハイ）の数字に賭ける
+                        <span class="expandable" onclick="toggleDescription('desc10')">詳細</span>
+                        <div id="desc10" class="description">ハイ（19-36）かロー（1-18）に賭ける方法で、リスクが低く、初心者向けの賭け方です。</div>
+                    </td>
                     <td>2倍</td>
                 </tr>
             </tbody>
@@ -167,14 +219,18 @@
         <p>詳しくは、当日スタッフにお尋ねください。</p>
     </div>
 </div>
+
 <script>
-function showContent(contentId) {
-    var contents = document.querySelectorAll('.content');
-    contents.forEach(function(content) {
-        content.classList.remove('active');
-    });
-    document.getElementById(contentId).classList.add('active');
-}
+    function toggleDescription(id) {
+        const description = document.getElementById(id);
+        if (description.style.display === 'block') {
+            description.style.display = 'none';
+        } else {
+            description.style.display = 'block';
+        }
+    }
 </script>
+
 </body>
 </html>
+
