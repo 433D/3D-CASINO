@@ -13,7 +13,7 @@
             padding: 0;
             background-color: #111;
             color: #fff;
-            text-align: center;
+            overflow-x: hidden;
         }
         header {
             background-color: #333;
@@ -27,11 +27,11 @@
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            height: 3rem;
+            height: 3rem; /* ヘッダーの高さを固定 */
         }
         header h1 {
             margin: 0;
-            font-size: 2.5rem; /* フォントサイズを統一 */
+            font-size: 2.5rem;
             font-family: 'Stardos Stencil', cursive;
             color: silver;
             text-align: center;
@@ -42,7 +42,7 @@
             justify-content: center;
         }
         .menu-icon {
-            font-size: 2.5rem; /* サイズを統一 */
+            font-size: 2.5rem;
             cursor: pointer;
             padding: 0.5rem;
             color: silver;
@@ -152,7 +152,7 @@
 <body>
 
 <header>
-    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div> <!-- メニューを開く機能を追加 -->
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div> <!-- メニューアイコン -->
     <h1>3D CASINO</h1>
     <a href="mypage.html" class="mypage-link">マイページ</a>
 </header>
@@ -197,6 +197,11 @@
         const submenu = document.getElementById(id);
         submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
     }
+
+    // ページが読み込まれたときにスクロール位置をトップに戻す
+    window.onload = function() {
+        window.scrollTo(0, 0);
+    };
 </script>
 
 </body>
