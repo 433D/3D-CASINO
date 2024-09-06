@@ -11,7 +11,7 @@
             font-size: 16px;
         }
         body {
-            font-family: 'Gloock', sans-serif; /* Gloockをデフォルトフォントに */
+            font-family: 'Gloock', sans-serif; 
             margin: 0;
             padding: 0;
             background-color: #111;
@@ -30,7 +30,7 @@
             z-index: 1000;
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* ヘッダーメニューを左揃え */
+            justify-content: flex-start; 
             cursor: pointer;
             height: 3rem;
         }
@@ -41,6 +41,7 @@
             color: silver;
             text-align: center;
             line-height: 1;
+            flex-grow: 1; /* h1を中央に配置するための調整 */
         }
         .menu-icon {
             font-size: 2.5rem;
@@ -60,7 +61,7 @@
             text-decoration: none;
             transition: color 0.3s;
             padding: 0.5rem;
-            margin-left: 1rem; /* メニュー間のスペース確保 */
+            margin-left: 1rem;
             display: flex;
             align-items: center;
         }
@@ -81,7 +82,7 @@
             overflow-y: auto;
             animation: slideDown 0.4s ease-in-out;
         }
-        .menu a {
+        .menu a { /* メニュー項目のスタイル */
             display: block;
             color: silver;
             padding: 0.75rem 0;
@@ -89,17 +90,19 @@
             font-family: 'Stardos Stencil', cursive;
             font-size: 1.5rem;
             transition: color 0.3s;
+            text-align: left; /* メニュー項目を左寄せ */
         }
         .menu a:hover {
             color: gold;
         }
-        .submenu {
+        .submenu { /* サブメニューのスタイル */
             display: none;
             margin-left: 20px;
             transition: max-height 0.3s ease-in-out;
         }
         .submenu a {
             font-size: 1.2rem;
+            text-align: left; /* サブメニュー項目を左寄せ */
         }
         .menu-close {
             position: absolute;
@@ -238,11 +241,12 @@
             background-color: #ffffff;
             color: #000;
             border: none;
-            padding: 0.8rem 1.5rem; /* special.htmlと同じpadding */
+            padding: 0.8rem 1.5rem;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 1.3rem;
+            margin: 20px 5px;
             cursor: pointer;
             border-radius: 0.3125rem;
             position: fixed;
@@ -261,7 +265,7 @@
         @media (max-width: 768px) {
             header {
                 padding: 0.5rem;
-                justify-content: space-around; /* ヘッダーメニューを均等に配置 */
+                justify-content: space-around;
             }
             header h1 {
                 font-size: 2rem;
@@ -271,7 +275,7 @@
             }
             .mypage-link {
                 font-size: 0.8rem;
-                margin-left: 0.5rem; /* メニュー間のスペースを調整 */
+                margin-left: 0.5rem; 
             }
         }
     </style>
@@ -385,7 +389,7 @@
     <div class="pagination" id="pagination"></div>
 </div>
 
-<button class="button back-to-home" onclick="location.href='index.html'">Back</button>
+<button class="button back-to-home" onclick="location.href='index.html'">Back</button> 
 
 <p id="loading-text" style="display: none;">データを取得しています</p>
 
@@ -404,20 +408,27 @@
             .then(data => {
                 const jsonData = JSON.parse(data.substr(47).slice(0, -2));
                 const rows = jsonData.table.rows;
-                
+
                 allPlayers = rows
-                    .filter(row => !(row.c[1]?.v === '' && parseInt(row.c[2]?.v) === 0)) // プレイヤー名空欄かつスコア0を除外
-                    .map(row => {
+                    .filter(row => !(row.c[1]?.v === '' && parseInt(row.c[2]?.v) === 0))
+                    .map((row, index) => {
                         const playerId = Number(row.c[0].v);
-                        const playerName = row.c[1]?.v || `プレイヤー${playerId}`;
-                        const playerScore = parseInt(row.c[2].v); 
+                        const playerName = row.c[1]?.v || ''; // プレイヤー名を最初に取得
+                        const playerScore = parseInt(row.c[2].v);
 
                         return {
                             id: playerId,
                             name: playerName,
                             score: playerScore
                         };
-                    });
+                    })
+                    .map((player, index) => { // プレイヤー名がない場合は自動付与
+                        if (player.name === '') {
+                            player.name = `プレイヤー${player.id}`; 
+                        }
+                        return player;
+                    }); 
+
                 allPlayers.sort((a, b) => b.score - a.score);
                 showTop10();
                 displaySummary(allPlayers);
