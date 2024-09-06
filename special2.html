@@ -25,45 +25,26 @@
             z-index: 1000;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             cursor: pointer;
-            height: 3rem; /* ヘッダーの高さを固定 */
         }
         header h1 {
             margin: 0;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-family: 'Stardos Stencil', cursive;
             color: silver;
             text-align: center;
-            flex-grow: 1;
-            line-height: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .menu-icon {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             padding: 0.5rem;
             color: silver;
+            position: absolute;
+            left: 20px;
             transition: color 0.3s;
-            display: flex;
-            align-items: center;
         }
         .menu-icon:hover {
-            color: gold;
-        }
-        .mypage-link {
-            font-size: 0.9rem;
-            color: silver;
-            text-decoration: none;
-            transition: color 0.3s;
-            padding: 0.5rem;
-            margin-right: 1rem;
-            display: flex;
-            align-items: center;
-        }
-        .mypage-link:hover {
             color: gold;
         }
         .menu {
@@ -104,7 +85,7 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            font-size: 3rem;
+            font-size: 2rem;
             color: silver;
             cursor: pointer;
             transition: color 0.3s;
@@ -174,14 +155,12 @@
             border: none;
             background-color: #555;
             border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
+            transition: background-color 0.3s;
             font-size: 14px;
             color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .tab-button.active {
             background-color: #007BFF;
-            transform: scale(1.05);
         }
         .tab-content {
             display: none;
@@ -196,58 +175,20 @@
             margin-top: 20px;
             text-align: left;
         }
-        .description-link {
-            color: gold;
-            cursor: pointer;
-            margin-top: 10px;
-            display: block;
-        }
-        .description-text {
-            display: none;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #444;
-            border-radius: 5px;
-        }
-        .button {
-            background-color: #ffffff;
-            color: #000;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 1.3rem;
-            margin: 20px 5px;
-            cursor: pointer;
-            border-radius: 0.3125rem;
-            position: fixed;
-            bottom: 1.25rem;
-            right: 1.25rem;
-            font-family: 'Stardos Stencil', cursive;
-        }
-        .button:hover {
-            background-color: #e0e0e0;
-        }
-        @keyframes slideDown {
-            from { top: -100%; }
-            to { top: 0; }
-        }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div> <!-- メニューアイコン -->
+    <div class="menu-icon">&#9776;</div>
     <h1>3D CASINO</h1>
-    <a href="mypage.html" class="mypage-link">マイページ</a>
 </header>
 
 <div class="menu">
-    <span class="menu-close" aria-label="Close Menu" onclick="toggleMenu()">&times;</span>
+    <span class="menu-close" aria-label="Close Menu">&times;</span>
     <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
 
-    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu" onclick="toggleSubMenu('game-submenu')">ゲーム</a>
+    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu">ゲーム</a>
     <div class="submenu" id="game-submenu">
         <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
         <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
@@ -257,7 +198,7 @@
 
     <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
 
-    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu" onclick="toggleSubMenu('promotion-submenu')">プロモーション</a>
+    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu">プロモーション</a>
     <div class="submenu" id="promotion-submenu">
         <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
         <a href="instagram.html" aria-label="Go to Instagram">Instagram</a>
@@ -268,14 +209,8 @@
 </div>
 
 <div class="container">
-    <h1>Special CASINO</h1>
-    <div class="description-link" onclick="toggleDescription()">スペシャルカジノとは</div>
-    <div class="description-text" id="special-casino-description">
-        3D CASINOスタッフ5人が行うミニゲームの勝者を予想するゲームです。3つのミニゲームが行われ、プレイヤーはそれぞれの勝者を予想します。
-    </div>
-
+    <h1>ID検索システム</h1>
     <input type="text" id="playerId" placeholder="プレイヤーIDを入力">
-    <p>プレイヤーIDから現在のスペシャルカジノの状況を確認できます。</p>
     <button onclick="searchPlayer()">検索</button>
 
     <div id="playerInfo"></div>
@@ -298,17 +233,104 @@
     </div>
 </div>
 
-<button class="button" onclick="location.href='index.html'">Back</button>
-
 <script>
-    function toggleMenu() {
-        const menu = document.querySelector('.menu');
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
+    const SHEET_NAME_PLAYER = 'Sheet1';
+    const SHEET_NAMES_BETS = ['Bets1', 'Bets2', 'Bets3'];
+
+    function searchPlayer() {
+        const playerId = document.getElementById('playerId').value.trim();
+        if (!playerId) {
+            alert('IDを入力してください。');
+            return;
+        }
+
+        getPlayerDetails(playerId).then(playerInfo => {
+            if (playerInfo) {
+                document.getElementById('playerInfo').innerHTML = `
+                    <h3>プレイヤー情報</h3>
+                    <p>名前: ${playerInfo.name || '未設定'}</p>
+                    <p>所持金: ${playerInfo.amount || '未設定'}</p>
+                `;
+                getBettingDetails(playerId);
+            } else {
+                document.getElementById('playerInfo').innerHTML = '該当するプレイヤーが見つかりませんでした。';
+                document.getElementById('betsInfo').innerHTML = '';
+            }
+        });
     }
 
-    function toggleSubMenu(id) {
-        const submenu = document.getElementById(id);
-        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+    async function getPlayerDetails(playerId) {
+        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME_PLAYER}`;
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const json = JSON.parse(text.substring(47).slice(0, -2));
+            const rows = json.table.rows;
+
+            for (const row of rows) {
+                if (row.c[0].v == playerId) {
+                    return {
+                        name: row.c[1]?.v || '未設定',
+                        amount: row.c[2]?.v || '未設定'
+                    };
+                }
+            }
+        } catch (error) {
+            console.error('データの取得中にエラーが発生しました:', error);
+        }
+        return null;
+    }
+
+    async function getBettingDetails(playerId) {
+        let betsInfoHtml = '<h3>ステータス</h3><table><thead><tr><th>賭け先</th><th>賭けた額</th><th>状態</th><th>勝敗</th><th>結果</th></tr></thead><tbody>';
+        let inputStatus = false;
+
+        for (const [index, sheetName] of SHEET_NAMES_BETS.entries()) {
+            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                const json = JSON.parse(text.substring(47).slice(0, -2));
+                const rows = json.table.rows;
+                let isEmpty = true;
+
+                rows.forEach(row => {
+                    if (row.c[0].v == playerId) {
+                        isEmpty = false;
+                        let highlightClass = '';
+                        if (sheetName === 'Bets1') highlightClass = 'highlight-bet1';
+                        else if (sheetName === 'Bets2') highlightClass = 'highlight-bet2';
+                        else if (sheetName === 'Bets3') highlightClass = 'highlight-bet3';
+
+                        betsInfoHtml += `
+                            <tr class="${highlightClass}">
+                                <td>${row.c[2]?.v || '未設定'}</td>
+                                <td>${row.c[3]?.v || '未設定'}</td>
+                                <td>${row.c[4]?.v || '未設定'}</td>
+                                <td>${row.c[6]?.v || '未設定'}</td>
+                                <td>${row.c[7]?.v || '未設定'}</td>
+                            </tr>
+                        `;
+                    }
+                });
+
+                if (isEmpty) {
+                    inputStatus = true;
+                    betsInfoHtml += `
+                        <tr>
+                            <td colspan="5"><button onclick="scrollToTab('${sheetName.toLowerCase()}')" style="width: 100%;">${sheetName} 未入力 - 入力する</button></td>
+                        </tr>
+                    `;
+                }
+
+            } catch (error) {
+                console.error('賭け情報の取得中にエラーが発生しました:', error);
+            }
+        }
+
+        betsInfoHtml += '</tbody></table>';
+        document.getElementById('betsInfo').innerHTML = betsInfoHtml;
     }
 
     function showTab(tabId) {
@@ -322,41 +344,26 @@
         document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
     }
 
-    function toggleDescription() {
-        const description = document.getElementById('special-casino-description');
-        description.style.display = description.style.display === 'block' ? 'none' : 'block';
+    function scrollToTab(tabId) {
+        showTab(tabId);
+        document.getElementById(tabId).scrollIntoView({ behavior: 'smooth' });
     }
 
-    async function searchPlayer() {
-        const playerId = document.getElementById('playerId').value;
-        const playerInfo = document.getElementById('playerInfo');
-        const betsInfo = document.getElementById('betsInfo');
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuIcon = document.querySelector('.menu-icon');
+        const menu = document.querySelector('.menu');
+        const menuClose = document.querySelector('.menu-close');
 
-        if (!playerId) {
-            playerInfo.innerHTML = '<p style="color: red;">プレイヤーIDを入力してください。</p>';
-            return;
-        }
+        menuIcon.addEventListener('click', function() {
+            menu.style.display = 'block';
+            menu.style.position = 'fixed';
+            menu.style.top = '0';
+        });
 
-        try {
-            // プレイヤー情報を取得するためのAPI呼び出し（仮）
-            const response = await fetch(`https://api.example.com/players/${playerId}`);
-            if (!response.ok) {
-                throw new Error('プレイヤー情報が見つかりません。');
-            }
-            const data = await response.json();
-
-            // プレイヤー情報の表示
-            playerInfo.innerHTML = `
-                <h3>プレイヤー情報</h3>
-                <p>名前: ${data.name}</p>
-                <p>ステータス: ${data.status}</p>
-            `;
-            
-        } catch (error) {
-            playerInfo.innerHTML = `<p style="color: red;">${error.message}</p>`;
-            betsInfo.innerHTML = '';
-        }
-    }
+        menuClose.addEventListener('click', function() {
+            menu.style.display = 'none';
+        });
+    });
 </script>
 
 </body>
