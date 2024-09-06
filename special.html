@@ -137,6 +137,24 @@
         button:hover {
             background-color: #0056b3;
         }
+        .styled-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            margin: 10px auto;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 16px;
+            width: 60%;
+            max-width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .styled-button:hover {
+            background-color: #444;
+            transform: scale(1.05);
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -172,16 +190,19 @@
             margin: 0 5px;
             cursor: pointer;
             border: none;
-            background-color: #555;
+            background-color: #333;
             border-radius: 5px;
             transition: background-color 0.3s, transform 0.3s;
-            font-size: 14px;
+            font-size: 16px;
             color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .tab-button.active {
-            background-color: #007BFF;
+            background-color: #555;
             transform: scale(1.05);
+        }
+        .tab-button:hover {
+            background-color: #444;
         }
         .tab-content {
             display: none;
@@ -195,14 +216,6 @@
         .input-status {
             margin-top: 20px;
             text-align: left;
-        }
-        .description-link {
-            color: gold;
-            cursor: pointer;
-            margin-top: 10px;
-            display: block;
-            font-size: 1.2rem;
-            font-family: 'Stardos Stencil', cursive;
         }
         .description-text {
             display: none;
@@ -271,7 +284,7 @@
 
 <div class="container">
     <h1 style="font-family: 'Stardos Stencil', cursive; color: silver;">Special CASINO</h1>
-    <button class="description-link" onclick="toggleDescription()">スペシャルカジノとは</button>
+    <button class="styled-button" onclick="toggleDescription()">スペシャルカジノとは</button>
     <div class="description-text" id="special-casino-description">
         3D CASINOスタッフ5人が行うミニゲームの勝者を予想するゲームです。3つのミニゲームが行われ、プレイヤーはそれぞれの勝者を予想します。
     </div>
@@ -284,9 +297,9 @@
     <div id="betsInfo"></div>
 
     <div class="tabs">
-        <button class="tab-button active" onclick="showTab('bets1')">Bet1</button>
-        <button class="tab-button" onclick="showTab('bets2')">Bet2</button>
-        <button class="tab-button" onclick="showTab('bets3')">Bet3</button>
+        <button class="tab-button styled-button active" onclick="showTab('bets1')">Bet1</button>
+        <button class="tab-button styled-button" onclick="showTab('bets2')">Bet2</button>
+        <button class="tab-button styled-button" onclick="showTab('bets3')">Bet3</button>
     </div>
 
     <div id="bets1" class="tab-content active">
