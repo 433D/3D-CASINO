@@ -400,9 +400,10 @@
 
                 if (isEmpty) {
                     inputStatus = true;
+                    const betNumber = index + 1; // 賭け回数 (1, 2, 3)
                     betsInfoHtml += `
                         <tr>
-                            <td colspan="5"><button onclick="scrollToTab('${sheetName.toLowerCase()}')" style="width: 100%;">${sheetName} 未入力 - 入力する</button></td>
+                            <td colspan="5"><button onclick="scrollToTab('bets${betNumber}')" style="width: 100%;">${betNumber}回目 未入力 - 入力する</button></td>
                         </tr>
                     `;
                 }
