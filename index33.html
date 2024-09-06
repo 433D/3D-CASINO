@@ -251,9 +251,9 @@
 <p id="loading-text">データを取得しています</p>
 
 <script>
-        const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
+    const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
     const SHEET_NAME = 'Sheet1';
-    const URL = https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME};
+    const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
     let allPlayers = [];
     let currentPage = 1;
@@ -265,11 +265,20 @@
             .then(data => {
                 const jsonData = JSON.parse(data.substr(47).slice(0, -2));
                 const rows = jsonData.table.rows;
-                allPlayers = rows.map(row => ({
-                    id: Number(row.c[0].v), // A列（ID）
-                    name: row.c[1].v, // B列（プレイヤー名）
-                    score: parseInt(row.c[2].v) // C列（スコア）
-                }));
+                // スコアが0でも名前がある場合は登録、スコアが有効（数値）の場合のみ登録
+                allPlayers = rows
+                    .filter(row => (row.c[2] && !isNaN(row.c[2].v)) || (row.c[1] && row.c[1].v)) // スコアが有効または名前が存在する場合
+                    .map(row => {
+                        const playerId = Number(row.c[0].v); // A列（ID）
+                        const playerName = row.c[1]?.v || `プレイヤー${playerId}`; // B列（プレイヤー名）が空なら「プレイヤーID」
+                        const playerScore = row.c[2] && !isNaN(row.c[2].v) ? parseInt(row.c[2].v) : 0; // C列（スコア）が有効なら値を使う、無効なら0
+
+                        return {
+                            id: playerId,
+                            name: playerName,
+                            score: playerScore
+                        };
+                    });
                 allPlayers.sort((a, b) => b.score - a.score);
                 showTop10();
                 displaySummary(allPlayers);
