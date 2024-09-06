@@ -3,174 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ランキング - 3D CASINO</title>
+    <title>Rankings - 3D CASINO</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Dancing+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&family=Dancing+Script&family=Stardos+Stencil&family=Gloock&display=swap" rel="stylesheet">
     <style>
-        :root {
-            font-size: 16px;
-        }
-        body {
-            font-family: 'Raleway', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #111;
-            color: #fff;
-            text-align: center;
-            font-size: 1rem;
-        }
-        header {
-            background-color: #333;
-            padding: 1rem;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-            font-family: 'Dancing Script', cursive;
-        }
-        .container {
-            padding: 1rem;
-            width: 95%;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .button {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            padding: 0.75rem;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 0.25rem;
-            transition: background-color 0.3s;
-            margin: 0.25rem;
-            width: calc(50% - 0.5rem);
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-        .button-group {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-        }
-        .button.active {
-            background-color: #007BFF;
-        }
-        .button.inactive {
-            background-color: #555;
-        }
-        .score-section {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 1rem;
-        }
-        .score-section input {
-            padding: 0.75rem;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            border: none;
-            border-radius: 0.25rem;
-        }
-        .score-section-buttons {
-            display: flex;
-            justify-content: space-between;
-        }
-        .score-section-buttons button {
-            width: calc(50% - 0.25rem);
-        }
-        table {
-            width: 100%;
-            margin: 1rem 0;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-        th, td {
-            border: 1px solid #444;
-            padding: 0.5rem;
-            text-align: left;
-        }
-        th {
-            background-color: #333;
-        }
-        .gold { background-color: rgba(255, 215, 0, 0.2); }
-        .silver { background-color: rgba(192, 192, 192, 0.2); }
-        .bronze { background-color: rgba(205, 127, 50, 0.2); }
-        .player-score {
-            background-color: #222;
-            padding: 1rem;
-            border-radius: 0.25rem;
-            margin-top: 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .player-score h3 {
-            margin-top: 0;
-            color: #fff;
-        }
-        .fade-in {
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        #loading-text {
-            opacity: 0;
-            animation: fadeInOut 2s infinite;
-        }
-        .loading #loading-text {
-            opacity: 1;
-        }
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
-        .pagination {
-            margin: 1rem 0;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .pagination button {
-            padding: 0.5rem;
-            font-size: 0.9rem;
-            margin: 0.25rem;
-            cursor: pointer;
-            border-radius: 0.25rem;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            transition: background-color 0.3s;
-        }
-        .pagination button:hover {
-            background-color: #0056b3;
-        }
-        .button.back-to-home {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            background-color: #ffffff;
-            color: #000;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1rem;
-            padding: 0.5rem 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
+        /* ここにCSSのスタイルを記述 */ 
+        /* 前回のコードのCSS部分をそのままコピーしてください */
     </style>
 </head>
 <body class="loading">
 
 <header>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
     <h1>3D CASINO</h1>
+    <a href="mypage.html" class="mypage-link">マイページ</a>
 </header>
 
+<div class="menu">
+    <span class="menu-close" aria-label="Close Menu" onclick="toggleMenu()">×</span>
+    <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
+
+    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu" onclick="toggleSubMenu('game-submenu')">ゲーム</a>
+    <div class="submenu" id="game-submenu">
+        <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
+        <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
+        <a href="card_games_rules.html" aria-label="Go to Card Games Rules">トランプゲーム</a>
+        <a href="dice_games_rules.html" aria-label="Go to Dice Games Rules">ダイスゲーム</a>
+    </div>
+
+    <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
+
+    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu" onclick="toggleSubMenu('promotion-submenu')">プロモーション</a>
+    <div class="submenu" id="promotion-submenu">
+        <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
+        <a href="instagram.html" aria-label="Go to Instagram">Instagram</a>
+    </div>
+
+    <a href="mypage.html" aria-label="Go to My Page">マイページ</a>
+    <a href="site.html" aria-label="About This Site">このサイトについて</a>
+</div>
+
 <div class="container">
-    <h2>ランキング</h2>
+    <h2 style="font-family: 'Stardos Stencil', cursive;">Rankings</h2> 
 
     <div class="button-group">
         <button class="button active" id="top10Button" onclick="showTop10()">TOP10</button>
@@ -246,13 +120,13 @@
     <div class="pagination" id="pagination"></div>
 </div>
 
-<button class="button back-to-home" onclick="location.href='index.html'">Back to Home</button>
+<button class="button back-to-home" onclick="location.href='index.html'">Back</button>
 
-<p id="loading-text">データを取得しています</p>
+<p id="loading-text" style="display: none;">データを取得しています</p>
 
 <script>
-        const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98';
-    const SHEET_NAME = 'Sheet1';
+    const SPREADSHEET_ID = '1Tq-nGqM-PhpX_tw92zQWhM88_0fNRDp8qdjjmz63a98'; // スプレッドシートIDを置き換えてください
+    const SHEET_NAME = 'Sheet1'; 
     const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
     let allPlayers = [];
@@ -260,33 +134,34 @@
     const itemsPerPage = 100;
 
     function fetchData() {
-    fetch(URL)
-        .then(response => response.text())
-        .then(data => {
-            const jsonData = JSON.parse(data.substr(47).slice(0, -2));
-            const rows = jsonData.table.rows;
-            // スコアが存在するデータのみをフィルタリング
-            allPlayers = rows
-                .filter(row => row.c[2] && row.c[2].v) // C列（スコア）が存在する場合にのみ処理
-                .map(row => {
-                    const playerId = Number(row.c[0].v); // A列（ID）
-                    const playerName = row.c[1]?.v || `プレイヤー${playerId}`; // B列（プレイヤー名）が空なら「プレイヤーID」
-                    const playerScore = parseInt(row.c[2].v); // C列（スコア）
+        fetch(URL)
+            .then(response => response.text())
+            .then(data => {
+                const jsonData = JSON.parse(data.substr(47).slice(0, -2));
+                const rows = jsonData.table.rows;
 
-                    return {
-                        id: playerId,
-                        name: playerName,
-                        score: playerScore
-                    };
-                });
-            allPlayers.sort((a, b) => b.score - a.score);
-            showTop10();
-            displaySummary(allPlayers);
-            createPagination();
-        })
-        .catch(error => console.error('Error fetching data:', error));
-}
+                allPlayers = rows
+                    .slice(2) 
+                    .filter(row => row.c[0]?.v !== '') // IDが入力されているプレイヤーをフィルタリング
+                    .map((row, index) => {
+                        const playerId = Number(row.c[0].v);
+                        const playerName = row.c[1]?.v || `プレイヤー${playerId}`; 
+                        const playerScore = parseInt(row.c[2].v);
 
+                        return {
+                            id: playerId,
+                            name: playerName,
+                            score: playerScore
+                        };
+                    })
+                    .sort((a, b) => b.score - a.score); 
+
+                showTop10();
+                displaySummary(allPlayers);
+                createPagination();
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
 
     function selectIdSearch() {
         document.getElementById('idSearchButton').classList.add('active');
