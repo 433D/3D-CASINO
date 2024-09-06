@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>3D CASINO - Dice Games Rules</title>
+    <link rel="icon" href="favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil&family=Gloock&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Gloock', serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            text-align: center;
+        }
+        header {
+            background-color: #333;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            height: 3rem;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-family: 'Stardos Stencil', cursive;
+            color: silver;
+            text-align: center;
+            flex-grow: 1;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .menu-icon {
+            font-size: 2.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: silver;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        .menu-icon:hover {
+            color: gold;
+        }
+        .mypage-link {
+            font-size: 0.9rem;
+            color: silver;
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 0.5rem;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .mypage-link:hover {
+            color: gold;
+        }
+        .menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            padding: 2rem;
+            box-sizing: border-box;
+            overflow-y: auto;
+            animation: slideDown 0.4s ease-in-out;
+        }
+        .menu a {
+            display: block;
+            color: silver;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            font-family: 'Stardos Stencil', cursive;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        .menu a:hover {
+            color: gold;
+        }
+        .submenu {
+            display: none;
+            margin-left: 20px;
+            transition: max-height 0.3s ease-in-out;
+        }
+        .submenu a {
+            font-size: 1.2rem;
+        }
+        .menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3rem;
+            color: silver;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .menu-close:hover {
+            color: gold;
+        }
+        .container {
+            max-width: 800px;
+            margin: 6rem auto;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .button {
+            background-color: #ffffff;
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.5rem;
+            margin: 20px 5px;
+            cursor: pointer;
+            border-radius: 0.3125rem;
+            position: fixed;
+            bottom: 1.25rem;
+            right: 1.25rem;
+            font-family: 'Stardos Stencil', cursive;
+        }
+        .button:hover {
+            background-color: #e0e0e0;
+        }
+        @keyframes slideDown {
+            from { top: -100%; }
+            to { top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+    <h1>3D CASINO</h1>
+    <a href="mypage.html" class="mypage-link">マイページ</a>
+</header>
+
+<div class="menu">
+    <span class="menu-close" aria-label="Close Menu" onclick="toggleMenu()">&times;</span>
+    <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
+    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu" onclick="toggleSubMenu('game-submenu')">ゲーム</a>
+    <div class="submenu" id="game-submenu">
+        <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
+        <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
+        <a href="card_games_rules.html" aria-label="Go to Card Games Rules">トランプゲーム</a>
+        <a href="dice_games_rules.html" aria-label="Go to Dice Games Rules">ダイスゲーム</a>
+    </div>
+    <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
+    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu" onclick="toggleSubMenu('promotion-submenu')">プロモーション</a>
+    <div class="submenu" id="promotion-submenu">
+        <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
+        <a href="instagram1.html" aria-label="Go to Instagram">Instagram</a>
+    </div>
+    <a href="mypage.html" aria-label="Go to My Page">マイページ</a>
+    <a href="site.html" aria-label="About This Site">このサイトについて</a>
+</div>
+
+<div class="container">
+    <p class="fade-in">当店ではチンチロリンが遊べます</p>
+    <button class="button" onclick="location.href='index.html'">Back to Home</button>
+
+    <div id="chinchirorin" class="content active">
+        <h2>チンチロリン</h2>
+        <p>チンチロリンは、3つのサイコロを振って出た目で親のプレイヤーと勝負する、シンプルなゲームです。</p>
+
+    <h3>ゲームの流れ</h3>
+    <ol>
+        <li>親を決めます。(最初はじゃんけんなどで)</li>
+        <li>賭ける額を決定します。</li>
+        <li>親以外のプレイヤーが順番にサイコロを振ります。</li>
+        <li>各プレイヤーは3つのサイコロを振り、出た目を全体に見せて公開します。</li>
+        <li>最後に親がサイコロを振ります。</li>
+        <li>親と他のプレイヤーのサイコロの出目を比較します。親と同じ強さだった場合は親の勝ちとします。</li>
+        <li>勝ち負けに応じて親はそれぞれのプレイヤーからÐもらうか、Ðを支払います。</li>
+    </ol>
+
+    <h3>役と強さ(上の役ほど強い)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>役</th>
+                <th>出目</th>
+                <th>説明</th>
+                <th>配当</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ピンゾロ</td>
+                <td>1-1-1</td>
+                <td>最強の役です。</td>
+                <td>5倍</td>
+            </tr>
+            <tr>
+                <td>ゾロ目(アラシ)</td>
+                <td>1以外の同じ目が3つ (例：2-2-2, 3-3-3など)</td>
+                <td>ピンゾロの次に強い役です。数字が大きくなるほど強くなります。</td>
+                <td>3倍</td>
+            </tr>
+            <tr>
+                <td>4-5-6(シゴロ)</td>
+                <td>4-5-6</td>
+                <td>ゾロ目の次に強い役です。</td>
+                <td>2倍</td>
+            </tr>
+
+            <tr></tr>
+                <td>1,2,3,4,5,6</td>
+                <td>2つの目が同じだったとき、2つと一致しない残り一つの目が強さになります(例：4-4-6なら強さは6になります,1-5-5なら強さは1になります。)</td>
+                <td>数字が大きいほうが強くなります。</td>
+                <td>1倍</td>
+            </tr>
+
+            <tr>
+                <td>役なし</td>
+                <td>それ以外の場合</td>
+                <td>出目の合計が大きい方が勝ちます。同点の場合は親の勝ちです。</td>
+                <td>1倍</td>
+            </tr>
+            <tr>
+                <td>1-2-3(ヒフミ)</td>
+                <td>1-2-3</td>
+                <td>最弱の役です。2倍支払う必要があります。</td>
+                <td>-2倍</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+        <p>詳しくは、当日スタッフにお尋ねください。</p>
+    </div>
+</div>
+
+
+<button class="button" onclick="location.href='index.html'">Back</button>
+
+<script>
+    function toggleMenu() {
+        const menu = document.querySelector('.menu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleSubMenu(subMenuId) {
+        const subMenu = document.getElementById(subMenuId);
+        subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
+    }
+</script>
+
+</body>
+</html>
