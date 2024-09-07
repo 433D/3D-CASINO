@@ -254,47 +254,18 @@
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
             overflow: hidden;
             border: 2px solid white; /* 白い枠線 */
-            width: 40vw; /* 画面の幅に対する相対サイズ */
-            max-width: 180px; /* 最大幅を設定 */
-            min-height: 15vw; /* 高さを相対サイズに設定 */
+            width: 30vw; /* 横幅を小さく設定 */
+            max-width: 140px; /* 最大幅を設定 */
+            min-height: 12vw; /* 高さを相対サイズに設定 */
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* 枠線が光っているように見せるシャドウ */
         }
         .animated-button:hover {
             transform: scale(1.05);
         }
-        /* モーダルスタイル */
-        .modal {
+        .tab-content {
             display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
+            margin-top: 1rem;
             width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-        .modal-content {
-            position: relative;
-            margin: 15% auto;
-            padding: 1rem;
-            width: 50%;
-            background: #333;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
-        }
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 30px;
-            font-weight: bold;
-            color: #fff;
-            cursor: pointer;
-        }
-        .close:hover {
-            color: #bbb;
         }
         /* レスポンシブデザインのためのメディアクエリ */
         @media (max-width: 768px) {
@@ -316,8 +287,8 @@
                 margin-right: 0.5rem;
             }
             .animated-button {
-                width: 45vw; /* スマホ向けに調整 */
-                min-height: 18vw; /* スマホ向けに高さ調整 */
+                width: 40vw; /* スマホ向けに調整 */
+                min-height: 14vw; /* スマホ向けに高さ調整 */
             }
         }
     </style>
@@ -369,17 +340,23 @@
 
             tabs.forEach(tab => {
                 tab.addEventListener('click', function () {
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tabContents.forEach(tc => tc.style.display = 'none');
+                    const target = document.querySelector(tab.dataset.target);
 
-                    document.querySelector(tab.dataset.target).style.display = 'block';
-                    tab.classList.add('active');
+                    // 他のタブが開いている場合は閉じる
+                    tabContents.forEach(content => {
+                        if (content !== target) {
+                            content.style.display = 'none';
+                        }
+                    });
+
+                    // タブの表示/非表示を切り替える
+                    if (target.style.display === 'block') {
+                        target.style.display = 'none';
+                    } else {
+                        target.style.display = 'block';
+                    }
                 });
             });
-
-            // 初期設定: 最初のタブをアクティブに
-            tabs[0].classList.add('active');
-            tabContents[0].style.display = 'block';
         });
     </script>
 </head>
@@ -444,11 +421,11 @@
     </div>
 
     <!-- タブコンテンツ -->
-    <div id="bank-tab" class="tab-content" style="display: none;">
+    <div id="bank-tab" class="tab-content">
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScFvOpmpvvFYrMn9akwYQiIrcdAhsG0nY9qzAUPmnl00eISSA/viewform?embedded=true" width="100%" height="575" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
     </div>
 
-    <div id="namechange-tab" class="tab-content" style="display: none;">
+    <div id="namechange-tab" class="tab-content">
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScFvOpmpvvFYrMn9akwYQiIrcdAhsG0nY9qzAUPmnl00eISSA/viewform?embedded=true" width="100%" height="575" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
     </div>
 
@@ -486,5 +463,18 @@
     </section>
 
     <section id="promotions" class="game-section">
-        <h2 class="section-title">Promotions<span
+        <h2 class="section-title">Promotions<span class="caption">— Don't miss out</span></h2>
+        <div class="game" onclick="location.href='youtube.html'">
+            <img src="youtube.png" alt="Promotions Video">
+            <h3>プロモーションビデオ</h3>
+            <p>最高に面白いプロモーションビデオです。ご覧ください。</p>
+        </div>
+        <div class="game" onclick="location.href='instagram1.html'">
+            <h3>Instagram</h3>
+            <p>Instagramで最新情報をゲットしよう！</p>
+        </div>
+    </section>    
+</div>
 
+</body>
+</html>
