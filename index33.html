@@ -264,12 +264,19 @@
         }
         .tab-content {
             display: none;
-            margin-top: 1rem;
-            width: 100%;
+            margin: 0 auto;
+            width: 80%;
+            max-width: 700px;
             background-color: #222;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
             padding: 1rem;
+            text-align: center;
+        }
+        .tab-content iframe {
+            width: 100%;
+            height: calc(100vh - 200px); /* フォーム全体が見えるように高さを調整 */
+            border: none;
         }
         /* レスポンシブデザインのためのメディアクエリ */
         @media (max-width: 768px) {
@@ -293,6 +300,9 @@
             .animated-button {
                 width: 40vw; /* スマホ向けに調整 */
                 min-height: 18vw; /* スマホ向けに高さ調整 */
+            }
+            .tab-content {
+                width: 95%;
             }
         }
     </style>
@@ -426,11 +436,11 @@
 
     <!-- タブコンテンツ -->
     <div id="bank-tab" class="tab-content">
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfkKt7TeZXUJDNtfkfUI5IohyEDq0qMrtlNh4ZivrB-9LCgNQ/viewform?embedded=true" width="100%" height="550" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfkKt7TeZXUJDNtfkfUI5IohyEDq0qMrtlNh4ZivrB-9LCgNQ/viewform?embedded=true" frameborder="0">読み込んでいます…</iframe>
     </div>
 
     <div id="namechange-tab" class="tab-content">
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScFvOpmpvvFYrMn9akwYQiIrcdAhsG0nY9qzAUPmnl00eISSA/viewform?embedded=true" width="100%" height="575" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScFvOpmpvvFYrMn9akwYQiIrcdAhsG0nY9qzAUPmnl00eISSA/viewform?embedded=true" frameborder="0">読み込んでいます…</iframe>
     </div>
 
     <section id="games" class="game-section">
