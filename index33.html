@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D CASINO</title>
-    <meta name="description" content="3D CASINO - 楽しいゲームやプロモーションでカジノ体験を楽しもう">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil&family=Gloock&display=swap" rel="stylesheet">
     <style>
@@ -25,26 +24,46 @@
             width: 100%;
             z-index: 1000;
             display: flex;
-            align-items: center;
+            align-items: center; /* 中央揃え */
             justify-content: space-between;
-            height: 3rem;
+            cursor: pointer;
+            height: 3rem; /* ヘッダーの高さを固定 */
         }
         header h1 {
             margin: 0;
-            font-size: 2.5rem;
+            font-size: 2.5rem; /* フォントサイズを大きく設定 */
             font-family: 'Stardos Stencil', cursive;
             color: silver;
             text-align: center;
             flex-grow: 1;
+            line-height: 1; /* 行の高さを調整して枠内に収める */
+            display: flex;
+            align-items: center; /* 中央揃え */
+            justify-content: center;
         }
         .menu-icon {
-            font-size: 2.5rem;
+            font-size: 2.5rem; /* サイズを大きく設定 */
             cursor: pointer;
             padding: 0.5rem;
             color: silver;
             transition: color 0.3s;
+            display: flex;
+            align-items: center; /* 中央揃え */
         }
         .menu-icon:hover {
+            color: gold;
+        }
+        .mypage-link {
+            font-size: 0.9rem;
+            color: silver;
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 0.5rem;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center; /* 中央揃え */
+        }
+        .mypage-link:hover {
             color: gold;
         }
         .menu {
@@ -83,10 +102,10 @@
         }
         .menu-close {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 3.5rem;
-            color: red;
+            top: 20px;
+            right: 20px;
+            font-size: 3rem; /* サイズを大きく設定 */
+            color: silver;
             cursor: pointer;
             transition: color 0.3s;
         }
@@ -105,6 +124,16 @@
             transform: translateY(20px);
             animation: fadeInSlideUp 1s ease-out forwards;
         }
+        .introduction .welcome-to {
+            font-size: 2.5rem;
+            color: #aaa;
+            margin: 0;
+        }
+        .introduction .casino-name {
+            font-size: 3.5rem;
+            color: #fff;
+            margin: 0;
+        }
         .jump-links {
             margin-top: 1rem;
             display: flex;
@@ -118,6 +147,54 @@
             font-size: 1.2rem;
             transition: color 0.3s;
         }
+        .button-grid {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .animated-button {
+            position: relative;
+            background-color: #222;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+            flex: 1;
+            max-width: 200px;
+            color: #fff;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .animated-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, transparent 20%, rgba(255, 255, 255, 0.3) 20%, rgba(255, 255, 255, 0.3) 21%, transparent 21%, transparent);
+            background-size: 10px 10px;
+            animation: star-orbit 4s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes star-orbit {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animated-button:hover {
+            transform: scale(1.05);
+        }
+
         .jump-links a:hover {
             color: gold;
         }
@@ -126,13 +203,16 @@
             color: gold;
             font-size: 2.5rem;
             margin: 1rem 0;
+            transition: opacity 2s ease-in-out, transform 2s ease-in-out;
             text-align: left;
             padding-left: 1rem;
+            display: inline-block;
         }
         .caption {
             font-family: 'Gloock', serif;
             color: #bbb;
             font-size: 1.5rem;
+            display: inline-block;
             margin-left: 1rem;
         }
         @keyframes fadeInSlideUp {
@@ -164,6 +244,8 @@
             flex: 1;
             min-width: 90%;
             max-width: 90%;
+            height: auto;
+            color: #fff;
             cursor: pointer;
             transition: transform 0.3s;
         }
@@ -191,11 +273,16 @@
             padding: 1.25rem;
             font-size: 1.5rem;
             cursor: pointer;
+            flex: 1;
+            min-width: 90%;
+            max-width: 90%;
+            height: auto;
             transition: transform 0.3s;
         }
         .ranking-button:hover {
             transform: scale(1.05);
         }
+        /* レスポンシブデザインのためのメディアクエリ */
         @media (max-width: 768px) {
             header {
                 padding: 0.5rem;
@@ -210,9 +297,17 @@
             .jump-links a {
                 font-size: 1rem;
             }
+            .mypage-link {
+                font-size: 0.8rem;
+                margin-right: 0.5rem;
+            }
         }
     </style>
     <script>
+        window.onload = function() {
+            window.scrollTo(0, 0);
+        };
+
         document.addEventListener('DOMContentLoaded', function () {
             const menuIcon = document.querySelector('.menu-icon');
             const menu = document.querySelector('.menu');
@@ -222,6 +317,16 @@
             const gameToggle = document.getElementById('game-toggle');
             const gameSubMenu = document.getElementById('game-submenu');
 
+            // スムーズスクロール
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
             menuIcon.addEventListener('click', function() {
                 menu.style.display = 'block';
                 menu.style.position = 'fixed';
@@ -232,16 +337,12 @@
                 menu.style.display = 'none';
             });
 
-            gameToggle.addEventListener('click', function() {
-                const expanded = gameToggle.getAttribute('aria-expanded') === 'true';
-                gameToggle.setAttribute('aria-expanded', !expanded);
-                gameSubMenu.style.display = expanded ? 'none' : 'block';
+            promotionToggle.addEventListener('click', function() {
+                promotionSubMenu.style.display = promotionSubMenu.style.display === 'block' ? 'none' : 'block';
             });
 
-            promotionToggle.addEventListener('click', function() {
-                const expanded = promotionToggle.getAttribute('aria-expanded') === 'true';
-                promotionToggle.setAttribute('aria-expanded', !expanded);
-                promotionSubMenu.style.display = expanded ? 'none' : 'block';
+            gameToggle.addEventListener('click', function() {
+                gameSubMenu.style.display = gameSubMenu.style.display === 'block' ? 'none' : 'block';
             });
         });
     </script>
@@ -249,7 +350,7 @@
 <body>
 
 <header>
-    <div class="menu-icon" aria-label="Toggle Menu">&#9776;</div>
+    <div class="menu-icon">&#9776;</div> <!-- 3本線のメニューアイコン -->
     <h1>3D CASINO</h1>
     <a href="mypage.html" class="mypage-link">マイページ</a>
 </header>
@@ -258,7 +359,7 @@
     <span class="menu-close" aria-label="Close Menu">&times;</span>
     <a href="index.html" aria-label="Go to 3D Casino Home">3D CASINO</a>
 
-    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu" aria-expanded="false">ゲーム</a>
+    <a href="javascript:void(0);" id="game-toggle" aria-label="Toggle Game Menu">ゲーム</a>
     <div class="submenu" id="game-submenu">
         <a href="special.html" aria-label="Go to Special Casino">スペシャルカジノ</a>
         <a href="roulette_rules.html" aria-label="Go to Roulette Rules">ルーレット</a>
@@ -268,7 +369,7 @@
 
     <a href="ranking.html" aria-label="Go to Rankings">ランキング</a>
 
-    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu" aria-expanded="false">プロモーション</a>
+    <a href="javascript:void(0);" id="promotion-toggle" aria-label="Toggle Promotion Menu">プロモーション</a>
     <div class="submenu" id="promotion-submenu">
         <a href="youtube.html" aria-label="Go to YouTube">YouTube</a>
         <a href="instagram1.html" aria-label="Go to Instagram">Instagram</a>
@@ -289,26 +390,40 @@
         <a href="#rankings">Rankings</a>
         <a href="#promotions">Promotions</a>
     </div>
-
+    <div class="button-grid" style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+        <div class="animated-button" onclick="location.href='bank.html'">
+            <h3>銀行</h3>
+        </div>
+        <div class="animated-button" onclick="location.href='special_casino.html'">
+            <h3>スペシャルカジノ</h3>
+        </div>
+        <div class="animated-button" onclick="location.href='ranking.html'">
+            <h3>ランキング</h3>
+        </div>
+        <div class="animated-button" onclick="location.href='change_name.html'">
+            <h3>名前変更</h3>
+        </div>
+    </div>
+    
     <section id="games" class="game-section">
         <h2 class="section-title">Games<span class="caption">— Explore the excitement</span></h2>
         <div class="game" onclick="location.href='special.html'">
-            <img src="special.png" alt="Special Casino" width="600" height="400" loading="lazy">
+            <img src="special.png" alt="Special Casino">
             <h3>スペシャルカジノ</h3>
             <p>特別なカジノ体験をお楽しみください。</p>
         </div>
         <div class="game" onclick="location.href='roulette_rules.html'">
-            <img src="roulette.png" alt="Roulette" width="600" height="400" loading="lazy">
+            <img src="roulette.png" alt="Roulette">
             <h3>ルーレット</h3>
             <p>スリリングなルーレットゲームをお楽しみください。</p>
         </div>
         <div class="game" onclick="location.href='card_games_rules.html'">
-            <img src="cardgame.png" alt="Card Games" width="600" height="400" loading="lazy">
+            <img src="cardgame.png" alt="Card Games">
             <h3>トランプゲーム</h3>
             <p>ポーカーやブラックジャックなど、戦略と運を試すトランプゲームで勝利を目指しましょう。</p>
         </div>
         <div class="game" onclick="location.href='dice_games_rules.html'">
-            <img src="dice.png" alt="Dice Games" width="600" height="400" loading="lazy">
+            <img src="dice.png" alt="Dice Games">
             <h3>ダイスゲーム</h3>
             <p>シンプルで楽しいダイスゲームに挑戦しましょう。</p>
         </div>
@@ -317,7 +432,7 @@
     <section id="rankings" class="game-section">
         <h2 class="section-title">Rankings<span class="caption">— See where you stand</span></h2>
         <div class="game" onclick="location.href='ranking.html'">
-            <img src="king.png" alt="Rankings" width="600" height="400" loading="lazy">
+            <img src="king.png" alt="Rankings">
             <h3>ランキング</h3>
             <p>ランキングを確認しましょう。</p>
         </div>
@@ -326,7 +441,7 @@
     <section id="promotions" class="game-section">
         <h2 class="section-title">Promotions<span class="caption">— Don't miss out</span></h2>
         <div class="game" onclick="location.href='youtube.html'">
-            <img src="youtube.png" alt="Promotions Video" width="600" height="400" loading="lazy">
+            <img src="youtube.png" alt="Promotions Video">
             <h3>プロモーションビデオ</h3>
             <p>最高に面白いプロモーションビデオです。ご覧ください。</p>
         </div>
