@@ -249,7 +249,7 @@
             border-radius: 8px;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.3s, background-color 0.3s, border 0.3s;
             color: #fff;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
             overflow: hidden;
@@ -261,6 +261,10 @@
         }
         .animated-button:hover {
             transform: scale(1.05);
+        }
+        .animated-button.active {
+            background-color: #444;
+            border-color: gold;
         }
         .tab-content {
             display: none;
@@ -366,9 +370,18 @@
                     // タブの表示/非表示を切り替える
                     if (target.style.display === 'block') {
                         target.style.display = 'none';
+                        tab.classList.remove('active');
                     } else {
                         target.style.display = 'block';
+                        tab.classList.add('active');
                     }
+
+                    // 他のタブのアクティブクラスを削除
+                    tabs.forEach(t => {
+                        if (t !== tab) {
+                            t.classList.remove('active');
+                        }
+                    });
                 });
             });
         });
