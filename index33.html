@@ -149,6 +149,7 @@
         }
         .button-grid {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
             gap: 1rem;
             margin-top: 1.5rem;
@@ -162,8 +163,8 @@
             text-align: center;
             cursor: pointer;
             transition: transform 0.3s;
-            flex: 1;
-            max-width: 200px;
+            flex: 1 1 calc(50% - 1rem);
+            max-width: calc(50% - 1rem);
             color: #fff;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -172,17 +173,18 @@
         .animated-button::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, transparent 20%, rgba(255, 255, 255, 0.3) 20%, rgba(255, 255, 255, 0.3) 21%, transparent 21%, transparent);
-            background-size: 10px 10px;
-            animation: star-orbit 4s linear infinite;
-            opacity: 0.5;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            border-top: 2px solid white;
+            border-right: 2px solid white;
+            animation: rotate-stars 2s linear infinite;
         }
 
-        @keyframes star-orbit {
+        @keyframes rotate-stars {
             0% {
                 transform: rotate(0deg);
             }
@@ -194,6 +196,45 @@
         .animated-button:hover {
             transform: scale(1.05);
         }
+
+        /* モーダルスタイル */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            position: relative;
+            margin: 15% auto;
+            padding: 1rem;
+            width: 50%;
+            background: #333;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #bbb;
+        }
+
 
         .jump-links a:hover {
             color: gold;
@@ -345,6 +386,22 @@
                 gameSubMenu.style.display = gameSubMenu.style.display === 'block' ? 'none' : 'block';
             });
         });
+        function openBank() {
+            document.getElementById('bank-modal').style.display = 'block';
+        }
+
+        function closeBank() {
+            document.getElementById('bank-modal').style.display = 'none';
+        }
+
+        function openNameChange() {
+            document.getElementById('namechange-modal').style.display = 'block';
+        }
+
+        function closeNameChange() {
+            document.getElementById('namechange-modal').style.display = 'none';
+        }
+
     </script>
 </head>
 <body>
@@ -389,21 +446,36 @@
         <a href="#games">Games</a>
         <a href="#rankings">Rankings</a>
         <a href="#promotions">Promotions</a>
-    </div>
-    <div class="button-grid" style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
-        <div class="animated-button" onclick="location.href='bank.html'">
-            <h3>銀行</h3>
+        <div class="button-grid" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+            <div class="animated-button" onclick="openBank()">
+                <h3>銀行</h3>
+            </div>
+            <div class="animated-button" onclick="openNameChange()">
+                <h3>名前変更</h3>
+            </div>
+            <div class="animated-button" onclick="location.href='special.html'">
+                <h3>スペシャルカジノ</h3>
+            </div>
+            <div class="animated-button" onclick="location.href='ranking.html'">
+                <h3>ランキング</h3>
+            </div>
         </div>
-        <div class="animated-button" onclick="location.href='special_casino.html'">
-            <h3>スペシャルカジノ</h3>
+        
+        <!-- 埋め込み用のモーダルを追加 -->
+        <div id="bank-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeBank()">&times;</span>
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScFvOpmpvvFYrMn9akwYQiIrcdAhsG0nY9qzAUPmnl00eISSA/viewform?embedded=true" width="640" height="575" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+            </div>
         </div>
-        <div class="animated-button" onclick="location.href='ranking.html'">
-            <h3>ランキング</h3>
+        
+        <div id="namechange-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeNameChange()">&times;</span>
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScFvOpmpvvFYrMn9akwYQiIrcdAhsG0nY9qzAUPmnl00eISSA/viewform?embedded=true" width="640" height="575" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+            </div>
         </div>
-        <div class="animated-button" onclick="location.href='change_name.html'">
-            <h3>名前変更</h3>
-        </div>
-    </div>
+        
     
     <section id="games" class="game-section">
         <h2 class="section-title">Games<span class="caption">— Explore the excitement</span></h2>
