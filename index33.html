@@ -245,7 +245,7 @@
         .animated-button {
             position: relative;
             background-color: #222;
-            padding: 1rem;
+            padding: 2vw;
             border-radius: 8px;
             text-align: center;
             cursor: pointer;
@@ -254,9 +254,10 @@
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
             overflow: hidden;
             border: 2px solid white; /* 白い枠線 */
-            width: 100%;
-            max-width: 200px; /* ボタンの最大幅を統一 */
-            min-height: 100px; /* ボタンの最小高さを統一 */
+            width: 40vw; /* 画面の幅に対する相対サイズ */
+            max-width: 180px; /* 最大幅を設定 */
+            min-height: 15vw; /* 高さを相対サイズに設定 */
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* 枠線が光っているように見せるシャドウ */
         }
         .animated-button:hover {
             transform: scale(1.05);
@@ -314,6 +315,10 @@
                 font-size: 0.8rem;
                 margin-right: 0.5rem;
             }
+            .animated-button {
+                width: 45vw; /* スマホ向けに調整 */
+                min-height: 18vw; /* スマホ向けに高さ調整 */
+            }
         }
     </style>
     <script>
@@ -357,23 +362,25 @@
             gameToggle.addEventListener('click', function() {
                 gameSubMenu.style.display = gameSubMenu.style.display === 'block' ? 'none' : 'block';
             });
+
+            // タブ機能の実装
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(tc => tc.style.display = 'none');
+
+                    document.querySelector(tab.dataset.target).style.display = 'block';
+                    tab.classList.add('active');
+                });
+            });
+
+            // 初期設定: 最初のタブをアクティブに
+            tabs[0].classList.add('active');
+            tabContents[0].style.display = 'block';
         });
-
-        function openBank() {
-            document.getElementById('bank-modal').style.display = 'block';
-        }
-
-        function closeBank() {
-            document.getElementById('bank-modal').style.display = 'none';
-        }
-
-        function openNameChange() {
-            document.getElementById('namechange-modal').style.display = 'block';
-        }
-
-        function closeNameChange() {
-            document.getElementById('namechange-modal').style.display = 'none';
-        }
     </script>
 </head>
 <body>
@@ -422,10 +429,10 @@
 
     <!-- 新しく追加するボタン -->
     <div class="button-grid">
-        <div class="animated-button" onclick="openBank()">
+        <div class="animated-button tab" data-target="#bank-tab">
             <h3>銀行</h3>
         </div>
-        <div class="animated-button" onclick="openNameChange()">
+        <div class="animated-button tab" data-target="#namechange-tab">
             <h3>名前変更</h3>
         </div>
         <div class="animated-button" onclick="location.href='special.html'">
@@ -436,19 +443,13 @@
         </div>
     </div>
 
-    <!-- モーダルを追加 -->
-    <div id="bank-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeBank()">&times;</span>
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScFvOpmpvvFYrMn9akwYQiIrcdAhsG0nY9qzAUPmnl00eISSA/viewform?embedded=true" width="640" height="575" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
-        </div>
+    <!-- タブコンテンツ -->
+    <div id="bank-tab" class="tab-content" style="display: none;">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScFvOpmpvvFYrMn9akwYQiIrcdAhsG0nY9qzAUPmnl00eISSA/viewform?embedded=true" width="100%" height="575" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
     </div>
 
-    <div id="namechange-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeNameChange()">&times;</span>
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScFvOpmpvvFYrMn9akwYQiIrcdAhsG0nY9qzAUPmnl00eISSA/viewform?embedded=true" width="640" height="575" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
-        </div>
+    <div id="namechange-tab" class="tab-content" style="display: none;">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScFvOpmpvvFYrMn9akwYQiIrcdAhsG0nY9qzAUPmnl00eISSA/viewform?embedded=true" width="100%" height="575" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
     </div>
 
     <section id="games" class="game-section">
@@ -485,18 +486,5 @@
     </section>
 
     <section id="promotions" class="game-section">
-        <h2 class="section-title">Promotions<span class="caption">— Don't miss out</span></h2>
-        <div class="game" onclick="location.href='youtube.html'">
-            <img src="youtube.png" alt="Promotions Video">
-            <h3>プロモーションビデオ</h3>
-            <p>最高に面白いプロモーションビデオです。ご覧ください。</p>
-        </div>
-        <div class="game" onclick="location.href='instagram1.html'">
-            <h3>Instagram</h3>
-            <p>Instagramで最新情報をゲットしよう！</p>
-        </div>
-    </section>    
-</div>
+        <h2 class="section-title">Promotions<span
 
-</body>
-</html>
