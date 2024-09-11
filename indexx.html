@@ -142,6 +142,19 @@
             transform: translateY(20px);
             animation: fadeInSlideUp 1s ease-out forwards;
         }
+        
+
+        .introduction .award-message {
+            font-size: 2rem;
+            color: #aaa;
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlideUp 1s ease-out forwards;
+            animation-delay: 2s; /* 表示を2秒遅らせる */
+            line-height: 1.5; /* 改行を調整 */
+            white-space: nowrap; /* 改行なし */
+        }
         .jump-links {
             margin-top: 1rem;
             display: flex;
@@ -431,7 +444,10 @@
     <section class="introduction">
         <h2 class="welcome-to">Welcome to</h2>
         <h2 class="casino-name">3D CASINO</h2>
-        <h2 class="thank-you-message">ご来場ありがとうございました。</h2>
+        <!-- 追加した部分 -->
+        <h2 class="award-message">
+            【桜樹賞】<br>ご来場ありがとうございました。
+        </h2>
     </section>
 
     <div class="jump-links">
