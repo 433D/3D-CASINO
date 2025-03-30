@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ランダムナンバー生成</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .number {
+      font-size: 48px;
+      margin: 20px 0;
+      color: #333;
+    }
+    button {
+      background: #3498db;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ランダムナンバー</h1>
+    <div class="number" id="randomNumber">?</div>
+    <button onclick="generateRandomNumber()">生成する</button>
+  </div>
+
+  <script>
+    function generateRandomNumber() {
+      // 0〜100までの乱数を生成
+      const randomNum = Math.floor(Math.random() * 101);
+      // 生成した乱数を表示
+      document.getElementById("randomNumber").innerText = randomNum;
+      // localStorageに記憶
+      localStorage.setItem("itoRandomNumber", randomNum);
+    }
+
+    // ページ読み込み時にlocalStorageから値を取得して表示
+    window.onload = function() {
+      const savedNumber = localStorage.getItem("itoRandomNumber");
+      if (savedNumber !== null) {
+        document.getElementById("randomNumber").innerText = savedNumber;
+      }
+    }
+  </script>
+</body>
+</html>
