@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enchanted Countdown to April 1st, 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap');
+        
+        :root {
+            --primary-color: #0f1e38;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #0a0f1d;
+            --cherry-color: #FF85A2;
+            --sky-color: #87CEEB;
+            --sky-gradient: linear-gradient(135deg, #87CEEB, #E0F7FA);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #111827, #0f1e38);
+            transition: background 2s ease;
+        }
+        
+        body.completed {
+            background: var(--sky-gradient);
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 4s infinite ease-in-out;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        .shooting-star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1) 50%, rgba(255,255,255,0));
+            box-shadow: 0 0 10px #fff, 0 0 20px #fff;
+            animation: shoot 4s linear forwards;
+            opacity: 0;
+            z-index: 1;
+        }
+        
+        @keyframes shoot {
+            0% {
+                transform: translateX(0) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(500px) translateY(300px);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            max-width: 900px;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+            background: rgba(15, 30, 56, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        body.completed .container {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .time-segment {
+            min-width: 140px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.8rem 1.2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .time-segment:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+        }
+        
+        .time-segment::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #e74c3c, #f39c12);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        
+        .time-segment:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .time-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .time-label {
+            font-size: 0.9rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.8;
+            color: #e6e6e6;
+        }
+        
+        .message {
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            font-weight: 300;
+            opacity: 0.9;
+            letter-spacing: 1px;
+            line-height: 1.6;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cherry-blossom {
+            position: absolute;
+            background-color: transparent;
+            width: 15px;
+            height: 15px;
+            border-radius: 15px 15px 0 15px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 2;
+            transform-origin: center;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            display: none;
+            animation: fall linear forwards;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-5vh) rotate(0deg);
+                opacity: 1;
+            }
+            25% {
+                transform: translateY(25vh) translateX(10vw) rotate(45deg);
+            }
+            50% {
+                transform: translateY(50vh) translateX(5vw) rotate(90deg);
+            }
+            75% {
+                transform: translateY(75vh) translateX(10vw) rotate(135deg);
+            }
+            100% {
+                transform: translateY(105vh) translateX(5vw) rotate(180deg);
+                opacity: 0;
+            }
+        }
+        
+        .copyright {
+            position: fixed;
+            bottom: 20px;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .countdown {
+                gap: 1rem;
+            }
+            
+            .time-segment {
+                min-width: 110px;
+                padding: 1.2rem 1rem;
+            }
+            
+            .time-value {
+                font-size: 2.5rem;
+            }
+            
+            .time-label {
+                font-size: 0.7rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .countdown {
+                gap: 0.8rem;
+            }
+            
+            .time-segment {
+                min-width: 80px;
+                padding: 1rem 0.7rem;
+            }
+            
+            .time-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="stars" class="stars"></div>
+    <div id="cherry-blossoms" class="particles"></div>
+    
+    <div class="container">
+        <h1>Countdown to April 1st</h1>
+        
+        <div class="countdown">
+            <div class="time-segment">
+                <div class="time-value" id="days">00</div>
+                <div class="time-label">Days</div>
+            </div>
+            
+            <div class="time-segment">
+                <div class="time-value" id="hours">00</div>
+                <div class="time-label">Hours</div>
+            </div>
+            
+            <div class="time-segment">
+                <div class="time-value" id="minutes">00</div>
+                <div class="time-label">Minutes</div>
+            </div>
+            
+            <div class="time-segment">
+                <div class="time-value" id="seconds">00</div>
+                <div class="time-label">Seconds</div>
+            </div>
+        </div>
+        
+        <!-- メッセージ部分（不要のため削除） -->
+    </div>
+    
+    <div class="copyright">
+        &copy; 2025 Enchanted Countdown
+    </div>
+    
+    <script>
+        // 星空を生成
+        function createStarryNight() {
+            const starsContainer = document.getElementById('stars');
+            starsContainer.innerHTML = '';
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // ランダムな位置と大きさ
+                const size = Math.random() * 2 + 1;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const delay = Math.random() * 4;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${posX}px`;
+                star.style.top = `${posY}px`;
+                star.style.animationDelay = `${delay}s`;
+                
+                starsContainer.appendChild(star);
+            }
+            
+            // 流れ星を定期的に生成
+            setInterval(createShootingStar, 2000);
+        }
+        
+        // 流れ星を生成
+        function createShootingStar() {
+            if (document.body.classList.contains('completed')) return;
+            
+            const starsContainer = document.getElementById('stars');
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            
+            // ランダムな位置と角度
+            const posX = Math.random() * window.innerWidth * 0.3;
+            const posY = Math.random() * window.innerHeight * 0.3;
+            const angle = Math.random() * 20 + 20; // 20〜40度の角度
+            
+            shootingStar.style.left = `${posX}px`;
+            shootingStar.style.top = `${posY}px`;
+            shootingStar.style.transform = `rotate(${angle}deg)`;
+            
+            starsContainer.appendChild(shootingStar);
+            
+            // アニメーション終了後に要素を削除
+            setTimeout(() => {
+                shootingStar.remove();
+            }, 4000);
+        }
+        
+        // 桜の花びらを生成
+        function createCherryBlossoms() {
+            const cherryContainer = document.getElementById('cherry-blossoms');
+            cherryContainer.innerHTML = '';
+            const blossomCount = 100;
+            
+            // 桜の花びらの形とグラデーションのバリエーション
+            const petalShapes = [
+                "15px 15px 0 15px",
+                "15px 5px 15px 15px",
+                "15px 15px 15px 5px",
+                "12px 12px 4px 12px"
+            ];
+            
+            const petalColors = [
+                "linear-gradient(45deg, #FFCAD4, #FF85A2)",
+                "linear-gradient(45deg, #FFDDE1, #FF9EB7)",
+                "linear-gradient(45deg, #FFF0F3, #FFABB6)",
+                "linear-gradient(45deg, #FFE6EA, #FF779A)"
+            ];
+            
+            for (let i = 0; i < blossomCount; i++) {
+                const blossom = document.createElement('div');
+                blossom.classList.add('cherry-blossom');
+                
+                const size = Math.random() * 8 + 10;
+                const posX = Math.random() * window.innerWidth;
+                const delay = Math.random() * 8;
+                const duration = Math.random() * 7 + 8;
+                const opacity = Math.random() * 0.5 + 0.5;
+                const rotation = Math.random() * 360;
+                const swayAmount = Math.random() * 30 - 15;
+                
+                const shapeIndex = Math.floor(Math.random() * petalShapes.length);
+                const colorIndex = Math.floor(Math.random() * petalColors.length);
+                
+                blossom.style.width = `${size}px`;
+                blossom.style.height = `${size}px`;
+                blossom.style.left = `${posX}px`;
+                blossom.style.top = '-20px';
+                blossom.style.opacity = opacity;
+                blossom.style.animationDelay = `${delay}s`;
+                blossom.style.animationDuration = `${duration}s`;
+                blossom.style.borderRadius = petalShapes[shapeIndex];
+                blossom.style.background = petalColors[colorIndex];
+                blossom.style.boxShadow = "0 0 5px rgba(255, 133, 162, 0.3)";
+                blossom.style.transform = `rotate(${rotation}deg)`;
+                blossom.style.display = 'block';
+                
+                const keyframes = `
+                @keyframes fall-${i} {
+                    0% {
+                        transform: translateY(-5vh) translateX(0) rotate(${rotation}deg);
+                        opacity: ${opacity};
+                    }
+                    25% {
+                        transform: translateY(25vh) translateX(${swayAmount * 0.5}vw) rotate(${rotation + 90}deg);
+                    }
+                    50% {
+                        transform: translateY(50vh) translateX(${swayAmount}vw) rotate(${rotation + 180}deg);
+                    }
+                    75% {
+                        transform: translateY(75vh) translateX(${swayAmount * 0.3}vw) rotate(${rotation + 270}deg);
+                    }
+                    100% {
+                        transform: translateY(105vh) translateX(${swayAmount * 0.7}vw) rotate(${rotation + 360}deg);
+                        opacity: 0;
+                    }
+                }`;
+                
+                const styleSheet = document.createElement('style');
+                styleSheet.textContent = keyframes;
+                document.head.appendChild(styleSheet);
+                
+                blossom.style.animation = `fall-${i} ${duration}s linear forwards ${delay}s`;
+                
+                cherryContainer.appendChild(blossom);
+            }
+        }
+        
+        // カウントダウン完了時の処理
+        function completeCountdown() {
+            document.getElementById('days').innerText = '00';
+            document.getElementById('hours').innerText = '00';
+            document.getElementById('minutes').innerText = '00';
+            document.getElementById('seconds').innerText = '00';
+            
+            // 背景を青空に変更
+            document.body.classList.add('completed');
+            
+            // 桜の花びらを表示
+            createCherryBlossoms();
+        }
+        
+        // カウントダウン関数
+        function updateCountdown() {
+            const targetDate = new Date('April 1, 2025 00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').innerText = days.toString().padStart(2, '0');
+            document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+            
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                completeCountdown();
+            }
+        }
+        
+        // 初期化
+        createStarryNight();
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        
+        window.addEventListener('resize', () => {
+            createStarryNight();
+        });
+    </script>
+</body>
+</html>
